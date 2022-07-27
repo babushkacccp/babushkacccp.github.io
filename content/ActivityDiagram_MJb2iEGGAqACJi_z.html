@@ -1,0 +1,615 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Activity Diagram - заполнение БД МПИ из промежуочных данных Activity Diagram</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+<a href="Model__5Fu4gGGAqAGeRjX.html" class="PageParentTitle">FERZL-MPI : Model</a><span class="PageParentTitle">&nbsp;.&nbsp;</span><a href="Model_8mVWiEGGAqACJifD.html" class="PageParentTitle">Model7 : Model</a><span class="PageParentTitle">&nbsp;.&nbsp;</span><a href="Package_Zb_2iEGGAqACJi_p.html" class="PageParentTitle">Package6 : Package</a>	</p>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Activity Diagram - заполнение БД МПИ из промежуочных данных Activity Diagram		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/MJb2iEGGAqACJi_z', '&#x437;&#x430;&#x43f;&#x43e;&#x43b;&#x43d;&#x435;&#x43d;&#x438;&#x435; &#x411;&#x414; &#x41c;&#x41f;&#x418; &#x438;&#x437; &#x43f;&#x440;&#x43e;&#x43c;&#x435;&#x436;&#x443;&#x43e;&#x447;&#x43d;&#x44b;&#x445; &#x434;&#x430;&#x43d;&#x43d;&#x44b;&#x445; Activity Diagram\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/MJb2iEGGAqACJi_z', '&#x437;&#x430;&#x43f;&#x43e;&#x43b;&#x43d;&#x435;&#x43d;&#x438;&#x435; &#x411;&#x414; &#x41c;&#x41f;&#x418; &#x438;&#x437; &#x43f;&#x440;&#x43e;&#x43c;&#x435;&#x436;&#x443;&#x43e;&#x447;&#x43d;&#x44b;&#x445; &#x434;&#x430;&#x43d;&#x43d;&#x44b;&#x445; Activity Diagram', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+<option value="shape|449.0|559.0|222.0|77.0|NOTE_gPxJiEGGAqACJjK_.html|NOTE_gPxJiEGGAqACJjK_.html|gPxJiEGGAqACJjK9" id="optiongPxJiEGGAqACJjK9">Unnamed Note : Note</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_Activity_Diagram.png" usemap="#diagram_map" class="Image" width="1076" height="1179"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="452.0, 114.98529, 452.0, 123.0, 435.57144, 123.0, 435.0, 127.0, 631.0, 152.94118, 631.0, 142.0, 640.7143, 142.0, 641.0, 140.0, 452.0, 114.98529" coords2="452.0, 114.98529, 452.0, 123.0, 435.57144, 123.0, 435.0, 127.0, 631.0, 152.94118, 631.0, 142.0, 640.7143, 142.0, 641.0, 140.0, 452.0, 114.98529" shape="poly" alt=":Object Flow" id="areadiagram_map_Ta.uiEGGAqACJjAf_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="335.0, 22.0, 335.0, 83.0, 349.0, 83.0, 349.0, 22.0" coords2="335.0, 22.0, 335.0, 83.0, 349.0, 83.0, 349.0, 22.0" shape="poly" alt=":Control Flow" id="areadiagram_map_8thuiEGGAqACJjAu_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="726.5455, 182.0, 635.0, 258.0, 657.25, 258.0, 748.7955, 182.0" coords2="726.5455, 182.0, 635.0, 258.0, 657.25, 258.0, 748.7955, 182.0" shape="poly" alt=":Object Flow" id="areadiagram_map_DxYeiEGGAqACJjBM_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="763.7527, 182.0, 789.55914, 257.0, 804.617, 257.0, 779.0851, 182.0" coords2="763.7527, 182.0, 789.55914, 257.0, 804.617, 257.0, 779.0851, 182.0" shape="poly" alt=":Object Flow" id="areadiagram_map_kNreiEGGAqACJjCe_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="783.0, 182.0, 898.0, 258.3672, 898.0, 257.0, 918.2727, 257.0, 919.0, 256.0, 807.5647, 182.0" coords2="783.0, 182.0, 898.0, 258.3672, 898.0, 257.0, 918.2727, 257.0, 919.0, 256.0, 807.5647, 182.0" shape="poly" alt=":Object Flow" id="areadiagram_map_lFbeiEGGAqACJjCi_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="631.0, 179.70499, 416.0, 220.89272, 416.0, 235.27586, 668.0, 187.0, 667.2857, 182.0, 631.0, 182.0, 631.0, 179.70499" coords2="631.0, 179.70499, 416.0, 220.89272, 416.0, 235.27586, 668.0, 187.0, 667.2857, 182.0, 631.0, 182.0, 631.0, 179.70499" shape="poly" alt=":Object Flow" id="areadiagram_map_VCc.iEGGAqACJjC__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="259.0, 123.0, 259.0, 217.0, 273.0, 217.0, 273.0, 123.0" coords2="259.0, 123.0, 259.0, 217.0, 273.0, 217.0, 273.0, 123.0" shape="poly" alt=":Control Flow" id="areadiagram_map_9I8.iEGGAqACJjDD_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="259.0, 298.0, 259.0, 339.0, 273.0, 339.0, 273.0, 298.0" coords2="259.0, 298.0, 259.0, 339.0, 273.0, 339.0, 273.0, 298.0" shape="poly" alt="СС в ЦС=текущий ТОМС:Control Flow" id="areadiagram_map_zQm.iEGGAqACJjDg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="180.0, 349.0, 180.0, 352.0, 177.0, 352.0, 177.0, 366.0, 180.0, 366.0, 180.0, 441.0, 194.0, 441.0, 194.0, 366.0, 256.0, 366.0, 256.0, 352.0, 194.0, 352.0, 194.0, 349.0" coords2="180.0, 349.0, 180.0, 352.0, 177.0, 352.0, 177.0, 366.0, 180.0, 366.0, 180.0, 441.0, 194.0, 441.0, 194.0, 366.0, 256.0, 366.0, 256.0, 352.0, 194.0, 352.0, 194.0, 349.0" shape="poly" alt=":Control Flow" id="areadiagram_map_qR9.iEGGAqACJjEG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="365.0, 349.0, 365.0, 352.0, 276.0, 352.0, 276.0, 366.0, 365.0, 366.0, 365.0, 421.0, 379.0, 421.0, 379.0, 366.0, 382.0, 366.0, 382.0, 352.0, 379.0, 352.0, 379.0, 349.0" coords2="365.0, 349.0, 365.0, 352.0, 276.0, 352.0, 276.0, 366.0, 365.0, 366.0, 365.0, 421.0, 379.0, 421.0, 379.0, 366.0, 382.0, 366.0, 382.0, 352.0, 379.0, 352.0, 379.0, 349.0" shape="poly" alt="нет:Control Flow" id="areadiagram_map_aUX.iEGGAqACJjEs_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="473.0, 454.0, 473.0, 468.0, 510.0, 468.0, 510.0, 454.0" coords2="473.0, 454.0, 473.0, 468.0, 510.0, 468.0, 510.0, 454.0" shape="poly" alt=":Control Flow" id="areadiagram_map_QUaBiEGGAqACJjFj_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="155.34, 612.0, 154.2, 631.0, 168.2, 631.0, 169.34, 612.0" coords2="155.34, 612.0, 154.2, 631.0, 168.2, 631.0, 169.34, 612.0" shape="poly" alt=":Control Flow" id="areadiagram_map_NiyhiEGGAqACJjGQ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="47.0, 641.0, 47.0, 644.0, 44.0, 644.0, 44.0, 658.0, 47.0, 658.0, 47.0, 705.0, 61.0, 705.0, 61.0, 658.0, 149.0, 658.0, 149.0, 644.0, 61.0, 644.0, 61.0, 641.0" coords2="47.0, 641.0, 47.0, 644.0, 44.0, 644.0, 44.0, 658.0, 47.0, 658.0, 47.0, 705.0, 61.0, 705.0, 61.0, 658.0, 149.0, 658.0, 149.0, 644.0, 61.0, 644.0, 61.0, 641.0" shape="poly" alt=":Control Flow" id="areadiagram_map_IjzhiEGGAqACJjH0_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="160.84932, 481.0, 160.15068, 532.0, 174.15068, 532.0, 174.84932, 481.0" coords2="160.84932, 481.0, 160.15068, 532.0, 174.15068, 532.0, 174.84932, 481.0" shape="poly" alt=":Control Flow" id="areadiagram_map_.0VRiEGGAqACJjJJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="250.0, 476.08334, 250.0, 481.0, 228.38461, 481.0, 228.0, 482.0, 269.0, 499.08334, 269.0, 499.08334, 269.0, 487.0, 276.2, 487.0, 250.0, 476.08334" coords2="250.0, 476.08334, 250.0, 481.0, 228.38461, 481.0, 228.0, 482.0, 269.0, 499.08334, 269.0, 499.08334, 269.0, 487.0, 276.2, 487.0, 250.0, 476.08334" shape="poly" alt=":Object Flow" id="areadiagram_map_SldRiEGGAqACJjJa_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="378.0, 641.0, 378.0, 644.0, 169.0, 644.0, 169.0, 658.0, 378.0, 658.0, 378.0, 716.0, 392.0, 716.0, 392.0, 658.0, 395.0, 658.0, 395.0, 644.0, 392.0, 644.0, 392.0, 641.0" coords2="378.0, 641.0, 378.0, 644.0, 169.0, 644.0, 169.0, 658.0, 378.0, 658.0, 378.0, 716.0, 392.0, 716.0, 392.0, 658.0, 395.0, 658.0, 395.0, 644.0, 392.0, 644.0, 392.0, 641.0" shape="poly" alt="да:Control Flow" id="areadiagram_map_.osxiEGGAqACJjJ3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="512.6383, 636.0, 436.89362, 716.0, 456.3617, 716.0, 532.1064, 636.0" coords2="512.6383, 636.0, 436.89362, 716.0, 456.3617, 716.0, 532.1064, 636.0" shape="poly" alt=":Anchor" id="areadiagram_map_lJ1JiEGGAqACJjLQ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="375.6, 846.0, 372.69092, 926.0, 386.69092, 926.0, 389.6, 846.0" coords2="375.6, 846.0, 372.69092, 926.0, 386.69092, 926.0, 389.6, 846.0" shape="poly" alt=":Control Flow" id="areadiagram_map_44mgSEGGAqACJjO._default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="371.36136, 966.0, 368.36975, 1055.0, 382.36975, 1055.0, 385.36136, 966.0" coords2="371.36136, 966.0, 368.36975, 1055.0, 382.36975, 1055.0, 385.36136, 966.0" shape="poly" alt="нет:Control Flow" id="areadiagram_map_yDaQSEGGAqACJjPg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="902, 381, 942, 431" coords2="902, 381, 942, 431" shape="rect" alt="Id в ЕРН:Data Output" id="areadiagram_map_rLmn2EGGAqAGipmi_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="845, 381, 885, 431" coords2="845, 381, 885, 431" shape="rect" alt="ДУДЛ:Data Output" id="areadiagram_map_pLmn2EGGAqAGipmf_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="788, 381, 828, 431" coords2="788, 381, 828, 431" shape="rect" alt="Полис:Data Output" id="areadiagram_map_aLmn2EGGAqAGipmc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="765, 365, 958, 461" coords2="765, 365, 958, 461" shape="rect" alt="Данны ЗЛ из ТФОМС:Group" id="areadiagram_map_YLmn2EGGAqAGipmZ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="272, 1055, 473, 1175" coords2="272, 1055, 473, 1175" shape="rect" alt="создать записи таблиц :Action" id="areadiagram_map_LARgSEGGAqACJjPF_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="369, 926, 389, 966" coords2="369, 926, 389, 966" shape="rect" alt="запись найдена?:Merge Node" id="areadiagram_map_9keASEGGAqACJjN6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="610, 1106, 730, 1156" coords2="610, 1106, 730, 1156" shape="rect" alt="для ка:Loop Node" id="areadiagram_map_LAe5iEGGAqACJjM7_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1085;&amp;#1072;&amp;#1081;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1099; &amp;#1079;&amp;#1072;&amp;#1087;&amp;#1080;&amp;#1089;&amp;#1080; &amp;#1090;&amp;#1072;&amp;#1073;&amp;#1083;&amp;#1080;&amp;#1094;&amp;#1099; person &amp;#1080; oms_policy &amp;#1076;&amp;#1072;&amp;#1085;&amp;#1085;&amp;#1086;&amp;#1075;&amp;#1086; &amp;#1087;&amp;#1086;&amp;#1083;&amp;#1080;&amp;#1089;&amp;#1072;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="449, 559, 671, 636" coords2="449, 559, 671, 636" shape="rect" alt="найдены записи таблицы person и oms_policy данного полиса:Note" id="areadiagram_map_gPxJiEGGAqACJjK9_default" href="NOTE_gPxJiEGGAqACJjK_.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="298, 716, 473, 846" coords2="298, 716, 473, 846" shape="rect" alt="Activity3:Activity" id="areadiagram_map_kwQxiEGGAqACJjJq_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="269, 487, 349, 527" coords2="269, 487, 349, 527" shape="rect" alt="event:Object Node" id="areadiagram_map_JR1RiEGGAqACJjJP_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="85, 441, 250, 481" coords2="85, 441, 250, 481" shape="rect" alt="создать запись таблицы event:Action" id="areadiagram_map_ZEKRiEGGAqACJjIK_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 705, 107, 785" coords2="2, 705, 107, 785" shape="rect" alt="создань записи::Activity" id="areadiagram_map_eDzhiEGGAqACJjHt_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="149, 631, 169, 671" coords2="149, 631, 169, 671" shape="rect" alt="полис найден?:Decision Node" id="areadiagram_map_39MhiEGGAqACJjGD_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="510, 451, 530, 471" coords2="510, 451, 530, 471" shape="rect" alt=":Flow Final Node" id="areadiagram_map_UaKBiEGGAqACJjFc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="256, 339, 276, 379" coords2="256, 339, 276, 379" shape="rect" alt="СС в ЦС=текущий ТОМС:Decision Node" id="areadiagram_map_c_V.iEGGAqACJjD1_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="354, 421, 473, 501" coords2="354, 421, 473, 501" shape="rect" alt="Activity2:Activity" id="areadiagram_map_YCJ.iEGGAqACJjDs_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="107, 532, 227, 612" coords2="107, 532, 227, 612" shape="rect" alt="Activity:Activity" id="areadiagram_map_KFa.iEGGAqACJjDZ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="116, 217, 416, 298" coords2="116, 217, 416, 298" shape="rect" alt="проверить страхоую принадлежность ЗЛ в ЦС по полису и ДУДЛ:Activity" id="areadiagram_map_YwI.iEGGAqACJjCy_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="992, 177, 1072, 217" coords2="992, 177, 1072, 217" shape="rect" alt="контакты и пр:Object Node" id="areadiagram_map_CjHeiEGGAqACJjCp_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="898, 257, 978, 297" coords2="898, 257, 978, 297" shape="rect" alt="ДУДЛ:Object Node" id="areadiagram_map_ok.eiEGGAqACJjBf_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="765, 257, 845, 297" coords2="765, 257, 845, 297" shape="rect" alt="полис:Object Node" id="areadiagram_map_C1qeiEGGAqACJjBU_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="504, 258, 744, 298" coords2="504, 258, 744, 298" shape="rect" alt="персданные (ФИО ДР пол место рождения):Object Node" id="areadiagram_map_AXxuiEGGAqACJjA2_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="631, 142, 892, 182" coords2="631, 142, 892, 182" shape="rect" alt="запись реестра о текущем состоянии персоны :Object Node" id="areadiagram_map_D2suiEGGAqACJjAY_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="116, 83, 452, 123" coords2="116, 83, 452, 123" shape="rect" alt="получены текущие данные по полису, ФИО, ДУДЛ, контактах ЗЛ:Accept Event Action" id="areadiagram_map_XQUOiEGGAqACJjAN_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="322, 2, 362, 22" coords2="322, 2, 362, 22" shape="rect" alt=":Initial Node" id="areadiagram_map_p4wOiEGGAqACJjAC_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Action.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Action.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ActivityAction_LARgSEGGAqACJjPG.html" class="ItemLink">создать записи таблиц  : Action</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/MergeNode.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/MergeNode.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MergeNode_jkeASEGGAqACJjN7.html" class="ItemLink">запись найдена? : Merge Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/LoopNode.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/LoopNode.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="LoopNode_LAe5iEGGAqACJjM8.html" class="ItemLink">для ка : Loop Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_gPxJiEGGAqACJjK_.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1085;&#1072;&#1081;&#1076;&#1077;&#1085;&#1099; &#1079;&#1072;&#1087;&#1080;&#1089;&#1080; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1099; person &#1080; oms_policy &#1076;&#1072;&#1085;&#1085;&#1086;&#1075;&#1086; &#1087;&#1086;&#1083;&#1080;&#1089;&#1072;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activity.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activity_kwQxiEGGAqACJjJr.html" class="ItemLink">Activity3 : Activity</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivityObject.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivityObject.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ObjectNode_JR1RiEGGAqACJjJQ.html" class="ItemLink">event : Object Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Action.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Action.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ActivityAction_ZEKRiEGGAqACJjIL.html" class="ItemLink">создать запись таблицы event : Action</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activity.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activity_eDzhiEGGAqACJjHu.html" class="ItemLink">создань записи: : Activity</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/DecisionNode.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/DecisionNode.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="DecisionNode_39MhiEGGAqACJjGE.html" class="ItemLink">полис найден? : Decision Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/FlowFinial.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/FlowFinial.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="FlowFinalNode_0aKBiEGGAqACJjFd.html" class="ItemLink">N/A : Flow Final Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/DecisionNode.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/DecisionNode.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="DecisionNode_8_V_iEGGAqACJjD2.html" class="ItemLink">СС в ЦС=текущий ТОМС : Decision Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activity.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activity_YCJ_iEGGAqACJjDt.html" class="ItemLink">Activity2 : Activity</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activity.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activity_KFa_iEGGAqACJjDa.html" class="ItemLink">Activity : Activity</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activity.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activity.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activity_YwI_iEGGAqACJjCz.html" class="ItemLink">проверить страхоую принадлежность ЗЛ в ЦС по полису и ДУДЛ : Activity</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivityObject.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivityObject.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ObjectNode_CjHeiEGGAqACJjCq.html" class="ItemLink">контакты и пр : Object Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivityObject.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivityObject.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ObjectNode_ok_eiEGGAqACJjBg.html" class="ItemLink">ДУДЛ : Object Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivityObject.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivityObject.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ObjectNode_C1qeiEGGAqACJjBV.html" class="ItemLink">полис : Object Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivityObject.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivityObject.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ObjectNode_AXxuiEGGAqACJjA3.html" class="ItemLink">персданные (ФИО ДР пол место рождения) : Object Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivityObject.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivityObject.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ObjectNode_D2suiEGGAqACJjAZ.html" class="ItemLink">запись реестра о текущем состоянии персоны  : Object Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/AcceptEventAction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/AcceptEventAction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="AcceptEventAction_XQUOiEGGAqACJjAO.html" class="ItemLink">получены текущие данные по полису, ФИО, ДУДЛ, контактах ЗЛ : Accept Event Action</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InitialNode.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InitialNode.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InitialNode_Z4wOiEGGAqACJjAD.html" class="ItemLink">N/A : Initial Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ArtifactDataOutput.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ArtifactDataOutput.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPDataOutput_gj4r2EGGAqAGik1J.html" class="ItemLink">Полис : Data Output</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ArtifactDataOutput.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ArtifactDataOutput.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPDataOutput_mjMr2EGGAqAGik1p.html" class="ItemLink">ДУДЛ : Data Output</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ArtifactDataOutput.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ArtifactDataOutput.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPDataOutput_MISr2EGGAqAGik2L.html" class="ItemLink">Id в ЕРН : Data Output</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ArtifactGroup.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ArtifactGroup.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPGroup_iQdr2EGGAqAGik3G.html" class="ItemLink">Данны ЗЛ из ТФОМС : Group</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

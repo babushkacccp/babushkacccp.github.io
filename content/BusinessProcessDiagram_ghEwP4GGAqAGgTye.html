@@ -1,0 +1,638 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Business Process Diagram - МПИ Предоставление сведений о ЗЛ</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Business Process Diagram - МПИ Предоставление сведений о ЗЛ		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/ghEwP4GGAqAGgTye', '&#x41c;&#x41f;&#x418; &#x41f;&#x440;&#x435;&#x434;&#x43e;&#x441;&#x442;&#x430;&#x432;&#x43b;&#x435;&#x43d;&#x438;&#x435; &#x441;&#x432;&#x435;&#x434;&#x435;&#x43d;&#x438;&#x439; &#x43e; &#x417;&#x41b;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/ghEwP4GGAqAGgTye', '&#x41c;&#x41f;&#x418; &#x41f;&#x440;&#x435;&#x434;&#x43e;&#x441;&#x442;&#x430;&#x432;&#x43b;&#x435;&#x43d;&#x438;&#x435; &#x441;&#x432;&#x435;&#x434;&#x435;&#x43d;&#x438;&#x439; &#x43e; &#x417;&#x41b;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_21.png" usemap="#diagram_map" class="Image" width="948" height="1053"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="90.0, 703.0, 90.0, 717.0, 148.0, 717.0, 148.0, 703.0" coords2="90.0, 703.0, 90.0, 717.0, 148.0, 717.0, 148.0, 703.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_JtKYP4GGAqAGgT4V_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="245.0, 173.0, 245.0, 176.0, 85.0, 176.0, 85.0, 190.0, 245.0, 190.0, 245.0, 235.0, 259.0, 235.0, 259.0, 190.0, 262.0, 190.0, 262.0, 176.0, 259.0, 176.0, 259.0, 173.0" coords2="245.0, 173.0, 245.0, 176.0, 85.0, 176.0, 85.0, 190.0, 245.0, 190.0, 245.0, 235.0, 259.0, 235.0, 259.0, 190.0, 262.0, 190.0, 262.0, 176.0, 259.0, 176.0, 259.0, 173.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_K6aYP4GGAqAGgT41_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="245.0, 275.0, 245.0, 304.0, 91.0, 304.0, 91.0, 318.0, 245.0, 318.0, 245.0, 321.0, 259.0, 321.0, 259.0, 318.0, 262.0, 318.0, 262.0, 304.0, 259.0, 304.0, 259.0, 275.0" coords2="245.0, 275.0, 245.0, 304.0, 91.0, 304.0, 91.0, 318.0, 245.0, 318.0, 245.0, 321.0, 259.0, 321.0, 259.0, 318.0, 262.0, 318.0, 262.0, 304.0, 259.0, 304.0, 259.0, 275.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_vZ6YP4GGAqAGgT5N_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="272.0, 247.0, 272.0, 261.0, 307.0, 261.0, 307.0, 247.0" coords2="272.0, 247.0, 272.0, 261.0, 307.0, 261.0, 307.0, 247.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_sxNYP4GGAqAGgT61_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="102.0, 894.0, 102.0, 908.0, 148.0, 908.0, 148.0, 894.0" coords2="102.0, 894.0, 102.0, 908.0, 148.0, 908.0, 148.0, 894.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_dkUEP4GGAqAGgT_e_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="255.0, 705.0, 255.0, 719.0, 315.0, 719.0, 315.0, 705.0" coords2="255.0, 705.0, 255.0, 719.0, 315.0, 719.0, 315.0, 705.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_lS9kP4GGAqAGgUD__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="465.0, 706.0, 465.0, 720.0, 488.0, 720.0, 488.0, 706.0" coords2="465.0, 706.0, 465.0, 720.0, 488.0, 720.0, 488.0, 706.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_tJ3kP4GGAqAGgUE9_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="195.0, 592.0, 195.0, 595.0, 192.0, 595.0, 192.0, 609.0, 195.0, 609.0, 195.0, 691.0, 209.0, 691.0, 209.0, 609.0, 232.0, 609.0, 232.0, 595.0, 209.0, 595.0, 209.0, 592.0" coords2="195.0, 592.0, 195.0, 595.0, 192.0, 595.0, 192.0, 609.0, 195.0, 609.0, 195.0, 691.0, 209.0, 691.0, 209.0, 609.0, 232.0, 609.0, 232.0, 595.0, 209.0, 595.0, 209.0, 592.0" shape="poly" alt=":Association" id="areadiagram_map_vZfkP4GGAqAGgUFZ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="68.0, 69.0, 68.0, 72.0, 65.0, 72.0, 65.0, 86.0, 68.0, 86.0, 68.0, 174.0, 82.0, 174.0, 82.0, 86.0, 122.0, 86.0, 122.0, 72.0, 82.0, 72.0, 82.0, 69.0" coords2="68.0, 69.0, 68.0, 72.0, 65.0, 72.0, 65.0, 86.0, 68.0, 86.0, 68.0, 174.0, 82.0, 174.0, 82.0, 86.0, 122.0, 86.0, 122.0, 72.0, 82.0, 72.0, 82.0, 69.0" shape="poly" alt=":Association" id="areadiagram_map_xB6UP4GGAqAGgUGJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="872.0, 246.0, 872.0, 260.0, 893.0, 260.0, 893.0, 246.0" coords2="872.0, 246.0, 872.0, 260.0, 893.0, 260.0, 893.0, 246.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_b.X0P4GGAqAGgUI8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="319.0, 174.0, 319.0, 177.0, 316.0, 177.0, 316.0, 191.0, 319.0, 191.0, 319.0, 235.0, 333.0, 235.0, 333.0, 191.0, 411.0, 191.0, 411.0, 177.0, 333.0, 177.0, 333.0, 174.0" coords2="319.0, 174.0, 319.0, 177.0, 316.0, 177.0, 316.0, 191.0, 319.0, 191.0, 319.0, 235.0, 333.0, 235.0, 333.0, 191.0, 411.0, 191.0, 411.0, 177.0, 333.0, 177.0, 333.0, 174.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_fPnsP4GGAqAGgUNS_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="319.0, 275.0, 319.0, 302.0, 316.0, 302.0, 316.0, 316.0, 319.0, 316.0, 319.0, 319.0, 333.0, 319.0, 333.0, 316.0, 466.0, 316.0, 466.0, 302.0, 333.0, 302.0, 333.0, 275.0" coords2="319.0, 275.0, 319.0, 302.0, 316.0, 302.0, 316.0, 316.0, 319.0, 316.0, 319.0, 319.0, 333.0, 319.0, 333.0, 316.0, 466.0, 316.0, 466.0, 302.0, 333.0, 302.0, 333.0, 275.0" shape="poly" alt="Онлайн запрос:Sequence Flow" id="areadiagram_map_ItgcP4GGAqAGgUOW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="657.0, 175.0, 657.0, 178.0, 607.0, 178.0, 607.0, 192.0, 657.0, 192.0, 657.0, 232.0, 671.0, 232.0, 671.0, 192.0, 674.0, 192.0, 674.0, 178.0, 671.0, 178.0, 671.0, 175.0" coords2="657.0, 175.0, 657.0, 178.0, 607.0, 178.0, 607.0, 192.0, 657.0, 192.0, 657.0, 232.0, 671.0, 232.0, 671.0, 192.0, 674.0, 192.0, 674.0, 178.0, 671.0, 178.0, 671.0, 175.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_fmScP4GGAqAGgUQM_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="656.0, 272.0, 656.0, 302.0, 627.0, 302.0, 627.0, 316.0, 656.0, 316.0, 656.0, 319.0, 670.0, 319.0, 670.0, 316.0, 673.0, 316.0, 673.0, 302.0, 670.0, 302.0, 670.0, 272.0" coords2="656.0, 272.0, 656.0, 302.0, 627.0, 302.0, 627.0, 316.0, 656.0, 316.0, 656.0, 319.0, 670.0, 319.0, 670.0, 316.0, 673.0, 316.0, 673.0, 302.0, 670.0, 302.0, 670.0, 272.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_RNycP4GGAqAGgUQi_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="685.0, 246.0, 685.0, 260.0, 721.0, 260.0, 721.0, 246.0" coords2="685.0, 246.0, 685.0, 260.0, 721.0, 260.0, 721.0, 246.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_0.6cP4GGAqAGgURI_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="74.0, 321.0, 74.0, 469.0, 71.0, 469.0, 71.0, 483.0, 74.0, 483.0, 74.0, 486.0, 88.0, 486.0, 88.0, 483.0, 122.0, 483.0, 122.0, 469.0, 88.0, 469.0, 88.0, 321.0" coords2="74.0, 321.0, 74.0, 469.0, 71.0, 469.0, 71.0, 483.0, 74.0, 483.0, 74.0, 486.0, 88.0, 486.0, 88.0, 483.0, 122.0, 483.0, 122.0, 469.0, 88.0, 469.0, 88.0, 321.0" shape="poly" alt=":Association" id="areadiagram_map_C6rEv4GGAqAGgWli_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="308.0, 894.0, 308.0, 908.0, 347.0, 908.0, 347.0, 894.0" coords2="308.0, 894.0, 308.0, 908.0, 347.0, 908.0, 347.0, 894.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_IkM0v4GGAqAGgWuu_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="487.0, 895.0, 487.0, 909.0, 507.0, 909.0, 507.0, 895.0" coords2="487.0, 895.0, 487.0, 909.0, 507.0, 909.0, 507.0, 895.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_FIK0v4GGAqAGgWvc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="507, 891, 527, 911" coords2="507, 891, 527, 911" shape="rect" alt=":End Event" id="areadiagram_map_7wK0v4GGAqAGgWvV_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="347, 881, 487, 921" coords2="347, 881, 487, 921" shape="rect" alt="Направить ответ на запрос:Task" id="areadiagram_map_sEM0v4GGAqAGgWum_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="122, 425, 432, 508" coords2="122, 425, 432, 508" shape="rect" alt="Сведения о действительности полиса ОМС при обращении ЗЛ за получением МП (МО)  
+Сведения о ЗЛ в целях регистрации заявлений при обращении ЗЛ (СМО)  
+Сведения о ЗЛ в режиме реального времени (ТФОМС)  
+
+ :Text Annotation" id="areadiagram_map_iarEv4GGAqAGgWlL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="645, 232, 685, 272" coords2="645, 232, 685, 272" shape="rect" alt=":Gateway" id="areadiagram_map_K5icP4GGAqAGgUP3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="411, 164, 607, 204" coords2="411, 164, 607, 204" shape="rect" alt="Выполнить запрос в соотвествии с Регламентом обмена:Task" id="areadiagram_map_lH4sP4GGAqAGgULN_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="307, 235, 347, 275" coords2="307, 235, 347, 275" shape="rect" alt=":Gateway" id="areadiagram_map_0F7MP4GGAqAGgUKT_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="893, 242, 913, 262" coords2="893, 242, 913, 262" shape="rect" alt=":End Event" id="areadiagram_map_Y.X0P4GGAqAGgUI2_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="122, 12, 508, 152" coords2="122, 12, 508, 152" shape="rect" alt=" Сведения о ЗЛ и о каждом из его детей, не достигших совершеннолетия (ЕПГУ)  
+Сведения для выдачи ЗЛ полиса ОМС в виде штрихового кода (графической информации в кодированном виде (ЕПГУ)  
+Сведения о неработающих ЗЛ (Страхователь для неработающих граждан)  
+Сведения о состоянии на учёте (Федеральные государственные органы – контроль сдачи полисов)  
+Сведения о постановке на учет, снятии с учета, восстановлении на учете ЗЛ (ЕРН)  
+ :Text Annotation" id="areadiagram_map_9.6UP4GGAqAGgUGD_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="232, 582, 432, 672" coords2="232, 582, 432, 672" shape="rect" alt="Сведения об изменении состояния на учёте в ЕРН по СМЭВ 
+Изменения сведений о ЗЛ в соотвествующий ТФОМС / СМО
+ :Text Annotation" id="areadiagram_map_EZfkP4GGAqAGgUFT_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="488, 701, 508, 721" coords2="488, 701, 508, 721" shape="rect" alt=":End Event" id="areadiagram_map_3x3kP4GGAqAGgUE3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="315, 691, 465, 731" coords2="315, 691, 465, 731" shape="rect" alt="Получить подтверждение получения сведений:Task" id="areadiagram_map_bi9kP4GGAqAGgUD3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="721, 232, 872, 272" coords2="721, 232, 872, 272" shape="rect" alt="Направить ответ на запрос:Task" id="areadiagram_map_Kj6EP4GGAqAGgUBG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="148, 882, 308, 922" coords2="148, 882, 308, 922" shape="rect" alt="Обработать в рамках документооборота ФОМС :Task" id="areadiagram_map_omkEP4GGAqAGgT_J_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="82, 891, 102, 911" coords2="82, 891, 102, 911" shape="rect" alt="Получен запрос в виде электронного документа / на бумажном носителе:Start Event" id="areadiagram_map_ih94P4GGAqAGgT.E_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="148, 691, 255, 731" coords2="148, 691, 255, 731" shape="rect" alt="Направить уведомления:Task" id="areadiagram_map_S.k4P4GGAqAGgT7._default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="466, 288, 627, 328" coords2="466, 288, 627, 328" shape="rect" alt="Выполнить запрос:Task" id="areadiagram_map_NwTYP4GGAqAGgT7Q_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="232, 235, 272, 275" coords2="232, 235, 272, 275" shape="rect" alt=":Gateway" id="areadiagram_map_VYQYP4GGAqAGgT3Q_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="71, 301, 91, 321" coords2="71, 301, 91, 321" shape="rect" alt="Получен внутридоменный запрос на идентификацию от СМО, МО, ТФОМС:Start Event" id="areadiagram_map_PRWIP4GGAqAGgT1s_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="65, 174, 85, 194" coords2="65, 174, 85, 194" shape="rect" alt="Получен запрос на предоставление сведений о ЗЛ по СМЭВ:Start Event" id="areadiagram_map_.YUIP4GGAqAGgT04_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="70, 701, 90, 721" coords2="70, 701, 90, 721" shape="rect" alt="Сформировалась запись о ЗЛ / Изменились сведения о ЗЛ:Start Event" id="areadiagram_map_aZuwP4GGAqAGgTzW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 2, 944, 1061.0" coords2="2, 2, 944, 1061.0" shape="rect" alt="Федеральный фонд обязательного 
+медицинского страхования (ФОМС):Pool" id="areadiagram_map_gH2wP4GGAqAGgTy._default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','2, 2, 944, 1049',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('OrganizationChart_olffNoGGAqAGihlF.html?shapeid=7YU_NoGGAqAGihqB/&#x424;&#x435;&#x434;&#x435;&#x440;&#x430;&#x43b;&#x44c;&#x43d;&#x44b;&#x439; &#x444;&#x43e;&#x43d;&#x434; &#x43e;&#x431;&#x44f;&#x437;&#x430;&#x442;&#x435;&#x43b;&#x44c;&#x43d;&#x43e;&#x433;&#x43e; &#x43c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x43e;&#x433;&#x43e; &#x441;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x44f;\x0a(&#x424;&#x424;&#x41e;&#x41c;&#x421;)/OCUnit'),new Array()),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '2, 2, 944, 1049')" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="6" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="6" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">ID</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="6" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/SwimlanePool.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/SwimlanePool.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPPool_9wLCtoGGAqAGgU4P.html" class="ItemLink">Федеральный фонд обязательного 
+медицинского страхования (ФОМС) : Pool</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP387</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsStart.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsStart.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPStartEvent_aZuwP4GGAqAGgTzX.html" class="ItemLink">Сформировалась запись о ЗЛ / Изменились сведения о ЗЛ : Start Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP389</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsStart.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsStart.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPStartEvent__YUIP4GGAqAGgT05.html" class="ItemLink">Получен запрос на предоставление сведений о ЗЛ по СМЭВ : Start Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP390</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsStart.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsStart.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPStartEvent_PRWIP4GGAqAGgT1t.html" class="ItemLink">Получен внутридоменный запрос на идентификацию от СМО, МО, ТФОМС : Start Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP391</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/GatewayExDescMergeDataBased.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/GatewayExDescMergeDataBased.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPGateway_VYQYP4GGAqAGgT3R.html" class="ItemLink">N/A : Data-Based Exclusive Decision/Merge (XOR)</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP396</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_NwTYP4GGAqAGgT7R.html" class="ItemLink">Выполнить запрос : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP398</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_S_k4P4GGAqAGgT7_.html" class="ItemLink">Направить уведомления : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP399</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsStart.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsStart.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPStartEvent_ih94P4GGAqAGgT_F.html" class="ItemLink">Получен запрос в виде электронного документа / на бумажном носителе : Start Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP400</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_omkEP4GGAqAGgT_K.html" class="ItemLink">Обработать в рамках документооборота ФОМС  : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP402</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_Kj6EP4GGAqAGgUBH.html" class="ItemLink">Направить ответ на запрос : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP404</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_7i9kP4GGAqAGgUD4.html" class="ItemLink">Получить подтверждение получения сведений : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP406</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsEnd.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsEnd.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPEndEvent_3x3kP4GGAqAGgUE4.html" class="ItemLink">N/A : End Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP408</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ArtifactTextAnnotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ArtifactTextAnnotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTextAnnotation_kZfkP4GGAqAGgUFU.html" class="ItemLink">Annotation19 : Text Annotation</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP410</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ArtifactTextAnnotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ArtifactTextAnnotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTextAnnotation_9_6UP4GGAqAGgUGE.html" class="ItemLink">Annotation21 : Text Annotation</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP412</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsEnd.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsEnd.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPEndEvent_Y_X0P4GGAqAGgUI3.html" class="ItemLink">N/A : End Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP414</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/GatewayExDescMergeDataBased.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/GatewayExDescMergeDataBased.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPGateway_0F7MP4GGAqAGgUKU.html" class="ItemLink">N/A : Data-Based Exclusive Decision/Merge (XOR)</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP416</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_lH4sP4GGAqAGgULO.html" class="ItemLink">Выполнить запрос в соотвествии с Регламентом обмена : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP420</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/GatewayExDescMergeDataBased.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/GatewayExDescMergeDataBased.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPGateway_K5icP4GGAqAGgUP4.html" class="ItemLink">N/A : Data-Based Exclusive Decision/Merge (XOR)</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP451</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_sEM0v4GGAqAGgWun.html" class="ItemLink">Направить ответ на запрос : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP453</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsEnd.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsEnd.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPEndEvent_7wK0v4GGAqAGgWvW.html" class="ItemLink">N/A : End Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP08.BP462</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ArtifactTextAnnotation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ArtifactTextAnnotation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTextAnnotation_6arEv4GGAqAGgWld.html" class="ItemLink">Annotation28 : Text Annotation</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

@@ -1,0 +1,849 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Class Diagram - Электронные документы</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+<a href="Package_lvN9AYGGAqAGiiAI.html" class="PageParentTitle">Электронные документы : Package</a>	</p>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Class Diagram - Электронные документы		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/T5l9AYGGAqAGih_4', '&#x42d;&#x43b;&#x435;&#x43a;&#x442;&#x440;&#x43e;&#x43d;&#x43d;&#x44b;&#x435; &#x434;&#x43e;&#x43a;&#x443;&#x43c;&#x435;&#x43d;&#x442;&#x44b;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/T5l9AYGGAqAGih_4', '&#x42d;&#x43b;&#x435;&#x43a;&#x442;&#x440;&#x43e;&#x43d;&#x43d;&#x44b;&#x435; &#x434;&#x43e;&#x43a;&#x443;&#x43c;&#x435;&#x43d;&#x442;&#x44b;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+<option value="shape|32.0|612.0|240.0|109.0|Class_xtEFLYGGAqAGGQ_r.html|Class_xtEFLYGGAqAGGQ_r.html|RtEFLYGGAqAGGQ_p" id="optionRtEFLYGGAqAGGQ_p">Акт списания и уничтожения полисов обязательного страхования и временных свидетельств, признанных недействительными (или невостребованными)
+ : Class</option>
+<option value="shape|23.0|504.0|240.0|81.0|Class_Il65LYGGAqAGGeQ_.html|Class_Il65LYGGAqAGGeQ_.html|gl65LYGGAqAGGeQ9" id="optiongl65LYGGAqAGGeQ9">Заявление о выдаче дубликата полиса обязательного медицинского страхования
+ : Class</option>
+<option value="shape|16.0|381.0|240.0|81.0|Class_sJLZLYGGAqAGGeQF.html|Class_sJLZLYGGAqAGGeQF.html|0JLZLYGGAqAGGeQD" id="option0JLZLYGGAqAGGeQD">Ходатайство о регистрации в качестве застрахованного лица : Class</option>
+<option value="shape|16.0|281.0|240.0|81.0|Class_JoSZLYGGAqAGGePn.html|Class_JoSZLYGGAqAGGePn.html|JoSZLYGGAqAGGePm" id="optionJoSZLYGGAqAGGePm">Заявление о выборе (замене) страховой медицинской организации
+ : Class</option>
+<option value="shape|475.0|300.0|101.0|59.0|Class_Z7_SMYGGAqAGGYzx.html|Class_Z7_SMYGGAqAGGYzx.html|Z7_SMYGGAqAGGYzw" id="optionZ7_SMYGGAqAGGYzw">Медицинское свидетельство о рождении
+ : Class</option>
+<option value="shape|120.0|137.0|116.0|93.0|Class_hGp_UYGGAqAGGdim.html|Class_hGp_UYGGAqAGGdim.html|hGp.UYGGAqAGGdil" id="optionhGp.UYGGAqAGGdil">Акт государственой регистрации рождения : Class</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_.png" usemap="#diagram_map" class="Image" width="1196" height="725"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="1084, 534, 1191, 591.0" coords2="1084, 534, 1191, 591.0" shape="rect" alt="Предписание:Class" id="areadiagram_map_w5j4nYGGAqAGisOR_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1084, 534, 1191, 579',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=h9v4nYGGAqAGisO8/&#x41f;&#x440;&#x435;&#x434;&#x43f;&#x438;&#x441;&#x430;&#x43d;&#x438;&#x435;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '1084, 534, 1191, 579')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1060;&amp;#1045;&amp;#1044;&amp;#1045;&amp;#1056;&amp;#1040;&amp;#1051;&amp;#1068;&amp;#1053;&amp;#1067;&amp;#1049; &amp;#1060;&amp;#1054;&amp;#1053;&amp;#1044; &amp;#1054;&amp;#1041;&amp;#1071;&amp;#1047;&amp;#1040;&amp;#1058;&amp;#1045;&amp;#1051;&amp;#1068;&amp;#1053;&amp;#1054;&amp;#1043;&amp;#1054; &amp;#1052;&amp;#1045;&amp;#1044;&amp;#1048;&amp;#1062;&amp;#1048;&amp;#1053;&amp;#1057;&amp;#1050;&amp;#1054;&amp;#1043;&amp;#1054; &amp;#1057;&amp;#1058;&amp;#1056;&amp;#1040;&amp;#1061;&amp;#1054;&amp;#1042;&amp;#1040;&amp;#1053;&amp;#1048;&amp;#1071;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1048;&amp;#1057;&amp;#1068;&amp;#1052;&amp;#1054;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1086;&amp;#1090; 30 &amp;#1076;&amp;#1077;&amp;#1082;&amp;#1072;&amp;#1073;&amp;#1088;&amp;#1103; 2011 &amp;#1075;. N 9161/30-1/&amp;#1080;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1047;&amp;#1072;&amp;#1103;&amp;#1074;&amp;#1083;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1086; &amp;#1074;&amp;#1099;&amp;#1076;&amp;#1072;&amp;#1095;&amp;#1077; &amp;#1076;&amp;#1091;&amp;#1073;&amp;#1083;&amp;#1080;&amp;#1082;&amp;#1072;&amp;#1090;&amp;#1072; &amp;#1087;&amp;#1086;&amp;#1083;&amp;#1080;&amp;#1089;&amp;#1072; &amp;#1086;&amp;#1073;&amp;#1103;&amp;#1079;&amp;#1072;&amp;#1090;&amp;#1077;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1086;&amp;#1075;&amp;#1086; &amp;#1084;&amp;#1077;&amp;#1076;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1085;&amp;#1089;&amp;#1082;&amp;#1086;&amp;#1075;&amp;#1086; 
+      &amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1093;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1103; &amp;#1080;&amp;#1083;&amp;#1080; &amp;#1087;&amp;#1077;&amp;#1088;&amp;#1077;&amp;#1086;&amp;#1092;&amp;#1086;&amp;#1088;&amp;#1084;&amp;#1083;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1080; &amp;#1087;&amp;#1086;&amp;#1083;&amp;#1080;&amp;#1089;&amp;#1072; &amp;#1079;&amp;#1072;&amp;#1087;&amp;#1086;&amp;#1083;&amp;#1085;&amp;#1103;&amp;#1077;&amp;#1090;&amp;#1089;&amp;#1103; &amp;#1079;&amp;#1072;&amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1093;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1084; &amp;#1083;&amp;#1080;&amp;#1094;&amp;#1086;&amp;#1084; 
+      (&amp;#1080;&amp;#1083;&amp;#1080; &amp;#1087;&amp;#1088;&amp;#1077;&amp;#1076;&amp;#1089;&amp;#1090;&amp;#1072;&amp;#1074;&amp;#1080;&amp;#1090;&amp;#1077;&amp;#1083;&amp;#1077;&amp;#1084; &amp;#1079;&amp;#1072;&amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1093;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1085;&amp;#1086;&amp;#1075;&amp;#1086; &amp;#1083;&amp;#1080;&amp;#1094;&amp;#1072;, &amp;#1079;&amp;#1072;&amp;#1082;&amp;#1086;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1084; &amp;#1087;&amp;#1088;&amp;#1077;&amp;#1076;&amp;#1089;&amp;#1090;&amp;#1072;&amp;#1074;&amp;#1080;&amp;#1090;&amp;#1077;&amp;#1083;&amp;#1077;&amp;#1084;) &amp;#1086;&amp;#1090; 
+      &amp;#1088;&amp;#1091;&amp;#1082;&amp;#1080; &amp;#1080;&amp;#1083;&amp;#1080; &amp;#1084;&amp;#1072;&amp;#1096;&amp;#1080;&amp;#1085;&amp;#1086;&amp;#1087;&amp;#1080;&amp;#1089;&amp;#1085;&amp;#1099;&amp;#1084; &amp;#1089;&amp;#1087;&amp;#1086;&amp;#1089;&amp;#1086;&amp;#1073;&amp;#1086;&amp;#1084;, &amp;#1082;&amp;#1086;&amp;#1090;&amp;#1086;&amp;#1088;&amp;#1086;&amp;#1077; &amp;#1087;&amp;#1086;&amp;#1076;&amp;#1072;&amp;#1077;&amp;#1090;&amp;#1089;&amp;#1103; &amp;#1074; &amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1093;&amp;#1086;&amp;#1074;&amp;#1091;&amp;#1102; &amp;#1084;&amp;#1077;&amp;#1076;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1085;&amp;#1089;&amp;#1082;&amp;#1091;&amp;#1102; 
+      &amp;#1086;&amp;#1088;&amp;#1075;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1079;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1102; (&amp;#1092;&amp;#1080;&amp;#1083;&amp;#1080;&amp;#1072;&amp;#1083;) &amp;#1083;&amp;#1080;&amp;#1095;&amp;#1085;&amp;#1086; &amp;#1080;&amp;#1083;&amp;#1080; &amp;#1089; &amp;#1080;&amp;#1089;&amp;#1087;&amp;#1086;&amp;#1083;&amp;#1100;&amp;#1079;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1077;&amp;#1084; 
+      &amp;#1080;&amp;#1085;&amp;#1092;&amp;#1086;&amp;#1088;&amp;#1084;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1086;&amp;#1085;&amp;#1085;&amp;#1086;-&amp;#1082;&amp;#1086;&amp;#1084;&amp;#1084;&amp;#1091;&amp;#1085;&amp;#1080;&amp;#1082;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1086;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1093; &amp;#1089;&amp;#1077;&amp;#1090;&amp;#1077;&amp;#1081; &amp;#1086;&amp;#1073;&amp;#1097;&amp;#1077;&amp;#1075;&amp;#1086; &amp;#1087;&amp;#1086;&amp;#1083;&amp;#1100;&amp;#1079;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1103;, &amp;#1074; &amp;#1090;&amp;#1086;&amp;#1084; &amp;#1095;&amp;#1080;&amp;#1089;&amp;#1083;&amp;#1077; 
+      &amp;#1089;&amp;#1077;&amp;#1090;&amp;#1080; &amp;quot;&amp;#1048;&amp;#1085;&amp;#1090;&amp;#1077;&amp;#1088;&amp;#1085;&amp;#1077;&amp;#1090;&amp;quot;, &amp;#1095;&amp;#1077;&amp;#1088;&amp;#1077;&amp;#1079; &amp;#1086;&amp;#1092;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1072;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1099;&amp;#1081; &amp;#1089;&amp;#1072;&amp;#1081;&amp;#1090; &amp;#1090;&amp;#1077;&amp;#1088;&amp;#1088;&amp;#1080;&amp;#1090;&amp;#1086;&amp;#1088;&amp;#1080;&amp;#1072;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1086;&amp;#1075;&amp;#1086; &amp;#1092;&amp;#1086;&amp;#1085;&amp;#1076;&amp;#1072; &amp;#1080;&amp;#1083;&amp;#1080; 
+      &amp;#1077;&amp;#1076;&amp;#1080;&amp;#1085;&amp;#1099;&amp;#1081; &amp;#1087;&amp;#1086;&amp;#1088;&amp;#1090;&amp;#1072;&amp;#1083; &amp;#1075;&amp;#1086;&amp;#1089;&amp;#1091;&amp;#1076;&amp;#1072;&amp;#1088;&amp;#1089;&amp;#1090;&amp;#1074;&amp;#1077;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1093; &amp;#1091;&amp;#1089;&amp;#1083;&amp;#1091;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="32, 612, 272, 721" coords2="32, 612, 272, 721" shape="rect" alt="Акт списания и уничтожения полисов обязательного страхования и временных свидетельств, признанных недействительными (или невостребованными)
+:Class" id="areadiagram_map_RtEFLYGGAqAGGQ_p_default" href="Class_xtEFLYGGAqAGGQ_r.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1060;&amp;#1045;&amp;#1044;&amp;#1045;&amp;#1056;&amp;#1040;&amp;#1051;&amp;#1068;&amp;#1053;&amp;#1067;&amp;#1049; &amp;#1060;&amp;#1054;&amp;#1053;&amp;#1044; &amp;#1054;&amp;#1041;&amp;#1071;&amp;#1047;&amp;#1040;&amp;#1058;&amp;#1045;&amp;#1051;&amp;#1068;&amp;#1053;&amp;#1054;&amp;#1043;&amp;#1054; &amp;#1052;&amp;#1045;&amp;#1044;&amp;#1048;&amp;#1062;&amp;#1048;&amp;#1053;&amp;#1057;&amp;#1050;&amp;#1054;&amp;#1043;&amp;#1054; &amp;#1057;&amp;#1058;&amp;#1056;&amp;#1040;&amp;#1061;&amp;#1054;&amp;#1042;&amp;#1040;&amp;#1053;&amp;#1048;&amp;#1071;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1048;&amp;#1057;&amp;#1068;&amp;#1052;&amp;#1054;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1086;&amp;#1090; 30 &amp;#1076;&amp;#1077;&amp;#1082;&amp;#1072;&amp;#1073;&amp;#1088;&amp;#1103; 2011 &amp;#1075;. N 9161/30-1/&amp;#1080;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1047;&amp;#1072;&amp;#1103;&amp;#1074;&amp;#1083;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1086; &amp;#1074;&amp;#1099;&amp;#1076;&amp;#1072;&amp;#1095;&amp;#1077; &amp;#1076;&amp;#1091;&amp;#1073;&amp;#1083;&amp;#1080;&amp;#1082;&amp;#1072;&amp;#1090;&amp;#1072; &amp;#1087;&amp;#1086;&amp;#1083;&amp;#1080;&amp;#1089;&amp;#1072; &amp;#1086;&amp;#1073;&amp;#1103;&amp;#1079;&amp;#1072;&amp;#1090;&amp;#1077;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1086;&amp;#1075;&amp;#1086; &amp;#1084;&amp;#1077;&amp;#1076;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1085;&amp;#1089;&amp;#1082;&amp;#1086;&amp;#1075;&amp;#1086; 
+      &amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1093;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1103; &amp;#1080;&amp;#1083;&amp;#1080; &amp;#1087;&amp;#1077;&amp;#1088;&amp;#1077;&amp;#1086;&amp;#1092;&amp;#1086;&amp;#1088;&amp;#1084;&amp;#1083;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1080; &amp;#1087;&amp;#1086;&amp;#1083;&amp;#1080;&amp;#1089;&amp;#1072; &amp;#1079;&amp;#1072;&amp;#1087;&amp;#1086;&amp;#1083;&amp;#1085;&amp;#1103;&amp;#1077;&amp;#1090;&amp;#1089;&amp;#1103; &amp;#1079;&amp;#1072;&amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1093;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1084; &amp;#1083;&amp;#1080;&amp;#1094;&amp;#1086;&amp;#1084; 
+      (&amp;#1080;&amp;#1083;&amp;#1080; &amp;#1087;&amp;#1088;&amp;#1077;&amp;#1076;&amp;#1089;&amp;#1090;&amp;#1072;&amp;#1074;&amp;#1080;&amp;#1090;&amp;#1077;&amp;#1083;&amp;#1077;&amp;#1084; &amp;#1079;&amp;#1072;&amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1093;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1085;&amp;#1086;&amp;#1075;&amp;#1086; &amp;#1083;&amp;#1080;&amp;#1094;&amp;#1072;, &amp;#1079;&amp;#1072;&amp;#1082;&amp;#1086;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1084; &amp;#1087;&amp;#1088;&amp;#1077;&amp;#1076;&amp;#1089;&amp;#1090;&amp;#1072;&amp;#1074;&amp;#1080;&amp;#1090;&amp;#1077;&amp;#1083;&amp;#1077;&amp;#1084;) &amp;#1086;&amp;#1090; 
+      &amp;#1088;&amp;#1091;&amp;#1082;&amp;#1080; &amp;#1080;&amp;#1083;&amp;#1080; &amp;#1084;&amp;#1072;&amp;#1096;&amp;#1080;&amp;#1085;&amp;#1086;&amp;#1087;&amp;#1080;&amp;#1089;&amp;#1085;&amp;#1099;&amp;#1084; &amp;#1089;&amp;#1087;&amp;#1086;&amp;#1089;&amp;#1086;&amp;#1073;&amp;#1086;&amp;#1084;, &amp;#1082;&amp;#1086;&amp;#1090;&amp;#1086;&amp;#1088;&amp;#1086;&amp;#1077; &amp;#1087;&amp;#1086;&amp;#1076;&amp;#1072;&amp;#1077;&amp;#1090;&amp;#1089;&amp;#1103; &amp;#1074; &amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1093;&amp;#1086;&amp;#1074;&amp;#1091;&amp;#1102; &amp;#1084;&amp;#1077;&amp;#1076;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1085;&amp;#1089;&amp;#1082;&amp;#1091;&amp;#1102; 
+      &amp;#1086;&amp;#1088;&amp;#1075;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1079;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1102; (&amp;#1092;&amp;#1080;&amp;#1083;&amp;#1080;&amp;#1072;&amp;#1083;) &amp;#1083;&amp;#1080;&amp;#1095;&amp;#1085;&amp;#1086; &amp;#1080;&amp;#1083;&amp;#1080; &amp;#1089; &amp;#1080;&amp;#1089;&amp;#1087;&amp;#1086;&amp;#1083;&amp;#1100;&amp;#1079;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1077;&amp;#1084; 
+      &amp;#1080;&amp;#1085;&amp;#1092;&amp;#1086;&amp;#1088;&amp;#1084;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1086;&amp;#1085;&amp;#1085;&amp;#1086;-&amp;#1082;&amp;#1086;&amp;#1084;&amp;#1084;&amp;#1091;&amp;#1085;&amp;#1080;&amp;#1082;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1086;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1093; &amp;#1089;&amp;#1077;&amp;#1090;&amp;#1077;&amp;#1081; &amp;#1086;&amp;#1073;&amp;#1097;&amp;#1077;&amp;#1075;&amp;#1086; &amp;#1087;&amp;#1086;&amp;#1083;&amp;#1100;&amp;#1079;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1103;, &amp;#1074; &amp;#1090;&amp;#1086;&amp;#1084; &amp;#1095;&amp;#1080;&amp;#1089;&amp;#1083;&amp;#1077; 
+      &amp;#1089;&amp;#1077;&amp;#1090;&amp;#1080; &amp;quot;&amp;#1048;&amp;#1085;&amp;#1090;&amp;#1077;&amp;#1088;&amp;#1085;&amp;#1077;&amp;#1090;&amp;quot;, &amp;#1095;&amp;#1077;&amp;#1088;&amp;#1077;&amp;#1079; &amp;#1086;&amp;#1092;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1072;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1099;&amp;#1081; &amp;#1089;&amp;#1072;&amp;#1081;&amp;#1090; &amp;#1090;&amp;#1077;&amp;#1088;&amp;#1088;&amp;#1080;&amp;#1090;&amp;#1086;&amp;#1088;&amp;#1080;&amp;#1072;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1086;&amp;#1075;&amp;#1086; &amp;#1092;&amp;#1086;&amp;#1085;&amp;#1076;&amp;#1072; &amp;#1080;&amp;#1083;&amp;#1080; 
+      &amp;#1077;&amp;#1076;&amp;#1080;&amp;#1085;&amp;#1099;&amp;#1081; &amp;#1087;&amp;#1086;&amp;#1088;&amp;#1090;&amp;#1072;&amp;#1083; &amp;#1075;&amp;#1086;&amp;#1089;&amp;#1091;&amp;#1076;&amp;#1072;&amp;#1088;&amp;#1089;&amp;#1090;&amp;#1074;&amp;#1077;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1093; &amp;#1091;&amp;#1089;&amp;#1083;&amp;#1091;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="23, 504, 263, 585" coords2="23, 504, 263, 585" shape="rect" alt="Заявление о выдаче дубликата полиса обязательного медицинского страхования
+:Class" id="areadiagram_map_gl65LYGGAqAGGeQ9_default" href="Class_Il65LYGGAqAGGeQ_.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1060;&amp;#1045;&amp;#1044;&amp;#1045;&amp;#1056;&amp;#1040;&amp;#1051;&amp;#1068;&amp;#1053;&amp;#1067;&amp;#1049; &amp;#1060;&amp;#1054;&amp;#1053;&amp;#1044; &amp;#1054;&amp;#1041;&amp;#1071;&amp;#1047;&amp;#1040;&amp;#1058;&amp;#1045;&amp;#1051;&amp;#1068;&amp;#1053;&amp;#1054;&amp;#1043;&amp;#1054; &amp;#1052;&amp;#1045;&amp;#1044;&amp;#1048;&amp;#1062;&amp;#1048;&amp;#1053;&amp;#1057;&amp;#1050;&amp;#1054;&amp;#1043;&amp;#1054; &amp;#1057;&amp;#1058;&amp;#1056;&amp;#1040;&amp;#1061;&amp;#1054;&amp;#1042;&amp;#1040;&amp;#1053;&amp;#1048;&amp;#1071;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1048;&amp;#1057;&amp;#1068;&amp;#1052;&amp;#1054;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1086;&amp;#1090; 30 &amp;#1076;&amp;#1077;&amp;#1082;&amp;#1072;&amp;#1073;&amp;#1088;&amp;#1103; 2011 &amp;#1075;. N 9161/30-1/&amp;#1080;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="16, 381, 256, 462" coords2="16, 381, 256, 462" shape="rect" alt="Ходатайство о регистрации в качестве застрахованного лица:Class" id="areadiagram_map_0JLZLYGGAqAGGeQD_default" href="Class_sJLZLYGGAqAGGeQF.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1060;&amp;#1045;&amp;#1044;&amp;#1045;&amp;#1056;&amp;#1040;&amp;#1051;&amp;#1068;&amp;#1053;&amp;#1067;&amp;#1049; &amp;#1060;&amp;#1054;&amp;#1053;&amp;#1044; &amp;#1054;&amp;#1041;&amp;#1071;&amp;#1047;&amp;#1040;&amp;#1058;&amp;#1045;&amp;#1051;&amp;#1068;&amp;#1053;&amp;#1054;&amp;#1043;&amp;#1054; &amp;#1052;&amp;#1045;&amp;#1044;&amp;#1048;&amp;#1062;&amp;#1048;&amp;#1053;&amp;#1057;&amp;#1050;&amp;#1054;&amp;#1043;&amp;#1054; &amp;#1057;&amp;#1058;&amp;#1056;&amp;#1040;&amp;#1061;&amp;#1054;&amp;#1042;&amp;#1040;&amp;#1053;&amp;#1048;&amp;#1071;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1048;&amp;#1057;&amp;#1068;&amp;#1052;&amp;#1054;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1086;&amp;#1090; 30 &amp;#1076;&amp;#1077;&amp;#1082;&amp;#1072;&amp;#1073;&amp;#1088;&amp;#1103; 2011 &amp;#1075;. N 9161/30-1/&amp;#1080;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="16, 281, 256, 374.0" coords2="16, 281, 256, 374.0" shape="rect" alt="Заявление о выборе (замене) страховой медицинской организации
+:Class" id="areadiagram_map_JoSZLYGGAqAGGePm_default" href="Class_JoSZLYGGAqAGGePn.html" onmouseover="storeReferenceAndSubdiagramInfos('diagram','16, 281, 256, 362',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_aIVs9YGGAqAGGaFA.html?shapeid=.ZDAnYGGAqAGGdEP/&#x417;&#x430;&#x44f;&#x432;&#x43b;&#x435;&#x43d;&#x438;&#x435; &#x432; &#x43f;&#x438;&#x441;&#x43c;&#x435;&#x43d;&#x43d;&#x43e;&#x439; &#x444;&#x43e;&#x440;&#x43c;&#x435; &#x43e; &#x432;&#x44b;&#x431;&#x43e;&#x440;&#x435; \x0a(&#x437;&#x430;&#x43c;&#x435;&#x43d;&#x435;) &#x421;&#x41c;&#x41e;\x0a/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '16, 281, 256, 362'),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1052;&amp;#1048;&amp;#1053;&amp;#1048;&amp;#1057;&amp;#1058;&amp;#1045;&amp;#1056;&amp;#1057;&amp;#1058;&amp;#1042;&amp;#1054; &amp;#1047;&amp;#1044;&amp;#1056;&amp;#1040;&amp;#1042;&amp;#1054;&amp;#1054;&amp;#1061;&amp;#1056;&amp;#1040;&amp;#1053;&amp;#1045;&amp;#1053;&amp;#1048;&amp;#1071; &amp;#1056;&amp;#1054;&amp;#1057;&amp;#1057;&amp;#1048;&amp;#1049;&amp;#1057;&amp;#1050;&amp;#1054;&amp;#1049; &amp;#1060;&amp;#1045;&amp;#1044;&amp;#1045;&amp;#1056;&amp;#1040;&amp;#1062;&amp;#1048;&amp;#1048;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1056;&amp;#1048;&amp;#1050;&amp;#1040;&amp;#1047;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1086;&amp;#1090; 13 &amp;#1086;&amp;#1082;&amp;#1090;&amp;#1103;&amp;#1073;&amp;#1088;&amp;#1103; 2021 &amp;#1075;. N 987&amp;#1085;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1054;&amp;#1041; &amp;#1059;&amp;#1058;&amp;#1042;&amp;#1045;&amp;#1056;&amp;#1046;&amp;#1044;&amp;#1045;&amp;#1053;&amp;#1048;&amp;#1048; &amp;#1060;&amp;#1054;&amp;#1056;&amp;#1052;&amp;#1067; &amp;#1044;&amp;#1054;&amp;#1050;&amp;#1059;&amp;#1052;&amp;#1045;&amp;#1053;&amp;#1058;&amp;#1040;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1054; &amp;#1056;&amp;#1054;&amp;#1046;&amp;#1044;&amp;#1045;&amp;#1053;&amp;#1048;&amp;#1048; &amp;#1048; &amp;#1055;&amp;#1054;&amp;#1056;&amp;#1071;&amp;#1044;&amp;#1050;&amp;#1040; &amp;#1045;&amp;#1043;&amp;#1054; &amp;#1042;&amp;#1067;&amp;#1044;&amp;#1040;&amp;#1063;&amp;#1048;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="475, 300, 576, 371.0" coords2="475, 300, 576, 371.0" shape="rect" alt="Медицинское свидетельство о рождении
+:Class" id="areadiagram_map_Z7_SMYGGAqAGGYzw_default" href="Class_Z7_SMYGGAqAGGYzx.html" onmouseover="storeReferenceAndSubdiagramInfos('diagram','475, 300, 576, 359',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_JNqstoGGAqAGgToE.html?shapeid=JS.KMYGGAqAGGY0V/&#x41c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x43e;&#x435; \x0a&#x441;&#x432;&#x438;&#x434;&#x435;&#x442;&#x435;&#x43b;&#x44c;&#x441;&#x442;&#x432;&#x43e; &#x43e; \x0a&#x440;&#x43e;&#x436;&#x434;&#x435;&#x43d;&#x438;&#x438;\x0a/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '475, 300, 576, 359'),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1072;&amp;#1082;&amp;#1090; &amp;#1086;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1075;&amp;#1086;&amp;#1089;&amp;#1091;&amp;#1076;&amp;#1072;&amp;#1088;&amp;#1089;&amp;#1090;&amp;#1074;&amp;#1077;&amp;#1085;&amp;#1085;&amp;#1086;&amp;#1081;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1088;&amp;#1077;&amp;#1075;&amp;#1080;&amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1080; &amp;#1088;&amp;#1086;&amp;#1078;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1086;&amp;#1089;&amp;#1090;&amp;#1072;&amp;#1085;&amp;#1086;&amp;#1074;&amp;#1083;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1055;&amp;#1088;&amp;#1072;&amp;#1074;&amp;#1080;&amp;#1090;&amp;#1077;&amp;#1083;&amp;#1100;&amp;#1089;&amp;#1090;&amp;#1074;&amp;#1072; &amp;#1056;&amp;#1060; &amp;#1086;&amp;#1090; 29.12.2018 N 1746
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      (&amp;#1088;&amp;#1077;&amp;#1076;. &amp;#1086;&amp;#1090; 25.10.2021)
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="120, 137, 236, 242.0" coords2="120, 137, 236, 242.0" shape="rect" alt="Акт государственой регистрации рождения:Class" id="areadiagram_map_hGp.UYGGAqAGGdil_default" href="Class_hGp_UYGGAqAGGdim.html" onmouseover="storeReferenceAndSubdiagramInfos('diagram','120, 137, 236, 230',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_JNqstoGGAqAGgToE.html?shapeid=hJkJUYGGAqAGGQSn/&#x410;&#x43a;&#x442; &#x433;&#x43e;&#x441;&#x443;&#x434;&#x430;&#x440;&#x441;&#x442;&#x432;&#x435;&#x43d;&#x43e;&#x439; \x0a&#x440;&#x435;&#x433;&#x438;&#x441;&#x442;&#x440;&#x430;&#x446;&#x438;&#x438; &#x440;&#x43e;&#x436;&#x434;&#x435;&#x43d;&#x438;&#x44f;/ArtifactDataObject','BusinessProcessDiagram_JNqstoGGAqAGgToE.html?shapeid=AZAtUYGGAqAGGQhF/&#x410;&#x43a;&#x442; &#x433;&#x43e;&#x441;&#x443;&#x434;&#x430;&#x440;&#x441;&#x442;&#x432;&#x435;&#x43d;&#x43e;&#x439; \x0a&#x440;&#x435;&#x433;&#x438;&#x441;&#x442;&#x440;&#x430;&#x446;&#x438;&#x438; &#x440;&#x43e;&#x436;&#x434;&#x435;&#x43d;&#x438;&#x44f;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '120, 137, 236, 230'),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="1084, 464, 1191, 516.0" coords2="1084, 464, 1191, 516.0" shape="rect" alt="Перечень актов:Class" id="areadiagram_map_WbVUYYGGAqAGijkk_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1084, 464, 1191, 504',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=z9A0YYGGAqAGijmE/&#x41f;&#x435;&#x440;&#x435;&#x447;&#x435;&#x43d;&#x44c; \x0a&#x430;&#x43a;&#x442;&#x43e;&#x432;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '1084, 464, 1191, 504')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1085, 379, 1191, 436.0" coords2="1085, 379, 1191, 436.0" shape="rect" alt="Акт экспертизы:Class" id="areadiagram_map_1WZUYYGGAqAGijkU_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1085, 379, 1191, 424',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=7mPUYYGGAqAGijlo/&#x410;&#x43a;&#x442; \x0a&#x44d;&#x43a;&#x441;&#x43f;&#x435;&#x440;&#x442;&#x438;&#x437;&#x44b;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '1085, 379, 1191, 424')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1085, 291, 1192, 351.0" coords2="1085, 291, 1192, 351.0" shape="rect" alt="Акт к медкарте:Class" id="areadiagram_map_38pQYYGGAqAGijdC_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1085, 291, 1192, 339',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=2XHUYYGGAqAGijlE/&#x410;&#x43a;&#x442; &#x43a; \x0a&#x43c;&#x435;&#x434;&#x43a;&#x430;&#x440;&#x442;&#x435;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '1085, 291, 1192, 339')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1084, 203, 1191, 263.0" coords2="1084, 203, 1191, 263.0" shape="rect" alt="Выборочный контроль карт:Class" id="areadiagram_map_pSPNoYGGAqAGiiOs_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1084, 203, 1191, 251',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=U1MtoYGGAqAGiiQB/&#x412;&#x44b;&#x431;&#x43e;&#x440;&#x43e;&#x447;&#x43d;&#x44b;&#x439; \x0a&#x43a;&#x43e;&#x43d;&#x442;&#x440;&#x43e;&#x43b;&#x44c; \x0a&#x43a;&#x430;&#x440;&#x442;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '1084, 203, 1191, 251')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1084, 104, 1191, 175.0" coords2="1084, 104, 1191, 175.0" shape="rect" alt="Уведомление о проведении экспертизы:Class" id="areadiagram_map_fXzNoYGGAqAGiiOc_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1084, 104, 1191, 163',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=W1ItoYGGAqAGiiPS/&#x423;&#x432;&#x435;&#x434;&#x43e;&#x43c;&#x43b;&#x435;&#x43d;&#x438;&#x435; \x0a&#x43e; &#x43f;&#x440;&#x43e;&#x432;&#x435;&#x434;&#x435;&#x43d;&#x438;&#x438; \x0a&#x44d;&#x43a;&#x441;&#x43f;&#x435;&#x440;&#x442;&#x438;&#x437;&#x44b;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '1084, 104, 1191, 163')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="285, 2, 365, 54.0" coords2="285, 2, 365, 54.0" shape="rect" alt="Медкарта:Class" id="areadiagram_map_Nuo.gYGGAqAGimog_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','285, 2, 365, 42',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=nps.gYGGAqAGimpf/&#x41c;&#x435;&#x434;&#x43a;&#x430;&#x440;&#x442;&#x430;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '285, 2, 365, 42')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="176, 3, 256, 55.0" coords2="176, 3, 256, 55.0" shape="rect" alt="Услуга:Class" id="areadiagram_map_JjHegYGGAqAGimnu_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','176, 3, 256, 43',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=Mm0.gYGGAqAGimpD/&#x423;&#x441;&#x43b;&#x443;&#x433;&#x430;/ArtifactDataObject','BPDataObject_EwO2UYGGAqAGDxPC.html/&#x423;&#x441;&#x43b;&#x443;&#x433;&#x430;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '176, 3, 256, 43')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="574, 2, 654, 54.0" coords2="574, 2, 654, 54.0" shape="rect" alt="Правила 
+МЭК:Class" id="areadiagram_map_gstWgYGGAqAGijSg_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','574, 2, 654, 42',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=KTV2gYGGAqAGikUr/&#x41f;&#x440;&#x430;&#x432;&#x438;&#x43b;&#x430; \x0a&#x41c;&#x42d;&#x41a;/ArtifactDataObject','BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=g1X2gYGGAqAGikW./&#x41f;&#x440;&#x430;&#x432;&#x438;&#x43b;&#x430; \x0a&#x41c;&#x42d;&#x41a;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '574, 2, 654, 42')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="901, 104, 1019, 178.0" coords2="901, 104, 1019, 178.0" shape="rect" alt="Ответ 
+плательщика 
+(финальный):Class" id="areadiagram_map_kk6WgYGGAqAGijPg_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','901, 104, 1019, 166',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=Njb2gYGGAqAGikWV/&#x41e;&#x442;&#x432;&#x435;&#x442; \x0a&#x43f;&#x43b;&#x430;&#x442;&#x435;&#x43b;&#x44c;&#x449;&#x438;&#x43a;&#x430; \x0a(&#x444;&#x438;&#x43d;&#x430;&#x43b;&#x44c;&#x43d;&#x44b;&#x439;)/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '901, 104, 1019, 166')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="901, 2, 1019, 64" coords2="901, 2, 1019, 64" shape="rect" alt="Ответ 
+плательщика 
+(предварительный):Class" id="areadiagram_map_TyUWgYGGAqAGijMx_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="719, 2, 836, 54.0" coords2="719, 2, 836, 54.0" shape="rect" alt="Информационная 
+посылка:Class" id="areadiagram_map_52fmgYGGAqAGijKH_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','719, 2, 836, 42',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=kJB2gYGGAqAGikTC/&#x418;&#x43d;&#x444;&#x43e;&#x440;&#x43c;&#x430;&#x446;&#x438;&#x43e;&#x43d;&#x43d;&#x430;&#x44f; \x0a&#x43f;&#x43e;&#x441;&#x44b;&#x43b;&#x43a;&#x430;/ArtifactDataObject','BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=8SZ2gYGGAqAGikTm/&#x418;&#x43d;&#x444;&#x43e;&#x440;&#x43c;&#x430;&#x446;&#x438;&#x43e;&#x43d;&#x43d;&#x430;&#x44f; \x0a&#x43f;&#x43e;&#x441;&#x44b;&#x43b;&#x43a;&#x430;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '719, 2, 836, 42')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 137, 82, 189.0" coords2="2, 137, 82, 189.0" shape="rect" alt="Ф110:Class" id="areadiagram_map_SGTmgYGGAqAGijHw_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','2, 137, 82, 177',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=YD42gYGGAqAGikQG/&#x424;110/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '2, 137, 82, 177')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 64, 82, 116.0" coords2="2, 64, 82, 116.0" shape="rect" alt="Ф066:Class" id="areadiagram_map_4BNmgYGGAqAGijGz_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','2, 64, 82, 104',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=tAo2gYGGAqAGikPk/&#x424;066/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '2, 64, 82, 104')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 2, 147, 67.0" coords2="2, 2, 147, 67.0" shape="rect" alt="ТАП:Class" id="areadiagram_map_TtxmgYGGAqAGijGB_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','2, 2, 147, 55',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('Class_TtxmgYGGAqAGijGC.html/&#x422;&#x410;&#x41f;/Class'),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=cxA2gYGGAqAGikO3/&#x422;&#x410;&#x41f;/ArtifactDataObject','BPDataObject_Hv3WUYGGAqAGDxLP.html/&#x422;&#x410;&#x41f;/ArtifactDataObject')),showReferenceIcon('diagram', '2, 2, 147, 55'),hideSubdiagramIcon(),showTransitorIcon('diagram', '2, 2, 147, 55')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="429, 2, 509, 54.0" coords2="429, 2, 509, 54.0" shape="rect" alt="Счёт:Class" id="areadiagram_map_SAOmgYGGAqAGijFM_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','429, 2, 509, 42',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=3Sa2gYGGAqAGikR5/&#x421;&#x447;&#x451;&#x442;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '429, 2, 509, 42')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1085, 3, 1191, 55.0" coords2="1085, 3, 1191, 55.0" shape="rect" alt="Экспертиза:Class" id="areadiagram_map_O2d9AYGGAqAGiiAO_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1085, 3, 1191, 43',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_6A5tAYGGAqAGihDV.html?shapeid=t1r9AYGGAqAGiiAu/&#x42d;&#x43a;&#x441;&#x43f;&#x435;&#x440;&#x442;&#x438;&#x437;&#x430;/ArtifactDataObject')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '1085, 3, 1191, 43')" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_w5j4nYGGAqAGisOS.html" class="ItemLink">Предписание : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_xtEFLYGGAqAGGQ_r.html" class="ItemLink">Акт списания и уничтожения полисов обязательного страхования и временных свидетельств, признанных недействительными (или невостребованными)
+ : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1060;&#1045;&#1044;&#1045;&#1056;&#1040;&#1051;&#1068;&#1053;&#1067;&#1049; &#1060;&#1054;&#1053;&#1044; &#1054;&#1041;&#1071;&#1047;&#1040;&#1058;&#1045;&#1051;&#1068;&#1053;&#1054;&#1043;&#1054; &#1052;&#1045;&#1044;&#1048;&#1062;&#1048;&#1053;&#1057;&#1050;&#1054;&#1043;&#1054; &#1057;&#1058;&#1056;&#1040;&#1061;&#1054;&#1042;&#1040;&#1053;&#1048;&#1071;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1048;&#1057;&#1068;&#1052;&#1054;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1086;&#1090; 30 &#1076;&#1077;&#1082;&#1072;&#1073;&#1088;&#1103; 2011 &#1075;. N 9161/30-1/&#1080;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1047;&#1072;&#1103;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1086; &#1074;&#1099;&#1076;&#1072;&#1095;&#1077; &#1076;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1090;&#1072; &#1087;&#1086;&#1083;&#1080;&#1089;&#1072; &#1086;&#1073;&#1103;&#1079;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086; &#1084;&#1077;&#1076;&#1080;&#1094;&#1080;&#1085;&#1089;&#1082;&#1086;&#1075;&#1086; 
+      &#1089;&#1090;&#1088;&#1072;&#1093;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; &#1080;&#1083;&#1080; &#1087;&#1077;&#1088;&#1077;&#1086;&#1092;&#1086;&#1088;&#1084;&#1083;&#1077;&#1085;&#1080;&#1080; &#1087;&#1086;&#1083;&#1080;&#1089;&#1072; &#1079;&#1072;&#1087;&#1086;&#1083;&#1085;&#1103;&#1077;&#1090;&#1089;&#1103; &#1079;&#1072;&#1089;&#1090;&#1088;&#1072;&#1093;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1084; &#1083;&#1080;&#1094;&#1086;&#1084; 
+      (&#1080;&#1083;&#1080; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1080;&#1090;&#1077;&#1083;&#1077;&#1084; &#1079;&#1072;&#1089;&#1090;&#1088;&#1072;&#1093;&#1086;&#1074;&#1072;&#1085;&#1085;&#1086;&#1075;&#1086; &#1083;&#1080;&#1094;&#1072;, &#1079;&#1072;&#1082;&#1086;&#1085;&#1085;&#1099;&#1084; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1080;&#1090;&#1077;&#1083;&#1077;&#1084;) &#1086;&#1090; 
+      &#1088;&#1091;&#1082;&#1080; &#1080;&#1083;&#1080; &#1084;&#1072;&#1096;&#1080;&#1085;&#1086;&#1087;&#1080;&#1089;&#1085;&#1099;&#1084; &#1089;&#1087;&#1086;&#1089;&#1086;&#1073;&#1086;&#1084;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1077; &#1087;&#1086;&#1076;&#1072;&#1077;&#1090;&#1089;&#1103; &#1074; &#1089;&#1090;&#1088;&#1072;&#1093;&#1086;&#1074;&#1091;&#1102; &#1084;&#1077;&#1076;&#1080;&#1094;&#1080;&#1085;&#1089;&#1082;&#1091;&#1102; 
+      &#1086;&#1088;&#1075;&#1072;&#1085;&#1080;&#1079;&#1072;&#1094;&#1080;&#1102; (&#1092;&#1080;&#1083;&#1080;&#1072;&#1083;) &#1083;&#1080;&#1095;&#1085;&#1086; &#1080;&#1083;&#1080; &#1089; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;&#1084; 
+      &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1086;&#1085;&#1085;&#1086;-&#1082;&#1086;&#1084;&#1084;&#1091;&#1085;&#1080;&#1082;&#1072;&#1094;&#1080;&#1086;&#1085;&#1085;&#1099;&#1093; &#1089;&#1077;&#1090;&#1077;&#1081; &#1086;&#1073;&#1097;&#1077;&#1075;&#1086; &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103;, &#1074; &#1090;&#1086;&#1084; &#1095;&#1080;&#1089;&#1083;&#1077; 
+      &#1089;&#1077;&#1090;&#1080; &quot;&#1048;&#1085;&#1090;&#1077;&#1088;&#1085;&#1077;&#1090;&quot;, &#1095;&#1077;&#1088;&#1077;&#1079; &#1086;&#1092;&#1080;&#1094;&#1080;&#1072;&#1083;&#1100;&#1085;&#1099;&#1081; &#1089;&#1072;&#1081;&#1090; &#1090;&#1077;&#1088;&#1088;&#1080;&#1090;&#1086;&#1088;&#1080;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086; &#1092;&#1086;&#1085;&#1076;&#1072; &#1080;&#1083;&#1080; 
+      &#1077;&#1076;&#1080;&#1085;&#1099;&#1081; &#1087;&#1086;&#1088;&#1090;&#1072;&#1083; &#1075;&#1086;&#1089;&#1091;&#1076;&#1072;&#1088;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1093; &#1091;&#1089;&#1083;&#1091;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_Il65LYGGAqAGGeQ_.html" class="ItemLink">Заявление о выдаче дубликата полиса обязательного медицинского страхования
+ : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1060;&#1045;&#1044;&#1045;&#1056;&#1040;&#1051;&#1068;&#1053;&#1067;&#1049; &#1060;&#1054;&#1053;&#1044; &#1054;&#1041;&#1071;&#1047;&#1040;&#1058;&#1045;&#1051;&#1068;&#1053;&#1054;&#1043;&#1054; &#1052;&#1045;&#1044;&#1048;&#1062;&#1048;&#1053;&#1057;&#1050;&#1054;&#1043;&#1054; &#1057;&#1058;&#1056;&#1040;&#1061;&#1054;&#1042;&#1040;&#1053;&#1048;&#1071;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1048;&#1057;&#1068;&#1052;&#1054;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1086;&#1090; 30 &#1076;&#1077;&#1082;&#1072;&#1073;&#1088;&#1103; 2011 &#1075;. N 9161/30-1/&#1080;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1047;&#1072;&#1103;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1086; &#1074;&#1099;&#1076;&#1072;&#1095;&#1077; &#1076;&#1091;&#1073;&#1083;&#1080;&#1082;&#1072;&#1090;&#1072; &#1087;&#1086;&#1083;&#1080;&#1089;&#1072; &#1086;&#1073;&#1103;&#1079;&#1072;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086; &#1084;&#1077;&#1076;&#1080;&#1094;&#1080;&#1085;&#1089;&#1082;&#1086;&#1075;&#1086; 
+      &#1089;&#1090;&#1088;&#1072;&#1093;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; &#1080;&#1083;&#1080; &#1087;&#1077;&#1088;&#1077;&#1086;&#1092;&#1086;&#1088;&#1084;&#1083;&#1077;&#1085;&#1080;&#1080; &#1087;&#1086;&#1083;&#1080;&#1089;&#1072; &#1079;&#1072;&#1087;&#1086;&#1083;&#1085;&#1103;&#1077;&#1090;&#1089;&#1103; &#1079;&#1072;&#1089;&#1090;&#1088;&#1072;&#1093;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1084; &#1083;&#1080;&#1094;&#1086;&#1084; 
+      (&#1080;&#1083;&#1080; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1080;&#1090;&#1077;&#1083;&#1077;&#1084; &#1079;&#1072;&#1089;&#1090;&#1088;&#1072;&#1093;&#1086;&#1074;&#1072;&#1085;&#1085;&#1086;&#1075;&#1086; &#1083;&#1080;&#1094;&#1072;, &#1079;&#1072;&#1082;&#1086;&#1085;&#1085;&#1099;&#1084; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1080;&#1090;&#1077;&#1083;&#1077;&#1084;) &#1086;&#1090; 
+      &#1088;&#1091;&#1082;&#1080; &#1080;&#1083;&#1080; &#1084;&#1072;&#1096;&#1080;&#1085;&#1086;&#1087;&#1080;&#1089;&#1085;&#1099;&#1084; &#1089;&#1087;&#1086;&#1089;&#1086;&#1073;&#1086;&#1084;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1086;&#1077; &#1087;&#1086;&#1076;&#1072;&#1077;&#1090;&#1089;&#1103; &#1074; &#1089;&#1090;&#1088;&#1072;&#1093;&#1086;&#1074;&#1091;&#1102; &#1084;&#1077;&#1076;&#1080;&#1094;&#1080;&#1085;&#1089;&#1082;&#1091;&#1102; 
+      &#1086;&#1088;&#1075;&#1072;&#1085;&#1080;&#1079;&#1072;&#1094;&#1080;&#1102; (&#1092;&#1080;&#1083;&#1080;&#1072;&#1083;) &#1083;&#1080;&#1095;&#1085;&#1086; &#1080;&#1083;&#1080; &#1089; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;&#1084; 
+      &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1086;&#1085;&#1085;&#1086;-&#1082;&#1086;&#1084;&#1084;&#1091;&#1085;&#1080;&#1082;&#1072;&#1094;&#1080;&#1086;&#1085;&#1085;&#1099;&#1093; &#1089;&#1077;&#1090;&#1077;&#1081; &#1086;&#1073;&#1097;&#1077;&#1075;&#1086; &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103;, &#1074; &#1090;&#1086;&#1084; &#1095;&#1080;&#1089;&#1083;&#1077; 
+      &#1089;&#1077;&#1090;&#1080; &quot;&#1048;&#1085;&#1090;&#1077;&#1088;&#1085;&#1077;&#1090;&quot;, &#1095;&#1077;&#1088;&#1077;&#1079; &#1086;&#1092;&#1080;&#1094;&#1080;&#1072;&#1083;&#1100;&#1085;&#1099;&#1081; &#1089;&#1072;&#1081;&#1090; &#1090;&#1077;&#1088;&#1088;&#1080;&#1090;&#1086;&#1088;&#1080;&#1072;&#1083;&#1100;&#1085;&#1086;&#1075;&#1086; &#1092;&#1086;&#1085;&#1076;&#1072; &#1080;&#1083;&#1080; 
+      &#1077;&#1076;&#1080;&#1085;&#1099;&#1081; &#1087;&#1086;&#1088;&#1090;&#1072;&#1083; &#1075;&#1086;&#1089;&#1091;&#1076;&#1072;&#1088;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1093; &#1091;&#1089;&#1083;&#1091;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_sJLZLYGGAqAGGeQF.html" class="ItemLink">Ходатайство о регистрации в качестве застрахованного лица : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1060;&#1045;&#1044;&#1045;&#1056;&#1040;&#1051;&#1068;&#1053;&#1067;&#1049; &#1060;&#1054;&#1053;&#1044; &#1054;&#1041;&#1071;&#1047;&#1040;&#1058;&#1045;&#1051;&#1068;&#1053;&#1054;&#1043;&#1054; &#1052;&#1045;&#1044;&#1048;&#1062;&#1048;&#1053;&#1057;&#1050;&#1054;&#1043;&#1054; &#1057;&#1058;&#1056;&#1040;&#1061;&#1054;&#1042;&#1040;&#1053;&#1048;&#1071;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1048;&#1057;&#1068;&#1052;&#1054;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1086;&#1090; 30 &#1076;&#1077;&#1082;&#1072;&#1073;&#1088;&#1103; 2011 &#1075;. N 9161/30-1/&#1080;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_JoSZLYGGAqAGGePn.html" class="ItemLink">Заявление о выборе (замене) страховой медицинской организации
+ : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1060;&#1045;&#1044;&#1045;&#1056;&#1040;&#1051;&#1068;&#1053;&#1067;&#1049; &#1060;&#1054;&#1053;&#1044; &#1054;&#1041;&#1071;&#1047;&#1040;&#1058;&#1045;&#1051;&#1068;&#1053;&#1054;&#1043;&#1054; &#1052;&#1045;&#1044;&#1048;&#1062;&#1048;&#1053;&#1057;&#1050;&#1054;&#1043;&#1054; &#1057;&#1058;&#1056;&#1040;&#1061;&#1054;&#1042;&#1040;&#1053;&#1048;&#1071;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1048;&#1057;&#1068;&#1052;&#1054;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1086;&#1090; 30 &#1076;&#1077;&#1082;&#1072;&#1073;&#1088;&#1103; 2011 &#1075;. N 9161/30-1/&#1080;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_Z7_SMYGGAqAGGYzx.html" class="ItemLink">Медицинское свидетельство о рождении
+ : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1052;&#1048;&#1053;&#1048;&#1057;&#1058;&#1045;&#1056;&#1057;&#1058;&#1042;&#1054; &#1047;&#1044;&#1056;&#1040;&#1042;&#1054;&#1054;&#1061;&#1056;&#1040;&#1053;&#1045;&#1053;&#1048;&#1071; &#1056;&#1054;&#1057;&#1057;&#1048;&#1049;&#1057;&#1050;&#1054;&#1049; &#1060;&#1045;&#1044;&#1045;&#1056;&#1040;&#1062;&#1048;&#1048;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1056;&#1048;&#1050;&#1040;&#1047;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1086;&#1090; 13 &#1086;&#1082;&#1090;&#1103;&#1073;&#1088;&#1103; 2021 &#1075;. N 987&#1085;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1054;&#1041; &#1059;&#1058;&#1042;&#1045;&#1056;&#1046;&#1044;&#1045;&#1053;&#1048;&#1048; &#1060;&#1054;&#1056;&#1052;&#1067; &#1044;&#1054;&#1050;&#1059;&#1052;&#1045;&#1053;&#1058;&#1040;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1054; &#1056;&#1054;&#1046;&#1044;&#1045;&#1053;&#1048;&#1048; &#1048; &#1055;&#1054;&#1056;&#1071;&#1044;&#1050;&#1040; &#1045;&#1043;&#1054; &#1042;&#1067;&#1044;&#1040;&#1063;&#1048;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_hGp_UYGGAqAGGdim.html" class="ItemLink">Акт государственой регистрации рождения : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1072;&#1082;&#1090; &#1086;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1075;&#1086;&#1089;&#1091;&#1076;&#1072;&#1088;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1086;&#1081;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; &#1088;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1103;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1055;&#1088;&#1072;&#1074;&#1080;&#1090;&#1077;&#1083;&#1100;&#1089;&#1090;&#1074;&#1072; &#1056;&#1060; &#1086;&#1090; 29.12.2018 N 1746
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      (&#1088;&#1077;&#1076;. &#1086;&#1090; 25.10.2021)
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_WbVUYYGGAqAGijkl.html" class="ItemLink">Перечень актов : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_1WZUYYGGAqAGijkV.html" class="ItemLink">Акт экспертизы : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_38pQYYGGAqAGijdD.html" class="ItemLink">Акт к медкарте : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_pSPNoYGGAqAGiiOt.html" class="ItemLink">Выборочный контроль карт : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_fXzNoYGGAqAGiiOd.html" class="ItemLink">Уведомление о проведении экспертизы : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_Nuo_gYGGAqAGimoh.html" class="ItemLink">Медкарта : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_JjHegYGGAqAGimnv.html" class="ItemLink">Услуга : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_gstWgYGGAqAGijSh.html" class="ItemLink">Правила 
+МЭК : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_kk6WgYGGAqAGijPh.html" class="ItemLink">Ответ 
+плательщика 
+(финальный) : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_TyUWgYGGAqAGijMy.html" class="ItemLink">Ответ 
+плательщика 
+(предварительный) : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_F2fmgYGGAqAGijKI.html" class="ItemLink">Информационная 
+посылка : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_SGTmgYGGAqAGijHx.html" class="ItemLink">Ф110 : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_4BNmgYGGAqAGijG0.html" class="ItemLink">Ф066 : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_TtxmgYGGAqAGijGC.html" class="ItemLink">ТАП : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_SAOmgYGGAqAGijFN.html" class="ItemLink">Счёт : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_O2d9AYGGAqAGiiAP.html" class="ItemLink">Экспертиза : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

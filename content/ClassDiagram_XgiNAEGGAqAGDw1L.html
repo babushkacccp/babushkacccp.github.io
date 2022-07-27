@@ -1,0 +1,786 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Class Diagram - Варианты тарификации АПП</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+<a href="Package_oRdj8YGGAqAGDws3.html" class="PageParentTitle">_Классы ДЦ : Package</a><span class="PageParentTitle">&nbsp;.&nbsp;</span><a href="Package_iEKNAEGGAqAGDw1a.html" class="PageParentTitle">Варианты тарификации АПП : Package</a>	</p>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Class Diagram - Варианты тарификации АПП		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/XgiNAEGGAqAGDw1L', '&#x412;&#x430;&#x440;&#x438;&#x430;&#x43d;&#x442;&#x44b; &#x442;&#x430;&#x440;&#x438;&#x444;&#x438;&#x43a;&#x430;&#x446;&#x438;&#x438; &#x410;&#x41f;&#x41f;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/XgiNAEGGAqAGDw1L', '&#x412;&#x430;&#x440;&#x438;&#x430;&#x43d;&#x442;&#x44b; &#x442;&#x430;&#x440;&#x438;&#x444;&#x438;&#x43a;&#x430;&#x446;&#x438;&#x438; &#x410;&#x41f;&#x41f;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+<option value="shape|403.0|108.0|125.0|72.0|NOTE__GcXAEGGAqAGDxRo.html|NOTE__GcXAEGGAqAGDxRo.html|BBrXAEGGAqAGDxSQ" id="optionBBrXAEGGAqAGDxSQ">Unnamed Note : Note</option>
+<option value="shape|680.0|112.0|125.0|72.0|NOTE__GcXAEGGAqAGDxRo.html|NOTE__GcXAEGGAqAGDxRo.html|.GcXAEGGAqAGDxRm" id="option.GcXAEGGAqAGDxRm">Unnamed Note : Note</option>
+<option value="shape|908.0|243.0|125.0|40.0|NOTE_9czHAEGGAqAGDxOI.html|NOTE_9czHAEGGAqAGDxOI.html|9czHAEGGAqAGDxOG" id="option9czHAEGGAqAGDxOG">Unnamed Note : Note</option>
+<option value="shape|1050.0|423.0|109.0|40.0|NOTE_GczHAEGGAqAGDxOD.html|NOTE_GczHAEGGAqAGDxOD.html|6czHAEGGAqAGDxOB" id="option6czHAEGGAqAGDxOB">Unnamed Note : Note</option>
+<option value="shape|10.0|98.0|203.0|76.0|Callout_z5_rAEGGAqAGDxLY.html|Callout_z5_rAEGGAqAGDxLY.html|T5.rAEGGAqAGDxLX" id="optionT5.rAEGGAqAGDxLX">Unnamed Callout : Callout</option>
+<option value="shape|678.0|327.0|125.0|40.0|NOTE_0_WLAEGGAqAGDxKE.html|NOTE_0_WLAEGGAqAGDxKE.html|U.WLAEGGAqAGDxKC" id="optionU.WLAEGGAqAGDxKC">Unnamed Note : Note</option>
+<option value="shape|699.0|473.0|86.0|40.0|NOTE_5WGLAEGGAqAGDxJ1.html|NOTE_5WGLAEGGAqAGDxJ1.html|ZWGLAEGGAqAGDxJz" id="optionZWGLAEGGAqAGDxJz">Unnamed Note : Note</option>
+<option value="shape|537.0|50.0|245.0|40.0|NOTE_SeFzAEGGAqAGDxIx.html|NOTE_SeFzAEGGAqAGDxIx.html|ieFzAEGGAqAGDxIv" id="optionieFzAEGGAqAGDxIv">Unnamed Note : Note</option>
+<option value="shape|133.0|58.0|193.0|40.0|NOTE_RMazAEGGAqAGDxIR.html|NOTE_RMazAEGGAqAGDxIR.html|RMazAEGGAqAGDxIP" id="optionRMazAEGGAqAGDxIP">Unnamed Note : Note</option>
+<option value="shape|49.0|299.0|125.0|40.0|NOTE_POAzAEGGAqAGDxHc.html|NOTE_POAzAEGGAqAGDxHc.html|POAzAEGGAqAGDxHa" id="optionPOAzAEGGAqAGDxHa">Unnamed Note : Note</option>
+<option value="shape|65.0|409.0|109.0|40.0|NOTE_JhzTAEGGAqAGDxHI.html|NOTE_JhzTAEGGAqAGDxHI.html|xhzTAEGGAqAGDxHG" id="optionxhzTAEGGAqAGDxHG">Unnamed Note : Note</option>
+<option value="shape|49.0|211.0|152.0|40.0|NOTE_nW_DAEGGAqAGDxQi.html|NOTE_nW_DAEGGAqAGDxQi.html|nW.DAEGGAqAGDxQh" id="optionnW.DAEGGAqAGDxQh">Unnamed Note : Note</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_3.png" usemap="#diagram_map" class="Image" width="1201" height="578"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="258.0, 191.0, 258.0, 298.0, 272.0, 298.0, 272.0, 191.0" coords2="258.0, 191.0, 258.0, 298.0, 272.0, 298.0, 272.0, 191.0" shape="poly" alt=":Association" id="areadiagram_map_n5rdAEGGAqAGDxNa_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="266.0, 338.0, 266.0, 409.0, 280.0, 409.0, 280.0, 338.0" coords2="266.0, 338.0, 266.0, 409.0, 280.0, 409.0, 280.0, 338.0" shape="poly" alt=":Association" id="areadiagram_map_Q1ndAEGGAqAGDxNu_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="556.0, 367.0, 556.0, 473.0, 570.0, 473.0, 570.0, 367.0" coords2="556.0, 367.0, 556.0, 473.0, 570.0, 473.0, 570.0, 367.0" shape="poly" alt=":Association" id="areadiagram_map_RjB9AEGGAqAGDxPI_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="585.0, 205.0, 585.0, 327.0, 599.0, 327.0, 599.0, 205.0" coords2="585.0, 205.0, 585.0, 327.0, 599.0, 327.0, 599.0, 205.0" shape="poly" alt=":Association" id="areadiagram_map_Q459AEGGAqAGDxPc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="550.0, 196.10417, 315.0, 295.0, 316.15384, 298.0, 326.0, 298.0, 326.0, 305.475, 560.0, 207.0, 559.2308, 205.0, 550.0, 205.0, 550.0, 196.10417, 326.0, 305.475, 326.0, 305.475, 326.0, 305.475, 326.0, 305.475" coords2="550.0, 196.10417, 315.0, 295.0, 316.15384, 298.0, 326.0, 298.0, 326.0, 305.475, 560.0, 207.0, 559.2308, 205.0, 550.0, 205.0, 550.0, 196.10417, 326.0, 305.475, 326.0, 305.475, 326.0, 305.475, 326.0, 305.475" shape="poly" alt=":Association" id="areadiagram_map_RTgDAEGGAqAGDxQL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="201.0, 232.0, 201.0, 246.0, 275.0, 246.0, 275.0, 232.0" coords2="201.0, 232.0, 201.0, 246.0, 275.0, 246.0, 275.0, 232.0" shape="poly" alt=":Anchor" id="areadiagram_map_eDxjAEGGAqAGDwwi_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="174.0, 310.0, 174.0, 324.0, 221.0, 324.0, 221.0, 310.0" coords2="174.0, 310.0, 174.0, 324.0, 221.0, 324.0, 221.0, 310.0" shape="poly" alt=":Anchor" id="areadiagram_map_TI0zAEGGAqAGDxH4_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="174.0, 426.0, 174.0, 440.0, 246.0, 440.0, 246.0, 426.0" coords2="174.0, 426.0, 174.0, 440.0, 246.0, 440.0, 246.0, 426.0" shape="poly" alt=":Anchor" id="areadiagram_map_m_0zAEGGAqAGDxH8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="214.0, 98.0, 214.0, 151.0, 228.0, 151.0, 228.0, 98.0" coords2="214.0, 98.0, 214.0, 151.0, 228.0, 151.0, 228.0, 98.0" shape="poly" alt=":Anchor" id="areadiagram_map_QfezAEGGAqAGDxId_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="597.0, 90.0, 597.0, 152.0, 611.0, 152.0, 611.0, 90.0" coords2="597.0, 90.0, 597.0, 152.0, 611.0, 152.0, 611.0, 90.0" shape="poly" alt=":Anchor" id="areadiagram_map_e.HzAEGGAqAGDxJL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="616.0, 483.0, 616.0, 497.0, 699.0, 497.0, 699.0, 483.0" coords2="616.0, 483.0, 616.0, 497.0, 699.0, 497.0, 699.0, 483.0" shape="poly" alt=":Anchor" id="areadiagram_map_vNmLAEGGAqAGDxJ7_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="627.0, 340.0, 627.0, 354.0, 678.0, 354.0, 678.0, 340.0" coords2="627.0, 340.0, 627.0, 354.0, 678.0, 354.0, 678.0, 340.0" shape="poly" alt=":Anchor" id="areadiagram_map_s52LAEGGAqAGDxKK_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="928.0, 352.0, 928.0, 423.0, 942.0, 423.0, 942.0, 352.0" coords2="928.0, 352.0, 928.0, 423.0, 942.0, 423.0, 942.0, 352.0" shape="poly" alt=":Association" id="areadiagram_map_k8zHAEGGAqAGDxOL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="948.0, 283.0, 948.0, 312.0, 962.0, 312.0, 962.0, 283.0" coords2="948.0, 283.0, 948.0, 312.0, 962.0, 312.0, 962.0, 283.0" shape="poly" alt=":Anchor" id="areadiagram_map_e8zHAEGGAqAGDxOc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="988.0, 434.0, 988.0, 448.0, 1050.0, 448.0, 1050.0, 434.0" coords2="988.0, 434.0, 988.0, 448.0, 1050.0, 448.0, 1050.0, 434.0" shape="poly" alt=":Anchor" id="areadiagram_map_p8zHAEGGAqAGDxOh_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="658.0, 196.86307, 658.0, 205.0, 647.7692, 205.0, 647.0, 207.0, 883.0, 319.6141, 883.0, 312.0, 891.8461, 312.0, 893.0, 309.0, 658.0, 196.86307" coords2="658.0, 196.86307, 658.0, 205.0, 647.7692, 205.0, 647.0, 207.0, 883.0, 319.6141, 883.0, 312.0, 891.8461, 312.0, 893.0, 309.0, 658.0, 196.86307" shape="poly" alt=":Association" id="areadiagram_map_G4PHAEGGAqAGDxPJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="446.0, 180.0, 446.0, 254.0, 460.0, 254.0, 460.0, 180.0" coords2="446.0, 180.0, 446.0, 254.0, 460.0, 254.0, 460.0, 180.0" shape="poly" alt=":Anchor" id="areadiagram_map_60nXAEGGAqAGDxSm_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="738.0, 184.0, 738.0, 256.0, 752.0, 256.0, 752.0, 184.0" coords2="738.0, 184.0, 738.0, 256.0, 752.0, 256.0, 752.0, 184.0" shape="poly" alt=":Anchor" id="areadiagram_map_aKXXAEGGAqAGDxSq_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1053;&amp;#1077; 
+      &amp;#1074;&amp;#1082;&amp;#1083;&amp;#1102;&amp;#1095;&amp;#1072;&amp;#1077;&amp;#1090;&amp;#1089;&amp;#1103; &amp;#1074; &amp;#1089;&amp;#1095;&amp;#1077;&amp;#1090; &amp;#1044;&amp;#1080;&amp;#1089;&amp;#1087;&amp;#1072;&amp;#1085;&amp;#1089;&amp;#1077;&amp;#1088;&amp;#1080;&amp;#1079;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1080; &amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1086;&amp;#1083;&amp;#1100;&amp;#1082;&amp;#1086; 
+      &amp;#1076;&amp;#1083;&amp;#1103; &amp;#1087;&amp;#1086;&amp;#1076;&amp;#1090;&amp;#1074;&amp;#1077;&amp;#1088;&amp;#1078;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103; &amp;#1092;&amp;#1072;&amp;#1082;&amp;#1090;&amp;#1072; &amp;#1087;&amp;#1088;&amp;#1086;&amp;#1093;&amp;#1086;&amp;#1078;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="403, 108, 528, 180" coords2="403, 108, 528, 180" shape="rect" alt="Не включается в счет Диспансеризации 
+Только для подтверждения факта прохождения:Note" id="areadiagram_map_BBrXAEGGAqAGDxSQ_default" href="NOTE__GcXAEGGAqAGDxRo.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1053;&amp;#1077; 
+      &amp;#1074;&amp;#1082;&amp;#1083;&amp;#1102;&amp;#1095;&amp;#1072;&amp;#1077;&amp;#1090;&amp;#1089;&amp;#1103; &amp;#1074; &amp;#1089;&amp;#1095;&amp;#1077;&amp;#1090; &amp;#1044;&amp;#1080;&amp;#1089;&amp;#1087;&amp;#1072;&amp;#1085;&amp;#1089;&amp;#1077;&amp;#1088;&amp;#1080;&amp;#1079;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1080; &amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1086;&amp;#1083;&amp;#1100;&amp;#1082;&amp;#1086; 
+      &amp;#1076;&amp;#1083;&amp;#1103; &amp;#1087;&amp;#1086;&amp;#1076;&amp;#1090;&amp;#1074;&amp;#1077;&amp;#1088;&amp;#1078;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103; &amp;#1092;&amp;#1072;&amp;#1082;&amp;#1090;&amp;#1072; &amp;#1087;&amp;#1088;&amp;#1086;&amp;#1093;&amp;#1086;&amp;#1078;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="680, 112, 805, 184" coords2="680, 112, 805, 184" shape="rect" alt="Не включается в счет Диспансеризации 
+Только для подтверждения факта прохождения:Note" id="areadiagram_map_.GcXAEGGAqAGDxRm_default" href="NOTE__GcXAEGGAqAGDxRo.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092; 
+      = N * X &amp;#1091;&amp;#1089;&amp;#1083;&amp;#1091;&amp;#1075;&amp;#1080;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; 
+      = &amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="908, 243, 1033, 283" coords2="908, 243, 1033, 283" shape="rect" alt="Тариф = N * X услуги
+Сумма = Тариф:Note" id="areadiagram_map_9czHAEGGAqAGDxOG_default" href="NOTE_9czHAEGGAqAGDxOI.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092; 
+      = X &amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; 
+      = &amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="1050, 423, 1159, 463" coords2="1050, 423, 1159, 463" shape="rect" alt="Тариф = X 
+Сумма = Тариф:Note" id="areadiagram_map_6czHAEGGAqAGDxOB_default" href="NOTE_GczHAEGGAqAGDxOD.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="908, 423, 988, 463" coords2="908, 423, 988, 463" shape="rect" alt="Услуги:Class" id="areadiagram_map_QczHAEGGAqAGDxN8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="883, 312, 988, 352" coords2="883, 312, 988, 352" shape="rect" alt="Посещение (ТАП):Class" id="areadiagram_map_yszHAEGGAqAGDxN3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:11px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1047;&amp;#1072;&amp;#1087;&amp;#1088;&amp;#1077;&amp;#1097;&amp;#1072;&amp;#1077;&amp;#1084; &amp;#1090;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1088;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1090;&amp;#1100; &amp;#1086;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1087;&amp;#1086; &amp;#1079;&amp;#1072;&amp;#1073;&amp;#1086;&amp;#1083;&amp;#1077;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1102;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="10, 98, 213, 174" coords2="10, 98, 213, 174" shape="rect" alt="Запрещаем тарифицировать обращение по заболеванию:Callout" id="areadiagram_map_T5.rAEGGAqAGDxLX_default" href="Callout_z5_rAEGGAqAGDxLY.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092; 
+      = 0 &amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; 
+      = 0&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="678, 327, 803, 367" coords2="678, 327, 803, 367" shape="rect" alt="Тариф = 0 
+Сумма = 0:Note" id="areadiagram_map_U.WLAEGGAqAGDxKC_default" href="NOTE_0_WLAEGGAqAGDxKE.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="829, 2, 1197, 574" coords2="829, 2, 1197, 574" shape="rect" alt="Единичное посещение (посещение по услуге):Model" id="areadiagram_map_rhUnAEGGAqAGDxPo_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092; 
+      = 0 &amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; 
+      = 0&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="699, 473, 785, 513" coords2="699, 473, 785, 513" shape="rect" alt="Тариф = 0 
+Сумма = 0:Note" id="areadiagram_map_ZWGLAEGGAqAGDxJz_default" href="NOTE_5WGLAEGGAqAGDxJ1.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092; 
+      = &amp;#1090;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092; &amp;#1079;&amp;#1072; &amp;#1076;&amp;#1080;&amp;#1089;&amp;#1087;&amp;#1072;&amp;#1085;&amp;#1089;&amp;#1077;&amp;#1088;&amp;#1080;&amp;#1079;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1102; &amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; 
+      = &amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="537, 50, 782, 90" coords2="537, 50, 782, 90" shape="rect" alt="Тариф = тариф за диспансеризацию 
+Сумма = Тариф:Note" id="areadiagram_map_ieFzAEGGAqAGDxIv_default" href="NOTE_SeFzAEGGAqAGDxIx.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; 
+      = &amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; &amp;#1074;&amp;#1089;&amp;#1077;&amp;#1093; &amp;#1087;&amp;#1086;&amp;#1089;&amp;#1077;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1081;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="133, 58, 326, 98" coords2="133, 58, 326, 98" shape="rect" alt="Сумма = Сумма всех посещений:Note" id="areadiagram_map_RMazAEGGAqAGDxIP_default" href="NOTE_RMazAEGGAqAGDxIR.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092; 
+      = N * X &amp;#1091;&amp;#1089;&amp;#1083;&amp;#1091;&amp;#1075;&amp;#1080;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; 
+      = &amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="49, 299, 174, 339" coords2="49, 299, 174, 339" shape="rect" alt="Тариф = N * X услуги
+Сумма = Тариф:Note" id="areadiagram_map_POAzAEGGAqAGDxHa_default" href="NOTE_POAzAEGGAqAGDxHc.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092; 
+      = X &amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1072; 
+      = &amp;#1058;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="65, 409, 174, 449" coords2="65, 409, 174, 449" shape="rect" alt="Тариф = X 
+Сумма = Тариф:Note" id="areadiagram_map_xhzTAEGGAqAGDxHG_default" href="NOTE_JhzTAEGGAqAGDxHI.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1057;&amp;#1086;&amp;#1073;&amp;#1080;&amp;#1088;&amp;#1072;&amp;#1077;&amp;#1084; 
+      &amp;#1085;&amp;#1072; &amp;#1086;&amp;#1089;&amp;#1085;&amp;#1086;&amp;#1074;&amp;#1077; &amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;quot;&amp;#1048;&amp;#1044; 
+      &amp;#1080;&amp;#1089;&amp;#1090;&amp;#1086;&amp;#1088;&amp;#1080;&amp;#1080; &amp;#1073;&amp;#1086;&amp;#1083;&amp;#1077;&amp;#1079;&amp;#1085;&amp;#1080; &amp;#1040;&amp;#1055;&amp;#1055;&amp;quot;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="49, 211, 201, 251" coords2="49, 211, 201, 251" shape="rect" alt="Собираем на основе 
+"ИД истории болезни АПП":Note" id="areadiagram_map_nW.DAEGGAqAGDxQh_default" href="NOTE_nW_DAEGGAqAGDxQi.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="536, 473, 616, 513" coords2="536, 473, 616, 513" shape="rect" alt="Услуги:Class" id="areadiagram_map_WjB9AEGGAqAGDxPF_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="522, 327, 627, 367" coords2="522, 327, 627, 367" shape="rect" alt="Посещение (ТАП):Class" id="areadiagram_map_ijB9AEGGAqAGDxPC_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="550, 152, 658, 205" coords2="550, 152, 658, 205" shape="rect" alt="Диспансеризация:Class" id="areadiagram_map_.UDdAEGGAqAGDxM6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="206, 151, 289, 191" coords2="206, 151, 289, 191" shape="rect" alt="Заболевание:Class" id="areadiagram_map_8q9dAEGGAqAGDxMp_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="378, 2, 815, 574" coords2="378, 2, 815, 574" shape="rect" alt="Обращение по диспансеризации:Package" id="areadiagram_map_uZubAEGGAqAGDxMo_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="246, 409, 326, 449" coords2="246, 409, 326, 449" shape="rect" alt="Услуги:Class" id="areadiagram_map_5RMdAEGGAqAGDxLN_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="221, 298, 326, 338" coords2="221, 298, 326, 338" shape="rect" alt="Посещение (ТАП):Class" id="areadiagram_map_n06NAEGGAqAGDw1j_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 2, 364, 574" coords2="2, 2, 364, 574" shape="rect" alt="Обращение по заболеванию:Package" id="areadiagram_map_yUUbAEGGAqAGDxLy_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE__GcXAEGGAqAGDxRo.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1053;&#1077; 
+      &#1074;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1090;&#1089;&#1103; &#1074; &#1089;&#1095;&#1077;&#1090; &#1044;&#1080;&#1089;&#1087;&#1072;&#1085;&#1089;&#1077;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080; </font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1058;&#1086;&#1083;&#1100;&#1082;&#1086; 
+      &#1076;&#1083;&#1103; &#1087;&#1086;&#1076;&#1090;&#1074;&#1077;&#1088;&#1078;&#1076;&#1077;&#1085;&#1080;&#1103; &#1092;&#1072;&#1082;&#1090;&#1072; &#1087;&#1088;&#1086;&#1093;&#1086;&#1078;&#1076;&#1077;&#1085;&#1080;&#1103;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_9czHAEGGAqAGDxOI.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1058;&#1072;&#1088;&#1080;&#1092; 
+      = N * X &#1091;&#1089;&#1083;&#1091;&#1075;&#1080;</font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1091;&#1084;&#1084;&#1072; 
+      = &#1058;&#1072;&#1088;&#1080;&#1092;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_GczHAEGGAqAGDxOD.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1058;&#1072;&#1088;&#1080;&#1092; 
+      = X </font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1091;&#1084;&#1084;&#1072; 
+      = &#1058;&#1072;&#1088;&#1080;&#1092;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_wczHAEGGAqAGDxN_.html" class="ItemLink">Услуги : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_KszHAEGGAqAGDxN5.html" class="ItemLink">Посещение (ТАП) : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_0_WLAEGGAqAGDxKE.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1058;&#1072;&#1088;&#1080;&#1092; 
+      = 0 </font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1091;&#1084;&#1084;&#1072; 
+      = 0</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Model.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Model.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Model_rhUnAEGGAqAGDxPp.html" class="ItemLink">Единичное посещение (посещение по услуге) : Model</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_5WGLAEGGAqAGDxJ1.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1058;&#1072;&#1088;&#1080;&#1092; 
+      = 0 </font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1091;&#1084;&#1084;&#1072; 
+      = 0</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_SeFzAEGGAqAGDxIx.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1058;&#1072;&#1088;&#1080;&#1092; 
+      = &#1090;&#1072;&#1088;&#1080;&#1092; &#1079;&#1072; &#1076;&#1080;&#1089;&#1087;&#1072;&#1085;&#1089;&#1077;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1102; </font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1091;&#1084;&#1084;&#1072; 
+      = &#1058;&#1072;&#1088;&#1080;&#1092;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_RMazAEGGAqAGDxIR.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1091;&#1084;&#1084;&#1072; 
+      = &#1057;&#1091;&#1084;&#1084;&#1072; &#1074;&#1089;&#1077;&#1093; &#1087;&#1086;&#1089;&#1077;&#1097;&#1077;&#1085;&#1080;&#1081;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_POAzAEGGAqAGDxHc.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1058;&#1072;&#1088;&#1080;&#1092; 
+      = N * X &#1091;&#1089;&#1083;&#1091;&#1075;&#1080;</font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1091;&#1084;&#1084;&#1072; 
+      = &#1058;&#1072;&#1088;&#1080;&#1092;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_JhzTAEGGAqAGDxHI.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1058;&#1072;&#1088;&#1080;&#1092; 
+      = X </font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1091;&#1084;&#1084;&#1072; 
+      = &#1058;&#1072;&#1088;&#1080;&#1092;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_nW_DAEGGAqAGDxQi.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1057;&#1086;&#1073;&#1080;&#1088;&#1072;&#1077;&#1084; 
+      &#1085;&#1072; &#1086;&#1089;&#1085;&#1086;&#1074;&#1077; </font>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&quot;&#1048;&#1044; 
+      &#1080;&#1089;&#1090;&#1086;&#1088;&#1080;&#1080; &#1073;&#1086;&#1083;&#1077;&#1079;&#1085;&#1080; &#1040;&#1055;&#1055;&quot;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_GeEdAEGGAqAGDxLG.html" class="ItemLink">Услуги : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_kGYNAEGGAqAGDw03.html" class="ItemLink">Посещение (ТАП) : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_GcldAEGGAqAGDxMi.html" class="ItemLink">Диспансеризация : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_AEZdAEGGAqAGDxMb.html" class="ItemLink">Заболевание : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Package.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Package.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Package_eZubAEGGAqAGDxMp.html" class="ItemLink">Обращение по диспансеризации : Package</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Package.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Package.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Package_KUUbAEGGAqAGDxLz.html" class="ItemLink">Обращение по заболеванию : Package</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

@@ -1,0 +1,736 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Class Diagram - ТАП</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+<a href="Package_WxXwCYGGAqAGDxCt.html" class="PageParentTitle">ТАП : Package</a>	</p>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Class Diagram - ТАП		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/r_TwCYGGAqAGDxCf', '&#x422;&#x410;&#x41f;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/r_TwCYGGAqAGDxCf', '&#x422;&#x410;&#x41f;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+<option value="shape|1796.0|736.0|222.0|73.0|NOTE_3I0HpEGGAqAGDxai.html|NOTE_3I0HpEGGAqAGDxai.html|3I0HpEGGAqAGDxah" id="option3I0HpEGGAqAGDxah">Unnamed Note : Note</option>
+<option value="shape|1194.0|407.0|175.0|46.0|NOTE_80akrYGGAqAGDwqI.html|NOTE_80akrYGGAqAGDwqI.html|80akrYGGAqAGDwqH" id="option80akrYGGAqAGDwqH">Unnamed Note : Note</option>
+<option value="shape|773.0|88.0|152.0|40.0|NOTE_b0SOdYGGAqAGD6fs.html|NOTE_b0SOdYGGAqAGD6fs.html|r0SOdYGGAqAGD6fq" id="optionr0SOdYGGAqAGD6fq">Unnamed Note : Note</option>
+<option value="shape|1224.0|116.0|100.0|40.0|NOTE_XBsbKYGGAqAGD5O_.html|NOTE_XBsbKYGGAqAGD5O_.html|nBsbKYGGAqAGD5O8" id="optionnBsbKYGGAqAGD5O8">Unnamed Note : Note</option>
+<option value="shape|1841.0|145.0|100.0|55.0|NOTE_pkzhKYGGAqAGD3G9.html|NOTE_pkzhKYGGAqAGD3G9.html|pkzhKYGGAqAGD3G8" id="optionpkzhKYGGAqAGD3G8">Unnamed Note : Note</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/.png" usemap="#diagram_map" class="Image" width="2022" height="1418"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="1486.0, 289.0, 1486.0, 472.0, 1500.0, 472.0, 1500.0, 289.0" coords2="1486.0, 289.0, 1486.0, 472.0, 1500.0, 472.0, 1500.0, 289.0" shape="poly" alt="ИД_Отделения = ИД_Отделения:Association" id="areadiagram_map_CFuLCYGGAqAGD1Fg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1042; &amp;#1058;&amp;#1040;&amp;#1055; &amp;#1076;&amp;#1086;&amp;#1083;&amp;#1078;&amp;#1077;&amp;#1085; &amp;#1073;&amp;#1099;&amp;#1090;&amp;#1100; &amp;#1074;&amp;#1088;&amp;#1072;&amp;#1095; &amp;#1080;/&amp;#1080;&amp;#1083;&amp;#1080; &amp;#1084;&amp;#1077;&amp;#1076;&amp;#1089;&amp;#1077;&amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="873.0, 481.0, 873.0, 495.0, 1469.0, 495.0, 1469.0, 481.0" coords2="873.0, 481.0, 873.0, 495.0, 1469.0, 495.0, 1469.0, 481.0" shape="poly" alt="ИД_Занятости врача = ИД_Медработника:Association" id="areadiagram_map_uSFjCYGGAqAGD1DV_default" href="Association_SSFjCYGGAqAGD1DQ.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1042; &amp;#1058;&amp;#1040;&amp;#1055; &amp;#1076;&amp;#1086;&amp;#1083;&amp;#1078;&amp;#1077;&amp;#1085; &amp;#1073;&amp;#1099;&amp;#1090;&amp;#1100; &amp;#1074;&amp;#1088;&amp;#1072;&amp;#1095; &amp;#1080;/&amp;#1080;&amp;#1083;&amp;#1080; &amp;#1084;&amp;#1077;&amp;#1076;&amp;#1089;&amp;#1077;&amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="873.0, 526.0, 873.0, 540.0, 1469.0, 540.0, 1469.0, 526.0" coords2="873.0, 526.0, 873.0, 540.0, 1469.0, 540.0, 1469.0, 526.0" shape="poly" alt="ИД_Занятости медсестры = ИД_Медработника:Association" id="areadiagram_map_katLCYGGAqAGD1Gg_default" href="Association_katLCYGGAqAGD1Gi.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="1720.0, 299.0, 1621.837, 472.0, 1630.0, 472.0, 1630.0, 482.07693, 1632.0, 483.0, 1729.5955, 311.0, 1723.0, 311.0, 1723.0, 300.3846, 1720.0, 299.0" coords2="1720.0, 299.0, 1621.837, 472.0, 1630.0, 472.0, 1630.0, 482.07693, 1632.0, 483.0, 1729.5955, 311.0, 1723.0, 311.0, 1723.0, 300.3846, 1720.0, 299.0" shape="poly" alt="ИД_Медработника = ИД_Медработника:Association" id="areadiagram_map_kK9hKYGGAqAGD3FR_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1835.0, 189.0, 1822.6364, 257.0, 1830.0, 257.0, 1830.0, 267.2857, 1835.0, 268.0, 1847.3636, 200.0, 1841.0, 200.0, 1841.0, 189.85715, 1835.0, 189.0" coords2="1835.0, 189.0, 1822.6364, 257.0, 1830.0, 257.0, 1830.0, 267.2857, 1835.0, 268.0, 1847.3636, 200.0, 1841.0, 200.0, 1841.0, 189.85715, 1835.0, 189.0" shape="poly" alt=":Anchor" id="areadiagram_map_UTaRKYGGAqAGD3HV_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="873.0, 607.0, 873.0, 621.0, 1092.0, 621.0, 1092.0, 607.0" coords2="873.0, 607.0, 873.0, 621.0, 1092.0, 621.0, 1092.0, 607.0" shape="poly" alt="ИД_ТАП = ИД_ТАП:Association" id="areadiagram_map_MwwTKYGGAqAGD4___default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1125.0, 245.0, 1125.0, 259.0, 1448.0, 259.0, 1448.0, 245.0" coords2="1125.0, 245.0, 1125.0, 259.0, 1448.0, 259.0, 1448.0, 245.0" shape="poly" alt="ИД_МО_ФИЛ = ИД_МО_ФИЛ:Association" id="areadiagram_map_V.FzKYGGAqAGD5Mp_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1224.0, 145.3793, 1112.2609, 234.0, 1125.0, 234.0, 1125.0, 242.03448, 1233.4783, 156.0, 1224.0, 156.0, 1224.0, 145.3793" coords2="1224.0, 145.3793, 1112.2609, 234.0, 1125.0, 234.0, 1125.0, 242.03448, 1233.4783, 156.0, 1224.0, 156.0, 1224.0, 145.3793" shape="poly" alt=":Anchor" id="areadiagram_map_z3CbKYGGAqAGD5PI_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="99.0, 478.0, 99.0, 483.0, 109.0, 483.0, 109.0, 492.0, 510.0, 492.0, 510.0, 478.0" coords2="99.0, 478.0, 99.0, 483.0, 109.0, 483.0, 109.0, 492.0, 510.0, 492.0, 510.0, 478.0" shape="poly" alt="ИД_Пациента = ИД_Пациента:Association" id="areadiagram_map_ZyIXKYGGAqAGD6Xt_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="968.0, 306.0, 863.55884, 440.0, 873.0, 440.0, 873.0, 450.0, 975.8823, 318.0, 969.0, 318.0, 969.0, 306.72726, 968.0, 306.0" coords2="968.0, 306.0, 863.55884, 440.0, 873.0, 440.0, 873.0, 450.0, 975.8823, 318.0, 969.0, 318.0, 969.0, 306.72726, 968.0, 306.0" shape="poly" alt="ИД_МО = ИД_МО:Association" id="areadiagram_map_YhS_KYGGAqAGD6lA_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1225.0, 600.0, 1225.0, 614.0, 1503.0, 614.0, 1503.0, 600.0" coords2="1225.0, 600.0, 1225.0, 614.0, 1503.0, 614.0, 1503.0, 600.0" shape="poly" alt="Код усдуги = Код услуги:Association" id="areadiagram_map_iG5AqYGGAqAGD6lq_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="641.0, 108.49565, 641.0, 116.0, 631.1429, 116.0, 630.0, 120.0, 969.0, 240.51157, 969.0, 234.0, 977.9286, 234.0, 979.0, 229.0, 641.0, 108.49565" coords2="641.0, 108.49565, 641.0, 116.0, 631.1429, 116.0, 630.0, 120.0, 969.0, 240.51157, 969.0, 234.0, 977.9286, 234.0, 979.0, 229.0, 641.0, 108.49565" shape="poly" alt="ИД_МО = ИД_МО:Association" id="areadiagram_map_NbNBqYGGAqAGD6pt_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="432.0, 282.0, 430.0, 282.76923, 430.0, 294.0, 422.77914, 294.0, 507.0, 450.0, 510.0, 448.84616, 510.0, 448.84616, 510.0, 440.0, 517.3006, 440.0, 432.0, 282.0" coords2="432.0, 282.0, 430.0, 282.76923, 430.0, 294.0, 422.77914, 294.0, 507.0, 450.0, 510.0, 448.84616, 510.0, 448.84616, 510.0, 440.0, 517.3006, 440.0, 432.0, 282.0" shape="poly" alt="ИД_ТАП = ИД_ТАП:Association" id="areadiagram_map_gZIxqYGGAqAGD64Z_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="244.0, 725.0, 244.0, 732.0, 254.0, 732.0, 254.0, 739.0, 510.0, 739.0, 510.0, 725.0" coords2="244.0, 725.0, 244.0, 732.0, 254.0, 732.0, 254.0, 739.0, 510.0, 739.0, 510.0, 725.0" shape="poly" alt="ИД_ТАП = ИД_ТАП
+ И Тип диагноза = "Основной":Association" id="areadiagram_map_yGWqJYGGAqAGDxWU_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="157.0, 604.0, 157.0, 607.0, 154.0, 607.0, 154.0, 621.0, 157.0, 621.0, 157.0, 732.0, 171.0, 732.0, 171.0, 621.0, 510.0, 621.0, 510.0, 607.0, 171.0, 607.0, 171.0, 604.0" coords2="157.0, 604.0, 157.0, 607.0, 154.0, 607.0, 154.0, 621.0, 157.0, 621.0, 157.0, 732.0, 171.0, 732.0, 171.0, 621.0, 510.0, 621.0, 510.0, 607.0, 171.0, 607.0, 171.0, 604.0" shape="poly" alt="ИД_ТАП = ИД_ТАП
+ И Тип диагноза = "Сопутсвующий":Association" id="areadiagram_map_vOlWJYGGAqAGDxX__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="577.0, 116.0, 577.0, 440.0, 591.0, 440.0, 591.0, 116.0" coords2="577.0, 116.0, 577.0, 440.0, 591.0, 440.0, 591.0, 116.0" shape="poly" alt="ИД_ВХ_Напр = ИД_ВХ_Напр:Association" id="areadiagram_map_uPROJYGGAqAGDxY5_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="430.0, 255.0, 430.0, 269.0, 969.0, 269.0, 969.0, 255.0" coords2="430.0, 255.0, 430.0, 269.0, 969.0, 269.0, 969.0, 255.0" shape="poly" alt="ИД_МО = ИД_МО:Association" id="areadiagram_map_dyhKpYGGAqAGDyKs_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1324.0, 146.32773, 1324.0, 156.0, 1313.404, 156.0, 1417.0, 242.18488, 1417.0, 249.0, 1425.1919, 249.0, 1430.0, 253.0, 1433.2727, 249.0, 1448.0, 249.0, 1448.0, 235.0, 1430.5858, 235.0, 1324.0, 146.32773" coords2="1324.0, 146.32773, 1324.0, 156.0, 1313.404, 156.0, 1417.0, 242.18488, 1417.0, 249.0, 1425.1919, 249.0, 1430.0, 253.0, 1433.2727, 249.0, 1448.0, 249.0, 1448.0, 235.0, 1430.5858, 235.0, 1324.0, 146.32773" shape="poly" alt=":Anchor" id="areadiagram_map_S3srVYGGAqAGD3GF_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1026.0, 142.0, 1026.0, 234.0, 1040.0, 234.0, 1040.0, 142.0" coords2="1026.0, 142.0, 1026.0, 234.0, 1040.0, 234.0, 1040.0, 142.0" shape="poly" alt="ИД_МО = ИД_МО:Association" id="areadiagram_map_6az2dYGGAqAGD6e9_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1125.0, 120.0, 1125.0, 134.0, 1224.0, 134.0, 1224.0, 120.0" coords2="1125.0, 120.0, 1125.0, 134.0, 1224.0, 134.0, 1224.0, 120.0" shape="poly" alt=":Anchor" id="areadiagram_map_KbIOdYGGAqAGD6fY_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="925.0, 120.22222, 925.0, 128.0, 913.7692, 128.0, 913.0, 130.0, 1039.0, 188.0, 1044.0, 175.0, 925.0, 120.22222" coords2="925.0, 120.22222, 925.0, 128.0, 913.7692, 128.0, 913.0, 130.0, 1039.0, 188.0, 1044.0, 175.0, 925.0, 120.22222" shape="poly" alt=":Anchor" id="areadiagram_map_lSJOdYGGAqAGD6f._default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1308.0, 453.0, 1308.0, 498.0, 1322.0, 498.0, 1322.0, 453.0" coords2="1308.0, 453.0, 1308.0, 498.0, 1322.0, 498.0, 1322.0, 453.0" shape="poly" alt=":Anchor" id="areadiagram_map_An2krYGGAqAGDwqd_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1342.0, 453.0, 1342.0, 543.0, 1356.0, 543.0, 1356.0, 453.0" coords2="1342.0, 453.0, 1342.0, 543.0, 1356.0, 543.0, 1356.0, 453.0" shape="poly" alt=":Anchor" id="areadiagram_map_1mukrYGGAqAGDwqh_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="527.0, 780.0, 527.0, 885.0, 541.0, 885.0, 541.0, 780.0" coords2="527.0, 780.0, 527.0, 885.0, 541.0, 885.0, 541.0, 780.0" shape="poly" alt="ИД_ТАП = ИД_ТАП:Association" id="areadiagram_map_xYISv4GGAqAGDxOg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1142.0, 703.0, 1142.0, 1045.0, 1149.0, 1045.0, 1149.0, 1055.0, 1156.0, 1055.0, 1156.0, 703.0" coords2="1142.0, 703.0, 1142.0, 1045.0, 1149.0, 1045.0, 1149.0, 1055.0, 1156.0, 1055.0, 1156.0, 703.0" shape="poly" alt="ИД_ОК_Услуги = 
+ИД_ОК_Услуги:Association" id="areadiagram_map_tmJuv4GGAqAGDxPj_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1087.0, 692.0, 1032.6443, 877.0, 1040.0, 877.0, 1040.0, 888.1429, 1040.0, 888.1429, 1044.0, 889.0, 1098.9326, 703.0, 1092.0, 703.0, 1092.0, 693.4286, 1087.0, 692.0" coords2="1087.0, 692.0, 1032.6443, 877.0, 1040.0, 877.0, 1040.0, 888.1429, 1040.0, 888.1429, 1044.0, 889.0, 1098.9326, 703.0, 1092.0, 703.0, 1092.0, 693.4286, 1087.0, 692.0" shape="poly" alt="ИД_ОК_Услуги = 
+ИД_ОК_Услуги:Association" id="areadiagram_map_YMIBhEGGAqAGDw83_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1225.0, 630.07825, 1225.0, 646.0034, 1503.0, 817.1531, 1503.0, 809.0, 1513.2727, 809.0, 1514.0, 808.0, 1225.0, 630.07825" coords2="1225.0, 630.07825, 1225.0, 646.0034, 1503.0, 817.1531, 1503.0, 809.0, 1513.2727, 809.0, 1514.0, 808.0, 1225.0, 630.07825" shape="poly" alt="ИД_ОК_Услуги =  
+ИД_ОК_Услуги:Association" id="areadiagram_map_IuR1pEGGAqAGDw5Q_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1199.0, 703.0, 1199.0, 1240.0, 1213.0, 1240.0, 1213.0, 703.0" coords2="1199.0, 703.0, 1199.0, 1240.0, 1213.0, 1240.0, 1213.0, 703.0" shape="poly" alt="ИД_ОК_Услуги = 
+ ИД_ОК_Услуги:Association" id="areadiagram_map_9_MDpEGGAqAGDxWp_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1228.0, 689.0, 1225.0, 689.8571, 1225.0, 703.0, 1216.9954, 703.0, 1344.0, 1127.0, 1349.0, 1125.9286, 1349.0, 1125.9286, 1349.0, 1117.0, 1355.9081, 1117.0, 1228.0, 689.0" coords2="1228.0, 689.0, 1225.0, 689.8571, 1225.0, 703.0, 1216.9954, 703.0, 1344.0, 1127.0, 1349.0, 1125.9286, 1349.0, 1125.9286, 1349.0, 1117.0, 1355.9081, 1117.0, 1228.0, 689.0" shape="poly" alt="ИД_ОК_Услуги =  
+ИД_ОК_Услуги:Association" id="areadiagram_map_Cm77pEGGAqAGDxZ1_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1791.0, 797.0, 1774.9436, 854.0, 1761.0, 854.0, 1761.0, 868.0, 1771.0, 868.0, 1785.0, 871.0, 1785.8572, 868.0, 1791.0, 868.0, 1791.0, 854.0, 1789.8572, 854.0, 1802.7142, 809.0, 1796.0, 809.0, 1796.0, 798.4286, 1791.0, 797.0" coords2="1791.0, 797.0, 1774.9436, 854.0, 1761.0, 854.0, 1761.0, 868.0, 1771.0, 868.0, 1785.0, 871.0, 1785.8572, 868.0, 1791.0, 868.0, 1791.0, 854.0, 1789.8572, 854.0, 1802.7142, 809.0, 1796.0, 809.0, 1796.0, 798.4286, 1791.0, 797.0" shape="poly" alt=":Anchor" id="areadiagram_map_K1o3pEGGAqAGDxbn_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="805.0, 780.0, 805.0, 1155.0, 819.0, 1155.0, 819.0, 780.0" coords2="805.0, 780.0, 805.0, 1155.0, 819.0, 1155.0, 819.0, 780.0" shape="poly" alt="ИД_ТАП =
+ ИД_ТАП:Association" id="areadiagram_map_aNEfpEGGAqAGDxc5_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="342, 1155, 858, 1389" coords2="342, 1155, 858, 1389" shape="rect" alt="ЗНО: Консилиум:Class" id="areadiagram_map_KkAfpEGGAqAGDxcc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1042; &amp;#1080;&amp;#1085;&amp;#1090;&amp;#1077;&amp;#1088;&amp;#1092;&amp;#1077;&amp;#1081;&amp;#1089;&amp;#1077; &amp;#1074;&amp;#1099;&amp;#1073;&amp;#1080;&amp;#1088;&amp;#1072;&amp;#1077;&amp;#1090;&amp;#1089;&amp;#1103;:
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      - &amp;#1055;&amp;#1086;&amp;#1083;&amp;#1085;&amp;#1086;&amp;#1077; &amp;#1090;&amp;#1086;&amp;#1088;&amp;#1075;&amp;#1086;&amp;#1074;&amp;#1086;&amp;#1077; &amp;#1085;&amp;#1072;&amp;#1080;&amp;#1084;&amp;#1077;&amp;#1085;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1077;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1048;&amp;#1051;&amp;#1048;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      - &amp;#1055;&amp;#1086;&amp;#1083;&amp;#1085;&amp;#1086;&amp;#1077; &amp;#1052;&amp;#1053;&amp;#1053; &amp;#1085;&amp;#1072;&amp;#1080;&amp;#1084;&amp;#1077;&amp;#1085;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1077;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="1796, 736, 2018, 809" coords2="1796, 736, 2018, 809" shape="rect" alt="В интерфейсе выбирается:
+- Полное торговое наименование
+ИЛИ
+- Полное МНН наименование:Note" id="areadiagram_map_3I0HpEGGAqAGDxah_default" href="NOTE_3I0HpEGGAqAGDxai.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="1349, 1117, 1482, 1247" coords2="1349, 1117, 1482, 1247" shape="rect" alt="Медицинские изделия:Class" id="areadiagram_map_wK87pEGGAqAGDxXu_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="884, 1240, 1236, 1414" coords2="884, 1240, 1236, 1414" shape="rect" alt="ЗНО: Услуги при лечении:Class" id="areadiagram_map_p2N9pEGGAqAGDxU5_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1503, 809, 1761, 1073" coords2="1503, 809, 1761, 1073" shape="rect" alt="Лекарственные средства (химиотрерапия):Class" id="areadiagram_map_PL41pEGGAqAGDw4s_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="845, 877, 1040, 993" coords2="845, 877, 1040, 993" shape="rect" alt="ЗНО: Противопоказания и отказы:Class" id="areadiagram_map_Y67.hEGGAqAGDw8K_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="913, 1045, 1149, 1189" coords2="913, 1045, 1149, 1189" shape="rect" alt="ЗНО: Исследования (Диагностика):Class" id="areadiagram_map_QpOuv4GGAqAGDxPP_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="444, 885, 715, 1089" coords2="444, 885, 715, 1089" shape="rect" alt="ЗНО: Сведения:Class" id="areadiagram_map_TXf0v4GGAqAGDw75_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1042; &amp;#1058;&amp;#1040;&amp;#1055; &amp;#1076;&amp;#1086;&amp;#1083;&amp;#1078;&amp;#1077;&amp;#1085; &amp;#1073;&amp;#1099;&amp;#1090;&amp;#1100; &amp;#1074;&amp;#1088;&amp;#1072;&amp;#1095; &amp;#1080;/&amp;#1080;&amp;#1083;&amp;#1080; &amp;#1084;&amp;#1077;&amp;#1076;&amp;#1089;&amp;#1077;&amp;#1089;&amp;#1090;&amp;#1088;&amp;#1072;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="1194, 407, 1369, 453" coords2="1194, 407, 1369, 453" shape="rect" alt="В ТАП должен быть врач и/или медсестра:Note" id="areadiagram_map_80akrYGGAqAGDwqH_default" href="NOTE_80akrYGGAqAGDwqI.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1045;&amp;#1089;&amp;#1083;&amp;#1080; 
+      &amp;#1091; &amp;#1052;&amp;#1054; &amp;#1085;&amp;#1077;&amp;#1090; &amp;#1092;&amp;#1080;&amp;#1083;&amp;#1080;&amp;#1072;&amp;#1083;&amp;#1072;, &amp;#1090;&amp;#1086; &amp;#1074;&amp;#1082;&amp;#1072;&amp;#1095;&amp;#1077;&amp;#1089;&amp;#1090;&amp;#1074;&amp;#1077; &amp;#1092;&amp;#1080;&amp;#1083;&amp;#1080;&amp;#1072;&amp;#1083;&amp;#1072; &amp;#1074;&amp;#1099;&amp;#1089;&amp;#1090;&amp;#1091;&amp;#1087;&amp;#1077;&amp;#1090; &amp;#1089;&amp;#1072;&amp;#1084;&amp;#1072; &amp;#1052;&amp;#1054;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="773, 88, 925, 128" coords2="773, 88, 925, 128" shape="rect" alt="Если у МО нет филиала, то вкачестве филиала выступет сама МО:Note" id="areadiagram_map_r0SOdYGGAqAGD6fq_default" href="NOTE_b0SOdYGGAqAGD6fs.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="969, 88, 1125, 142" coords2="969, 88, 1125, 142" shape="rect" alt="Медицинская организация:Class" id="areadiagram_map_qPD2dYGGAqAGD6eo_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="439, 2, 641, 116" coords2="439, 2, 641, 116" shape="rect" alt="Входящее направление:Class" id="areadiagram_map_.ihOJYGGAqAGDxYk_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="100, 732, 254, 844" coords2="100, 732, 254, 844" shape="rect" alt="Диагноз:Class" id="areadiagram_map_iF6qJYGGAqAGDxV._default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="188, 134, 430, 294" coords2="188, 134, 430, 294" shape="rect" alt="Исходяще направление:Class" id="areadiagram_map_g0fRqYGGAqAGD64A_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1503, 584, 1724, 668" coords2="1503, 584, 1724, 668" shape="rect" alt="Реестр услуг:Class" id="areadiagram_map_bkpAqYGGAqAGD6lW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="27, 483, 109, 523" coords2="27, 483, 109, 523" shape="rect" alt="Пациент:Class" id="areadiagram_map_OVgXKYGGAqAGD6XH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 364, 142, 537" coords2="2, 364, 142, 537" shape="rect" alt="ЕРЗЛ:Package" id="areadiagram_map_ej7XKYGGAqAGD6YB_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;9px&amp;quot; style=&amp;quot;color:#000000;font-size:9px;&amp;quot;&amp;gt;&amp;#1055;&amp;#1086;&amp;#1083;&amp;#1091;&amp;#1095;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; 
+      &amp;#1076;&amp;#1072;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1093; &amp;#1080;&amp;#1079; &amp;#1060;&amp;#1056;&amp;#1052;O&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="1224, 116, 1324, 156" coords2="1224, 116, 1324, 156" shape="rect" alt="Получение данных из ФРМO:Note" id="areadiagram_map_nBsbKYGGAqAGD5O8_default" href="NOTE_XBsbKYGGAqAGD5O_.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="969, 234, 1125, 318" coords2="969, 234, 1125, 318" shape="rect" alt="Филиал медицинской организация:Class" id="areadiagram_map_hoZzKYGGAqAGD5MV_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1092, 575, 1225, 703" coords2="1092, 575, 1225, 703" shape="rect" alt="Оказанные услуг:Class" id="areadiagram_map_Nq_jKYGGAqAGD4_X_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;font face=&amp;quot;Dialog&amp;quot; size=&amp;quot;11px&amp;quot; style=&amp;quot;color:#000000;font-size:11px;&amp;quot;&amp;gt;&amp;#1055;&amp;#1086;&amp;#1083;&amp;#1091;&amp;#1095;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; 
+      &amp;#1076;&amp;#1072;&amp;#1085;&amp;#1085;&amp;#1099;&amp;#1093; &amp;#1080;&amp;#1079; &amp;#1060;&amp;#1056;&amp;#1052;&amp;#1056;&amp;lt;/font&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="1841, 145, 1941, 200" coords2="1841, 145, 1941, 200" shape="rect" alt="Получение данных из ФРМР:Note" id="areadiagram_map_pkzhKYGGAqAGD3G8_default" href="NOTE_pkzhKYGGAqAGD3G9.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="1723, 257, 1830, 323.0" coords2="1723, 257, 1830, 323.0" shape="rect" alt="Медработник:Class" id="areadiagram_map_WhJhKYGGAqAGD3DB_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1723, 257, 1830, 311',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('OCUnit_yzQfUYGGAqAGDxTq.html/&#x41c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x438;&#x439; &#x440;&#x430;&#x431;&#x43e;&#x442;&#x43d;&#x438;&#x43a;/OCUnit'),new Array(),new Array('OrganizationChart_olffNoGGAqAGihlF.html?shapeid=yzQfUYGGAqAGDxTp/&#x41c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x438;&#x439; &#x440;&#x430;&#x431;&#x43e;&#x442;&#x43d;&#x438;&#x43a;/OCUnit')),showReferenceIcon('diagram', '1723, 257, 1830, 311'),hideSubdiagramIcon(),showTransitorIcon('diagram', '1723, 257, 1830, 311')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1469, 472, 1630, 556" coords2="1469, 472, 1630, 556" shape="rect" alt="Занятость медработника:Class" id="areadiagram_map_phahKYGGAqAGD3CK_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1448, 219, 1539, 289" coords2="1448, 219, 1539, 289" shape="rect" alt="Отделение МО:Class" id="areadiagram_map_O2otCYGGAqAGDzaY_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="510, 440, 873, 780" coords2="510, 440, 873, 780" shape="rect" alt="i_ТАП:Class" id="areadiagram_map_5x1xCYGGAqAGDzVp_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_xPZPpEGGAqAGDxb4.html" class="ItemLink">ЗНО: Консилиум : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_3I0HpEGGAqAGDxai.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1042; &#1080;&#1085;&#1090;&#1077;&#1088;&#1092;&#1077;&#1081;&#1089;&#1077; &#1074;&#1099;&#1073;&#1080;&#1088;&#1072;&#1077;&#1090;&#1089;&#1103;:
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      - &#1055;&#1086;&#1083;&#1085;&#1086;&#1077; &#1090;&#1086;&#1088;&#1075;&#1086;&#1074;&#1086;&#1077; &#1085;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1048;&#1051;&#1048;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      - &#1055;&#1086;&#1083;&#1085;&#1086;&#1077; &#1052;&#1053;&#1053; &#1085;&#1072;&#1080;&#1084;&#1077;&#1085;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_nxGjpEGGAqAGDxXd.html" class="ItemLink">Медицинские изделия : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_4B_tpEGGAqAGDxUE.html" class="ItemLink">ЗНО: Услуги при лечении : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_JZpRhEGGAqAGDxXH.html" class="ItemLink">Лекарственные средства (химиотрерапия) : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_cLvehEGGAqAGDw7i.html" class="ItemLink">ЗНО: Противопоказания и отказы : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_8SHKv4GGAqAGDxO_.html" class="ItemLink">ЗНО: Исследования (Диагностика) : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_8P7Uv4GGAqAGDw7m.html" class="ItemLink">ЗНО: Сведения : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_80akrYGGAqAGDwqI.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1042; &#1058;&#1040;&#1055; &#1076;&#1086;&#1083;&#1078;&#1077;&#1085; &#1073;&#1099;&#1090;&#1100; &#1074;&#1088;&#1072;&#1095; &#1080;/&#1080;&#1083;&#1080; &#1084;&#1077;&#1076;&#1089;&#1077;&#1089;&#1090;&#1088;&#1072;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_b0SOdYGGAqAGD6fs.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1045;&#1089;&#1083;&#1080; 
+      &#1091; &#1052;&#1054; &#1085;&#1077;&#1090; &#1092;&#1080;&#1083;&#1080;&#1072;&#1083;&#1072;, &#1090;&#1086; &#1074;&#1082;&#1072;&#1095;&#1077;&#1089;&#1090;&#1074;&#1077; &#1092;&#1080;&#1083;&#1080;&#1072;&#1083;&#1072; &#1074;&#1099;&#1089;&#1090;&#1091;&#1087;&#1077;&#1090; &#1089;&#1072;&#1084;&#1072; &#1052;&#1054;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_MOvmdYGGAqAGD6dK.html" class="ItemLink">Медицинская организация : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_8k2OJYGGAqAGDxYd.html" class="ItemLink">Входящее направление : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_veKqJYGGAqAGDxV1.html" class="ItemLink">Диагноз : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_p92RqYGGAqAGD633.html" class="ItemLink">Исходяще направление : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_crK3KYGGAqAGD6ZA.html" class="ItemLink">Реестр услуг : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_vqHnKYGGAqAGD6XA.html" class="ItemLink">Пациент : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Package.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Package.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Package__j7XKYGGAqAGD6YC.html" class="ItemLink">ЕРЗЛ : Package</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_XBsbKYGGAqAGD5O_.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="9px" style="color:#000000;font-size:9px;">&#1055;&#1086;&#1083;&#1091;&#1095;&#1077;&#1085;&#1080;&#1077; 
+      &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1080;&#1079; &#1060;&#1056;&#1052;O</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_k8RzKYGGAqAGD5MO.html" class="ItemLink">Филиал медицинской организация : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_ffegCYGGAqAGDxAd.html" class="ItemLink">Оказанные услуг : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_pkzhKYGGAqAGD3G9.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <font face="Dialog" size="11px" style="color:#000000;font-size:11px;">&#1055;&#1086;&#1083;&#1091;&#1095;&#1077;&#1085;&#1080;&#1077; 
+      &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1080;&#1079; &#1060;&#1056;&#1052;&#1056;</font>
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_jHfB0YGGAqAGDxwH.html" class="ItemLink">Медработник : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_R2XtCYGGAqAGDza9.html" class="ItemLink">Занятость медработника : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_yg3NCYGGAqAGDzaE.html" class="ItemLink">Отделение МО : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Class.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Class.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Class_hghxCYGGAqAGDzVi.html" class="ItemLink">i_ТАП : Class</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

@@ -1,0 +1,758 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Sequence Diagram - МПИ Взаимодействие МПИ(ЕРЗЛ) и ЕРН посредством СМЭВ </title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p>
+<a href="ProcessMapDiagram_lzcctoGGAqAGiqOV.html" class="PageParentTitle">01.05. МПИ
+Получение сведений, содержащихся в ЕРН  : Process</a>	</p>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Sequence Diagram - МПИ Взаимодействие МПИ(ЕРЗЛ) и ЕРН посредством СМЭВ 		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/Q4pnE4GGAqAGGW.1', '&#x41c;&#x41f;&#x418; &#x412;&#x437;&#x430;&#x438;&#x43c;&#x43e;&#x434;&#x435;&#x439;&#x441;&#x442;&#x432;&#x438;&#x435; &#x41c;&#x41f;&#x418;(&#x415;&#x420;&#x417;&#x41b;) &#x438; &#x415;&#x420;&#x41d; &#x43f;&#x43e;&#x441;&#x440;&#x435;&#x434;&#x441;&#x442;&#x432;&#x43e;&#x43c; &#x421;&#x41c;&#x42d;&#x412; \n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/Q4pnE4GGAqAGGW.1', '&#x41c;&#x41f;&#x418; &#x412;&#x437;&#x430;&#x438;&#x43c;&#x43e;&#x434;&#x435;&#x439;&#x441;&#x442;&#x432;&#x438;&#x435; &#x41c;&#x41f;&#x418;(&#x415;&#x420;&#x417;&#x41b;) &#x438; &#x415;&#x420;&#x41d; &#x43f;&#x43e;&#x441;&#x440;&#x435;&#x434;&#x441;&#x442;&#x432;&#x43e;&#x43c; &#x421;&#x41c;&#x42d;&#x412; ', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+<option value="shape|834.0|565.0|176.0|158.0|NOTE_LcuBk4GGAqAGGdU6.html|NOTE_LcuBk4GGAqAGGdU6.html|VcuBk4GGAqAGGdUo" id="optionVcuBk4GGAqAGGdUo">Unnamed Note : Note</option>
+<option value="shape|454.0|743.0|287.0|123.0|NOTE_t_W_k4GGAqAGGcN4.html|NOTE_t_W_k4GGAqAGGcN4.html|t_W.k4GGAqAGGcN3" id="optiont_W.k4GGAqAGGcN3">Unnamed Note : Note</option>
+<option value="shape|462.0|579.0|207.0|86.0|NOTE_1PFmk4GGAqAGGcAh.html|NOTE_1PFmk4GGAqAGGcAh.html|xPFmk4GGAqAGGcAP" id="optionxPFmk4GGAqAGGcAP">Unnamed Note : Note</option>
+<option value="shape|123.0|349.0|221.0|118.0|NOTE_yI1Ak4GGAqAGGZGK.html|NOTE_yI1Ak4GGAqAGGZGK.html|yI1Ak4GGAqAGGZGJ" id="optionyI1Ak4GGAqAGGZGJ">Unnamed Note : Note</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_5.png" usemap="#diagram_map" class="Image" width="1040" height="1033"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="42.0, 328.0, 42.0, 342.0, 409.0, 342.0, 409.0, 328.0" coords2="42.0, 328.0, 42.0, 342.0, 409.0, 342.0, 409.0, 328.0" shape="poly" alt="3: Сведения о документе об учете
+  в едином регистре застрахованных лиц 
+:Message" id="areadiagram_map_wg6XE4GGAqAGGXAb_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="75.0, 42.0, 75.0, 45.0, 42.0, 45.0, 42.0, 59.0, 75.0, 59.0, 75.0, 70.0, 42.0, 70.0, 42.0, 84.0, 75.0, 84.0, 75.0, 87.0, 89.0, 87.0, 89.0, 84.0, 92.0, 84.0, 92.0, 70.0, 89.0, 70.0, 89.0, 59.0, 92.0, 59.0, 92.0, 45.0, 89.0, 45.0, 89.0, 42.0" coords2="75.0, 42.0, 75.0, 45.0, 42.0, 45.0, 42.0, 59.0, 75.0, 59.0, 75.0, 70.0, 42.0, 70.0, 42.0, 84.0, 75.0, 84.0, 75.0, 87.0, 89.0, 87.0, 89.0, 84.0, 92.0, 84.0, 92.0, 70.0, 89.0, 70.0, 89.0, 59.0, 92.0, 59.0, 92.0, 45.0, 89.0, 45.0, 89.0, 42.0" shape="poly" alt="1: Обработка текущего события в МПИ:Message" id="areadiagram_map_AYn3E4GGAqAGGYzG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="76.0, 149.0, 76.0, 152.0, 42.0, 152.0, 42.0, 166.0, 76.0, 166.0, 76.0, 190.0, 42.0, 190.0, 42.0, 204.0, 76.0, 204.0, 76.0, 207.0, 90.0, 207.0, 90.0, 204.0, 93.0, 204.0, 93.0, 190.0, 90.0, 190.0, 90.0, 166.0, 93.0, 166.0, 93.0, 152.0, 90.0, 152.0, 90.0, 149.0" coords2="76.0, 149.0, 76.0, 152.0, 42.0, 152.0, 42.0, 166.0, 76.0, 166.0, 76.0, 190.0, 42.0, 190.0, 42.0, 204.0, 76.0, 204.0, 76.0, 207.0, 90.0, 207.0, 90.0, 204.0, 93.0, 204.0, 93.0, 190.0, 90.0, 190.0, 90.0, 166.0, 93.0, 166.0, 93.0, 152.0, 90.0, 152.0, 90.0, 149.0" shape="poly" alt="2: Выполнение внутренней процедуры :Message" id="areadiagram_map_CoZPE4GGAqAGGZAo_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="42.0, 488.0, 42.0, 502.0, 409.0, 502.0, 409.0, 488.0" coords2="42.0, 488.0, 42.0, 502.0, 409.0, 502.0, 409.0, 488.0" shape="poly" alt="3.2: Сообщение об успешной доставке документа в СМЭВ:Message" id="areadiagram_map_KCQ_E4GGAqAGGZEb_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="397.0, 458.0, 397.0, 472.0, 768.0, 472.0, 768.0, 458.0" coords2="397.0, 458.0, 397.0, 472.0, 768.0, 472.0, 768.0, 458.0" shape="poly" alt="3.1: Сведения о документе об учете
+  в едином регистре застрахованных лиц 
+:Message" id="areadiagram_map_BmR_E4GGAqAGGZEn_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="790.0, 465.0, 790.0, 468.0, 756.0, 468.0, 756.0, 482.0, 790.0, 482.0, 790.0, 511.0, 756.0, 511.0, 756.0, 525.0, 790.0, 525.0, 790.0, 528.0, 804.0, 528.0, 804.0, 525.0, 807.0, 525.0, 807.0, 511.0, 804.0, 511.0, 804.0, 482.0, 807.0, 482.0, 807.0, 468.0, 804.0, 468.0, 804.0, 465.0" coords2="790.0, 465.0, 790.0, 468.0, 756.0, 468.0, 756.0, 482.0, 790.0, 482.0, 790.0, 511.0, 756.0, 511.0, 756.0, 525.0, 790.0, 525.0, 790.0, 528.0, 804.0, 528.0, 804.0, 525.0, 807.0, 525.0, 807.0, 511.0, 804.0, 511.0, 804.0, 482.0, 807.0, 482.0, 807.0, 468.0, 804.0, 468.0, 804.0, 465.0" shape="poly" alt="3.1.1: Обработка полученного сообщения:Message" id="areadiagram_map_ZNSAk4GGAqAGGZFg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="59.0, 326.0, 57.0, 340.0, 123.0, 355.36987, 123.0, 355.36987, 123.0, 349.0, 131.14285, 349.0, 132.0, 343.0, 59.0, 326.0" coords2="59.0, 326.0, 57.0, 340.0, 123.0, 355.36987, 123.0, 355.36987, 123.0, 349.0, 131.14285, 349.0, 132.0, 343.0, 59.0, 326.0" shape="poly" alt=":Anchor" id="areadiagram_map_vI1Ak4GGAqAGGZGQ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="397.0, 553.0, 397.0, 567.0, 768.0, 567.0, 768.0, 553.0" coords2="397.0, 553.0, 397.0, 567.0, 768.0, 567.0, 768.0, 553.0" shape="poly" alt="3.1.2: Сообщение о результатах обработки сообщения:Message" id="areadiagram_map_t4jgk4GGAqAGGZHU_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="75.0, 518.0, 75.0, 521.0, 42.0, 521.0, 42.0, 535.0, 75.0, 535.0, 75.0, 541.0, 42.0, 541.0, 42.0, 555.0, 75.0, 555.0, 75.0, 558.0, 89.0, 558.0, 89.0, 555.0, 92.0, 555.0, 92.0, 541.0, 89.0, 541.0, 89.0, 535.0, 92.0, 535.0, 92.0, 521.0, 89.0, 521.0, 89.0, 518.0" coords2="75.0, 518.0, 75.0, 521.0, 42.0, 521.0, 42.0, 535.0, 75.0, 535.0, 75.0, 541.0, 42.0, 541.0, 42.0, 555.0, 75.0, 555.0, 75.0, 558.0, 89.0, 558.0, 89.0, 555.0, 92.0, 555.0, 92.0, 541.0, 89.0, 541.0, 89.0, 535.0, 92.0, 535.0, 92.0, 521.0, 89.0, 521.0, 89.0, 518.0" shape="poly" alt="3.2.1: Ожидание сообщения о результатах 
+обработки сообщеня:Message" id="areadiagram_map_DDkQk4GGAqAGGZHk_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="42.0, 656.0, 42.0, 670.0, 409.0, 670.0, 409.0, 656.0" coords2="42.0, 656.0, 42.0, 670.0, 409.0, 670.0, 409.0, 656.0" shape="poly" alt="3.1.2.1: Сведения о ЗЛ учтены в ЕРН:Message" id="areadiagram_map_tB9kk4GGAqAGGZIw_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="42.0, 791.0, 42.0, 805.0, 409.0, 805.0, 409.0, 791.0" coords2="42.0, 791.0, 42.0, 805.0, 409.0, 805.0, 409.0, 791.0" shape="poly" alt="3.1.2.2: Ошибка Сведения о ЗЛ требуют уточнения:Message" id="areadiagram_map_mUgUk4GGAqAGGZJl_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="75.0, 799.0, 75.0, 802.0, 42.0, 802.0, 42.0, 816.0, 75.0, 816.0, 75.0, 822.0, 42.0, 822.0, 42.0, 836.0, 75.0, 836.0, 75.0, 839.0, 89.0, 839.0, 89.0, 836.0, 92.0, 836.0, 92.0, 822.0, 89.0, 822.0, 89.0, 816.0, 92.0, 816.0, 92.0, 802.0, 89.0, 802.0, 89.0, 799.0" coords2="75.0, 799.0, 75.0, 802.0, 42.0, 802.0, 42.0, 816.0, 75.0, 816.0, 75.0, 822.0, 42.0, 822.0, 42.0, 836.0, 75.0, 836.0, 75.0, 839.0, 89.0, 839.0, 89.0, 836.0, 92.0, 836.0, 92.0, 822.0, 89.0, 822.0, 89.0, 816.0, 92.0, 816.0, 92.0, 802.0, 89.0, 802.0, 89.0, 799.0" shape="poly" alt="3.1.2.2.1: Обработка ошибки:Message" id="areadiagram_map_qAR0k4GGAqAGGZLu_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="42.0, 853.0, 42.0, 867.0, 409.0, 867.0, 409.0, 853.0" coords2="42.0, 853.0, 42.0, 867.0, 409.0, 867.0, 409.0, 853.0" shape="poly" alt="3.1.2.2.2: Сообщение о скорректированной ошибке:Message" id="areadiagram_map_Tlt0k4GGAqAGGZMB_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="75.0, 879.0, 75.0, 882.0, 42.0, 882.0, 42.0, 896.0, 75.0, 896.0, 75.0, 902.0, 42.0, 902.0, 42.0, 916.0, 75.0, 916.0, 75.0, 919.0, 89.0, 919.0, 89.0, 916.0, 92.0, 916.0, 92.0, 902.0, 89.0, 902.0, 89.0, 896.0, 92.0, 896.0, 92.0, 882.0, 89.0, 882.0, 89.0, 879.0" coords2="75.0, 879.0, 75.0, 882.0, 42.0, 882.0, 42.0, 896.0, 75.0, 896.0, 75.0, 902.0, 42.0, 902.0, 42.0, 916.0, 75.0, 916.0, 75.0, 919.0, 89.0, 919.0, 89.0, 916.0, 92.0, 916.0, 92.0, 902.0, 89.0, 902.0, 89.0, 896.0, 92.0, 896.0, 92.0, 882.0, 89.0, 882.0, 89.0, 879.0" shape="poly" alt="3.1.2.2.3: Ожидание результатов 
+обработки ошибки от ЕРН:Message" id="areadiagram_map_UngMk4GGAqAGGZMd_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="397.0, 896.0, 397.0, 910.0, 768.0, 910.0, 768.0, 896.0" coords2="397.0, 896.0, 397.0, 910.0, 768.0, 910.0, 768.0, 896.0" shape="poly" alt="3.1.2.2.2.1: Сообщение о корректировке ошибки:Message" id="areadiagram_map_zOKMk4GGAqAGGZMx_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="397.0, 943.0, 397.0, 957.0, 768.0, 957.0, 768.0, 943.0" coords2="397.0, 943.0, 397.0, 957.0, 768.0, 957.0, 768.0, 943.0" shape="poly" alt="3.1.2.2.2.1.1: Результат обработки ошибки:Message" id="areadiagram_map_sVxMk4GGAqAGGZNP_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="42.0, 951.0, 42.0, 965.0, 409.0, 965.0, 409.0, 951.0" coords2="42.0, 951.0, 42.0, 965.0, 409.0, 965.0, 409.0, 951.0" shape="poly" alt="3.1.2.2.2.1.1.1: Результат обработки ошибки:Message" id="areadiagram_map_kaUsk4GGAqAGGZN__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="738.0, 550.0, 658.0, 574.0, 659.4286, 579.0, 669.0, 579.0, 669.0, 585.8734, 741.0, 564.0, 738.0, 550.0" coords2="738.0, 550.0, 658.0, 574.0, 659.4286, 579.0, 669.0, 579.0, 669.0, 585.8734, 741.0, 564.0, 738.0, 550.0" shape="poly" alt=":Anchor" id="areadiagram_map_3vFmk4GGAqAGGcAn_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="455.0, 610.0, 455.0, 614.6993, 326.0, 658.0, 330.0, 672.0, 455.0, 629.74646, 455.0, 629.74646, 455.0, 631.0, 462.0, 631.0, 462.0, 610.0" coords2="455.0, 610.0, 455.0, 614.6993, 326.0, 658.0, 330.0, 672.0, 455.0, 629.74646, 455.0, 629.74646, 455.0, 631.0, 462.0, 631.0, 462.0, 610.0" shape="poly" alt=":Anchor" id="areadiagram_map_747mk4GGAqAGGcNf_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="454.0, 758.4434, 355.0, 793.0, 359.0, 807.0, 454.0, 773.5238, 454.0, 758.4434" coords2="454.0, 758.4434, 355.0, 793.0, 359.0, 807.0, 454.0, 773.5238, 454.0, 758.4434" shape="poly" alt=":Anchor" id="areadiagram_map_VA2.k4GGAqAGGcN._default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1077;&amp;#1088;&amp;#1077;&amp;#1095;&amp;#1077;&amp;#1085;&amp;#1100; &amp;#1080;&amp;#1085;&amp;#1094;&amp;#1080;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1090;&amp;#1086;&amp;#1074;, &amp;#1076;&amp;#1083;&amp;#1103; &amp;#1082;&amp;#1086;&amp;#1090;&amp;#1086;&amp;#1088;&amp;#1099;&amp;#1093; &amp;#1086;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1073;&amp;#1086;&amp;#1090;&amp;#1082;&amp;#1072; &amp;#1074; &amp;#1058;&amp;#1060;&amp;#1054;&amp;#1052;&amp;#1057; &amp;#1085;&amp;#1077; &amp;#1090;&amp;#1088;&amp;#1077;&amp;#1073;&amp;#1091;&amp;#1077;&amp;#1090;&amp;#1089;&amp;#1103;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      21365
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      21222
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      21223
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      21366
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="834, 565, 1010, 723" coords2="834, 565, 1010, 723" shape="rect" alt="Перечень инцидентов, для которых обработка в ТФОМС не требуется
+21365
+21222
+21223
+21366:Note" id="areadiagram_map_VcuBk4GGAqAGGdUo_default" href="NOTE_LcuBk4GGAqAGGdU6.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1054;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1073;&amp;#1086;&amp;#1090;&amp;#1082;&amp;#1072; &amp;#1080;&amp;#1085;&amp;#1094;&amp;#1080;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1090;&amp;#1086;&amp;#1074;:
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      22027 - &amp;nbsp;&amp;#1055;&amp;#1077;&amp;#1088;&amp;#1077;&amp;#1095;&amp;#1077;&amp;#1085;&amp;#1100; &amp;nbsp;&amp;#1087;&amp;#1077;&amp;#1088;&amp;#1089;&amp;#1086;&amp;#1085;, &amp;#1080;&amp;#1084;&amp;#1077;&amp;#1102;&amp;#1097;&amp;#1080;&amp;#1093; &amp;#1082;&amp;#1086;&amp;#1083;&amp;#1083;&amp;#1080;&amp;#1079;&amp;#1080;&amp;#1080;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      21219
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      21220
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      21221
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      20254 - &amp;#1054;&amp;#1050;&amp;#1040;&amp;#1058;&amp;#1054;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="454, 743, 741, 866" coords2="454, 743, 741, 866" shape="rect" alt="Обработка инцидентов:
+22027 -  Перечень  персон, имеющих коллизии
+21219
+21220
+21221
+20254 - ОКАТО:Note" id="areadiagram_map_t_W.k4GGAqAGGcN3_default" href="NOTE_t_W_k4GGAqAGGcN4.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1077;&amp;#1088;&amp;#1077;&amp;#1076;&amp;#1072;&amp;#1095;&amp;#1072; &amp;#1080;&amp;#1076;&amp;#1077;&amp;#1085;&amp;#1090;&amp;#1080;&amp;#1092;&amp;#1080;&amp;#1082;&amp;#1072;&amp;#1090;&amp;#1086;&amp;#1088;&amp;#1072; &amp;#1045;&amp;#1056;&amp;#1053;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="462, 579, 669, 665" coords2="462, 579, 669, 665" shape="rect" alt="Передача идентификатора ЕРН:Note" id="areadiagram_map_xPFmk4GGAqAGGcAP_default" href="NOTE_1PFmk4GGAqAGGcAh.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="11, 780, 786, 992" coords2="11, 780, 786, 992" shape="rect" alt="Operand8:Interaction Operand" id="areadiagram_map_CsA0k4GGAqAGGZKu_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="11, 729, 786, 780" coords2="11, 729, 786, 780" shape="rect" alt="Operand7:Interaction Operand" id="areadiagram_map_7MA0k4GGAqAGGZKo_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="11, 711, 786, 992" coords2="11, 711, 786, 992" shape="rect" alt="Сообщение требует уточнения:Combined Fragment" id="areadiagram_map_uMA0k4GGAqAGGZKk_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 110, 313, 160" coords2="2, 110, 313, 160" shape="rect" alt="Operand:Interaction Operand" id="areadiagram_map_1hIPE4GGAqAGGY_g_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 160, 313, 210" coords2="2, 160, 313, 210" shape="rect" alt="Operand2:Interaction Operand" id="areadiagram_map__hIPE4GGAqAGGY_n_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 239, 804, 289" coords2="2, 239, 804, 289" shape="rect" alt="Operand3:Interaction Operand" id="areadiagram_map_qEcvE4GGAqAGGZBs_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1058;&amp;#1080;&amp;#1087; &amp;#1076;&amp;#1086;&amp;#1082;&amp;#1091;&amp;#1084;&amp;#1077;&amp;#1085;&amp;#1090;&amp;#1072;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      1 - &amp;#1087;&amp;#1086;&amp;#1089;&amp;#1090;&amp;#1072;&amp;#1085;&amp;#1086;&amp;#1074;&amp;#1082;&amp;#1072; &amp;#1085;&amp;#1072; &amp;#1091;&amp;#1095;&amp;#1077;&amp;#1090;;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      2 - &amp;#1089;&amp;#1085;&amp;#1103;&amp;#1090;&amp;#1080;&amp;#1077; &amp;#1089; &amp;#1091;&amp;#1095;&amp;#1077;&amp;#1090;&amp;#1072;;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      3 - &amp;#1074;&amp;#1086;&amp;#1089;&amp;#1089;&amp;#1090;&amp;#1072;&amp;#1085;&amp;#1086;&amp;#1074;&amp;#1083;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1085;&amp;#1072; &amp;#1091;&amp;#1095;&amp;#1077;&amp;#1090;&amp;#1077;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      4- &amp;#1072;&amp;#1085;&amp;#1085;&amp;#1091;&amp;#1083;&amp;#1080;&amp;#1088;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1077;;:
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      5 - &amp;#1089;&amp;#1083;&amp;#1080;&amp;#1103;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1087;&amp;#1077;&amp;#1088;&amp;#1089;&amp;#1086;&amp;#1085;;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      6- &amp;#1088;&amp;#1072;&amp;#1079;&amp;#1076;&amp;#1077;&amp;#1083;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1087;&amp;#1077;&amp;#1088;&amp;#1089;&amp;#1086;&amp;#1085;.
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="123, 349, 344, 467" coords2="123, 349, 344, 467" shape="rect" alt="Тип документа
+1 - постановка на учет;
+2 - снятие с учета;
+3 - восстановление на учете
+4- аннулирование;:
+5 - слияние персон;
+6- разделение персон.:Note" id="areadiagram_map_yI1Ak4GGAqAGGZGJ_default" href="NOTE_yI1Ak4GGAqAGGZGK.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="11, 595, 786, 645" coords2="11, 595, 786, 645" shape="rect" alt="Operand5:Interaction Operand" id="areadiagram_map_cM0kk4GGAqAGGZIK_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="11, 645, 786, 711" coords2="11, 645, 786, 711" shape="rect" alt="Operand6:Interaction Operand" id="areadiagram_map_XM0kk4GGAqAGGZIQ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="11, 578, 786, 712" coords2="11, 578, 786, 712" shape="rect" alt="Сообщение обработано успешно:Combined Fragment" id="areadiagram_map_100kk4GGAqAGGZIG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 289, 804, 1029" coords2="2, 289, 804, 1029" shape="rect" alt="Operand4:Interaction Operand" id="areadiagram_map_JEcvE4GGAqAGGZBy_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="44, 663, 52, 971" coords2="44, 663, 52, 971" shape="rect" alt="Activation:Activation" id="areadiagram_map_ER9kk4GGAqAGGZI2_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="758, 460, 766, 978" coords2="758, 460, 766, 978" shape="rect" alt="Activation:Activation" id="areadiagram_map_UmR_E4GGAqAGGZEi_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 220, 804, 1028" coords2="2, 220, 804, 1028" shape="rect" alt="Требуется передача сообщения в ЕРН:Combined Fragment" id="areadiagram_map_oEcvE4GGAqAGGZBo_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 92, 313, 210" coords2="2, 92, 313, 210" shape="rect" alt="Передача сообщения в ЕРН не требуется:Combined Fragment" id="areadiagram_map_yhIPE4GGAqAGGY_b_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="44, 47, 52, 218" coords2="44, 47, 52, 218" shape="rect" alt="Activation:Activation" id="areadiagram_map_Ton3E4GGAqAGGYzB_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="399, 330, 407, 971" coords2="399, 330, 407, 971" shape="rect" alt="Activation:Activation" id="areadiagram_map_LA6XE4GGAqAGGXAW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="44, 318, 52, 560" coords2="44, 318, 52, 560" shape="rect" alt="Activation:Activation" id="areadiagram_map_FA6XE4GGAqAGGXAQ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="727, 2, 797, 37" coords2="727, 2, 797, 37" shape="rect" alt="ЕРН:Lifeline" id="areadiagram_map_PVkXE4GGAqAGGW_t_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="368, 2, 438, 37" coords2="368, 2, 438, 37" shape="rect" alt="СМЭВ:Lifeline" id="areadiagram_map_2tYXE4GGAqAGGW_j_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 2, 95, 37" coords2="2, 2, 95, 37" shape="rect" alt="МПИ(ЕРЗЛ):Lifeline" id="areadiagram_map_3gLnE4GGAqAGGW_N_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_LcuBk4GGAqAGGdU6.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1077;&#1088;&#1077;&#1095;&#1077;&#1085;&#1100; &#1080;&#1085;&#1094;&#1080;&#1076;&#1077;&#1085;&#1090;&#1086;&#1074;, &#1076;&#1083;&#1103; &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1093; &#1086;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1072; &#1074; &#1058;&#1060;&#1054;&#1052;&#1057; &#1085;&#1077; &#1090;&#1088;&#1077;&#1073;&#1091;&#1077;&#1090;&#1089;&#1103;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      21365
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      21222
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      21223
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      21366
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_t_W_k4GGAqAGGcN4.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1054;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1072; &#1080;&#1085;&#1094;&#1080;&#1076;&#1077;&#1085;&#1090;&#1086;&#1074;:
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      22027 - &nbsp;&#1055;&#1077;&#1088;&#1077;&#1095;&#1077;&#1085;&#1100; &nbsp;&#1087;&#1077;&#1088;&#1089;&#1086;&#1085;, &#1080;&#1084;&#1077;&#1102;&#1097;&#1080;&#1093; &#1082;&#1086;&#1083;&#1083;&#1080;&#1079;&#1080;&#1080;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      21219
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      21220
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      21221
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      20254 - &#1054;&#1050;&#1040;&#1058;&#1054;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_1PFmk4GGAqAGGcAh.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1077;&#1088;&#1077;&#1076;&#1072;&#1095;&#1072; &#1080;&#1076;&#1077;&#1085;&#1090;&#1080;&#1092;&#1080;&#1082;&#1072;&#1090;&#1086;&#1088;&#1072; &#1045;&#1056;&#1053;
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InteractionOperand.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InteractionOperand.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionOperand_CsA0k4GGAqAGGZKv.html" class="ItemLink">Operand8 : Interaction Operand</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InteractionOperand.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InteractionOperand.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionOperand_7MA0k4GGAqAGGZKp.html" class="ItemLink">Operand7 : Interaction Operand</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/CombinedFragmentAlt.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/CombinedFragmentAlt.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="CombinedFragment_uMA0k4GGAqAGGZKl.html" class="ItemLink">Сообщение требует уточнения : Combined Fragment</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InteractionOperand.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InteractionOperand.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionOperand_NhIPE4GGAqAGGY_h.html" class="ItemLink">Operand : Interaction Operand</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InteractionOperand.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InteractionOperand.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionOperand__hIPE4GGAqAGGY_o.html" class="ItemLink">Operand2 : Interaction Operand</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InteractionOperand.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InteractionOperand.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionOperand_qEcvE4GGAqAGGZBt.html" class="ItemLink">Operand3 : Interaction Operand</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Note.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Note.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="NOTE_yI1Ak4GGAqAGGZGK.html" class="ItemLink">N/A : Note</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1058;&#1080;&#1087; &#1076;&#1086;&#1082;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      1 - &#1087;&#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072; &#1085;&#1072; &#1091;&#1095;&#1077;&#1090;;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      2 - &#1089;&#1085;&#1103;&#1090;&#1080;&#1077; &#1089; &#1091;&#1095;&#1077;&#1090;&#1072;;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      3 - &#1074;&#1086;&#1089;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#1085;&#1072; &#1091;&#1095;&#1077;&#1090;&#1077;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      4- &#1072;&#1085;&#1085;&#1091;&#1083;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;;:
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      5 - &#1089;&#1083;&#1080;&#1103;&#1085;&#1080;&#1077; &#1087;&#1077;&#1088;&#1089;&#1086;&#1085;;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      6- &#1088;&#1072;&#1079;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077; &#1087;&#1077;&#1088;&#1089;&#1086;&#1085;.
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InteractionOperand.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InteractionOperand.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionOperand_cM0kk4GGAqAGGZIL.html" class="ItemLink">Operand5 : Interaction Operand</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InteractionOperand.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InteractionOperand.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionOperand_3M0kk4GGAqAGGZIR.html" class="ItemLink">Operand6 : Interaction Operand</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/CombinedFragmentAlt.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/CombinedFragmentAlt.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="CombinedFragment_100kk4GGAqAGGZIH.html" class="ItemLink">Сообщение обработано успешно : Combined Fragment</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activation_AR9kk4GGAqAGGZI0.html" class="ItemLink">Activation : Activation</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activation_QmR_E4GGAqAGGZEg.html" class="ItemLink">Activation : Activation</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/InteractionOperand.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/InteractionOperand.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionOperand_JEcvE4GGAqAGGZBz.html" class="ItemLink">Operand4 : Interaction Operand</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/CombinedFragmentAlt.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/CombinedFragmentAlt.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="CombinedFragment_oEcvE4GGAqAGGZBp.html" class="ItemLink">Требуется передача сообщения в ЕРН : Combined Fragment</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/CombinedFragmentAlt.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/CombinedFragmentAlt.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="CombinedFragment_KhIPE4GGAqAGGY_c.html" class="ItemLink">Передача сообщения в ЕРН не требуется : Combined Fragment</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activation_Non3E4GGAqAGGYy_.html" class="ItemLink">Activation : Activation</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activation_tA6XE4GGAqAGGXAU.html" class="ItemLink">Activation : Activation</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Activation.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Activation.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="Activation__A6XE4GGAqAGGXAO.html" class="ItemLink">Activation : Activation</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/LifeLine.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/LifeLine.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionLifeLine_PVkXE4GGAqAGGW_u.html" class="ItemLink">ЕРН : Lifeline</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/LifeLine.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/LifeLine.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionLifeLine_2tYXE4GGAqAGGW_k.html" class="ItemLink">СМЭВ : Lifeline</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/LifeLine.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/LifeLine.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="InteractionLifeLine_PgLnE4GGAqAGGW_O.html" class="ItemLink">МПИ(ЕРЗЛ) : Lifeline</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

@@ -1,0 +1,1053 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Mind Mapping Diagram - АПП в ФПУМП</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Mind Mapping Diagram - АПП в ФПУМП		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/9tSqWEGGAqAGDwyk', '&#x410;&#x41f;&#x41f; &#x432; &#x424;&#x41f;&#x423;&#x41c;&#x41f;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/9tSqWEGGAqAGDwyk', '&#x410;&#x41f;&#x41f; &#x432; &#x424;&#x41f;&#x423;&#x41c;&#x41f;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+<option value="shape|687.0|407.0|234.0|34.0|MindMapNode_gT_2WEGGAqAGDxSQ.html|MindMapNode_gT_2WEGGAqAGDxSQ.html|gT.2WEGGAqAGDxSP" id="optiongT.2WEGGAqAGDxSP">Уточнить цели тарификации 
+по обращению и что тарифицируют : Node</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_33.png" usemap="#diagram_map" class="Image" width="3028" height="1002"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="1790.0, 271.0, 1781.3793, 275.0, 1774.0, 275.0, 1774.0, 278.424, 1415.0, 445.0, 1416.1538, 448.0, 1441.5518, 448.0, 1784.2241, 289.0, 1794.0, 289.0, 1794.0, 275.0, 1791.5385, 275.0, 1790.0, 271.0" coords2="1790.0, 271.0, 1781.3793, 275.0, 1774.0, 275.0, 1774.0, 278.424, 1415.0, 445.0, 1416.1538, 448.0, 1441.5518, 448.0, 1784.2241, 289.0, 1794.0, 289.0, 1794.0, 275.0, 1791.5385, 275.0, 1790.0, 271.0" shape="poly" alt=":Branch" id="areadiagram_map_h6mqWEGGAqAGDwzs_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2002.0, 221.0, 1996.1559, 225.75325, 1996.1559, 225.75325, 1989.0, 226.0, 1989.0, 231.57333, 1935.6066, 275.0, 1930.0, 275.0, 1930.0, 289.0, 1932.7273, 289.0, 1936.0, 293.0, 1940.9181, 289.0, 1950.0, 289.0, 1950.0, 281.61334, 2001.7025, 239.56198, 2001.7025, 239.56198, 2008.0, 239.34483, 2008.0, 239.34483, 2008.0, 225.34483, 2008.0, 225.34483, 2005.622, 225.42683, 2005.622, 225.42683, 2005.622, 225.42683, 2005.622, 225.42683, 2002.0, 221.0" coords2="2002.0, 221.0, 1996.1559, 225.75325, 1996.1559, 225.75325, 1989.0, 226.0, 1989.0, 231.57333, 1935.6066, 275.0, 1930.0, 275.0, 1930.0, 289.0, 1932.7273, 289.0, 1936.0, 293.0, 1940.9181, 289.0, 1950.0, 289.0, 1950.0, 281.61334, 2001.7025, 239.56198, 2001.7025, 239.56198, 2008.0, 239.34483, 2008.0, 239.34483, 2008.0, 225.34483, 2008.0, 225.34483, 2005.622, 225.42683, 2005.622, 225.42683, 2005.622, 225.42683, 2005.622, 225.42683, 2002.0, 221.0" shape="poly" alt=":Branch" id="areadiagram_map_oX.qWEGGAqAGDxME_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1932.0, 271.0, 1930.4615, 275.0, 1930.0, 275.0, 1930.0, 289.0, 1936.5834, 289.0, 2026.0, 335.65216, 2026.0, 341.0, 2036.25, 341.0, 2042.0, 344.0, 2043.1538, 341.0, 2046.0, 341.0, 2046.0, 327.0, 2039.3334, 327.0, 1949.0, 279.86957, 1949.0, 275.0, 1939.6666, 275.0, 1932.0, 271.0" coords2="1932.0, 271.0, 1930.4615, 275.0, 1930.0, 275.0, 1930.0, 289.0, 1936.5834, 289.0, 2026.0, 335.65216, 2026.0, 341.0, 2036.25, 341.0, 2042.0, 344.0, 2043.1538, 341.0, 2046.0, 341.0, 2046.0, 327.0, 2039.3334, 327.0, 1949.0, 279.86957, 1949.0, 275.0, 1939.6666, 275.0, 1932.0, 271.0" shape="poly" alt=":Branch" id="areadiagram_map_kC9qWEGGAqAGDxM6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1941.0, 270.0, 1930.0, 274.23077, 1930.0, 289.0, 1934.5483, 289.0, 2008.0, 446.0345, 2008.0, 457.0, 2013.129, 457.0, 2015.0, 461.0, 2025.4, 457.0, 2028.0, 457.0, 2028.0, 443.0, 2021.9193, 443.0, 1949.0, 287.10345, 1949.0, 275.0, 1943.3387, 275.0, 1941.0, 270.0" coords2="1941.0, 270.0, 1930.0, 274.23077, 1930.0, 289.0, 1934.5483, 289.0, 2008.0, 446.0345, 2008.0, 457.0, 2013.129, 457.0, 2015.0, 461.0, 2025.4, 457.0, 2028.0, 457.0, 2028.0, 443.0, 2021.9193, 443.0, 1949.0, 287.10345, 1949.0, 275.0, 1943.3387, 275.0, 1941.0, 270.0" shape="poly" alt=":Branch" id="areadiagram_map_mpyaWEGGAqAGDxNQ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2231.0, 180.0, 2224.6538, 185.0, 2218.0, 185.0, 2218.0, 190.24243, 2173.8845, 225.0, 2168.0, 225.0, 2168.0, 239.0, 2170.7273, 239.0, 2174.0, 243.0, 2179.077, 239.0, 2188.0, 239.0, 2188.0, 231.9697, 2229.8462, 199.0, 2238.0, 199.0, 2238.0, 185.0, 2235.0908, 185.0, 2231.0, 180.0" coords2="2231.0, 180.0, 2224.6538, 185.0, 2218.0, 185.0, 2218.0, 190.24243, 2173.8845, 225.0, 2168.0, 225.0, 2168.0, 239.0, 2170.7273, 239.0, 2174.0, 243.0, 2179.077, 239.0, 2188.0, 239.0, 2188.0, 231.9697, 2229.8462, 199.0, 2238.0, 199.0, 2238.0, 185.0, 2235.0908, 185.0, 2231.0, 180.0" shape="poly" alt=":Branch" id="areadiagram_map_7nFaWEGGAqAGDxNi_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2333.0, 325.0, 2333.0, 325.2439, 2333.0, 325.2439, 2189.0, 327.0, 2189.0, 341.0, 2209.0, 341.0, 2209.0, 340.7561, 2209.0, 340.7561, 2353.0, 339.0, 2353.0, 325.0" coords2="2333.0, 325.0, 2333.0, 325.2439, 2333.0, 325.2439, 2189.0, 327.0, 2189.0, 341.0, 2209.0, 341.0, 2209.0, 340.7561, 2209.0, 340.7561, 2353.0, 339.0, 2353.0, 325.0" shape="poly" alt=":Branch" id="areadiagram_map_LnU6WEGGAqAGDxOe_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1324.0, 340.0, 1311.0, 345.0, 1311.0, 359.0, 1318.3043, 359.0, 1364.7391, 448.0, 1380.3478, 448.0, 1332.0, 355.33334, 1332.0, 345.0, 1326.6086, 345.0, 1324.0, 340.0" coords2="1324.0, 340.0, 1311.0, 345.0, 1311.0, 359.0, 1318.3043, 359.0, 1364.7391, 448.0, 1380.3478, 448.0, 1332.0, 355.33334, 1332.0, 345.0, 1326.6086, 345.0, 1324.0, 340.0" shape="poly" alt=":Branch" id="areadiagram_map_zEX6WEGGAqAGDxO8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1089.0, 191.0, 1082.125, 196.0, 1078.0, 196.0, 1078.0, 210.0, 1086.4512, 210.0, 1195.0, 351.2857, 1195.0, 359.0, 1200.9269, 359.0, 1204.0, 363.0, 1209.5, 359.0, 1215.0, 359.0, 1215.0, 345.0, 1207.317, 345.0, 1099.0, 204.01587, 1099.0, 196.0, 1092.8414, 196.0, 1089.0, 191.0" coords2="1089.0, 191.0, 1082.125, 196.0, 1078.0, 196.0, 1078.0, 210.0, 1086.4512, 210.0, 1195.0, 351.2857, 1195.0, 359.0, 1200.9269, 359.0, 1204.0, 363.0, 1209.5, 359.0, 1215.0, 359.0, 1215.0, 345.0, 1207.317, 345.0, 1099.0, 204.01587, 1099.0, 196.0, 1092.8414, 196.0, 1089.0, 191.0" shape="poly" alt=":Branch" id="areadiagram_map_.fIGWEGGAqAGDxPO_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1198.0, 341.0, 1197.4343, 345.0, 1194.0, 345.0, 1194.0, 359.0, 1195.4546, 359.0, 1186.2626, 424.0, 1183.0, 424.0, 1183.0, 438.0, 1184.2828, 438.0, 1184.0, 440.0, 1198.0, 441.0, 1198.4242, 438.0, 1203.0, 438.0, 1203.0, 424.0, 1200.404, 424.0, 1209.596, 359.0, 1215.0, 359.0, 1215.0, 345.0, 1211.5758, 345.0, 1212.0, 342.0, 1198.0, 341.0" coords2="1198.0, 341.0, 1197.4343, 345.0, 1194.0, 345.0, 1194.0, 359.0, 1195.4546, 359.0, 1186.2626, 424.0, 1183.0, 424.0, 1183.0, 438.0, 1184.2828, 438.0, 1184.0, 440.0, 1198.0, 441.0, 1198.4242, 438.0, 1203.0, 438.0, 1203.0, 424.0, 1200.404, 424.0, 1209.596, 359.0, 1215.0, 359.0, 1215.0, 345.0, 1211.5758, 345.0, 1212.0, 342.0, 1198.0, 341.0" shape="poly" alt=":Branch" id="areadiagram_map_HlqGWEGGAqAGDxPg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="908.0, 137.0, 907.3014, 140.0, 905.0, 140.0, 905.0, 164.0, 901.71234, 164.0, 894.26025, 196.0, 890.0, 196.0, 890.0, 210.0, 891.0, 210.0, 905.0, 212.0, 905.46576, 210.0, 910.0, 210.0, 910.0, 196.0, 908.726, 196.0, 918.50684, 154.0, 924.0, 154.0, 924.0, 140.0, 921.76715, 140.0, 922.0, 139.0, 908.0, 137.0" coords2="908.0, 137.0, 907.3014, 140.0, 905.0, 140.0, 905.0, 164.0, 901.71234, 164.0, 894.26025, 196.0, 890.0, 196.0, 890.0, 210.0, 891.0, 210.0, 905.0, 212.0, 905.46576, 210.0, 910.0, 210.0, 910.0, 196.0, 908.726, 196.0, 918.50684, 154.0, 924.0, 154.0, 924.0, 140.0, 921.76715, 140.0, 922.0, 139.0, 908.0, 137.0" shape="poly" alt=":Branch" id="areadiagram_map_CJOGWEGGAqAGDxP2_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="736.0, 78.0, 733.43243, 83.0, 729.0, 83.0, 729.0, 107.0, 721.1081, 107.0, 704.67566, 139.0, 699.0, 139.0, 699.0, 150.05263, 698.0, 152.0, 699.0, 152.38461, 699.0, 153.0, 700.6, 153.0, 711.0, 157.0, 713.0541, 153.0, 719.0, 153.0, 719.0, 130.0, 724.86487, 130.0, 741.8108, 97.0, 749.0, 97.0, 749.0, 83.0, 736.0, 78.0" coords2="736.0, 78.0, 733.43243, 83.0, 729.0, 83.0, 729.0, 107.0, 721.1081, 107.0, 704.67566, 139.0, 699.0, 139.0, 699.0, 150.05263, 698.0, 152.0, 699.0, 152.38461, 699.0, 153.0, 700.6, 153.0, 711.0, 157.0, 713.0541, 153.0, 719.0, 153.0, 719.0, 130.0, 724.86487, 130.0, 741.8108, 97.0, 749.0, 97.0, 749.0, 83.0, 736.0, 78.0" shape="poly" alt=":Branch" id="areadiagram_map_gLlGWEGGAqAGDxQO_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="546.0, 42.0, 542.60376, 48.0, 538.0, 48.0, 538.0, 72.0, 529.01886, 72.0, 522.7925, 83.0, 518.0, 83.0, 518.0, 91.46667, 516.0, 95.0, 518.0, 96.07692, 518.0, 97.0, 519.7143, 97.0, 529.0, 102.0, 531.8302, 97.0, 539.0, 97.0, 539.0, 73.0, 545.4151, 73.0, 551.6415, 62.0, 558.0, 62.0, 558.0, 50.766666, 559.0, 49.0, 558.0, 48.46154, 558.0, 48.0, 557.1429, 48.0, 546.0, 42.0" coords2="546.0, 42.0, 542.60376, 48.0, 538.0, 48.0, 538.0, 72.0, 529.01886, 72.0, 522.7925, 83.0, 518.0, 83.0, 518.0, 91.46667, 516.0, 95.0, 518.0, 96.07692, 518.0, 97.0, 519.7143, 97.0, 529.0, 102.0, 531.8302, 97.0, 539.0, 97.0, 539.0, 73.0, 545.4151, 73.0, 551.6415, 62.0, 558.0, 62.0, 558.0, 50.766666, 559.0, 49.0, 558.0, 48.46154, 558.0, 48.0, 557.1429, 48.0, 546.0, 42.0" shape="poly" alt=":Branch" id="areadiagram_map_auQmWEGGAqAGDxQm_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="346.0, 10.0, 341.5484, 14.451612, 338.0, 14.333333, 338.0, 28.333334, 338.0, 28.333334, 344.36365, 28.545454, 371.0, 55.760868, 371.0, 63.0, 378.0851, 63.0, 382.0, 67.0, 386.0, 63.0, 390.0, 63.0, 390.0, 49.0, 384.17023, 49.0, 358.0, 22.26087, 358.0, 15.0, 350.65396, 14.755132, 346.0, 10.0" coords2="346.0, 10.0, 341.5484, 14.451612, 338.0, 14.333333, 338.0, 28.333334, 338.0, 28.333334, 344.36365, 28.545454, 371.0, 55.760868, 371.0, 63.0, 378.0851, 63.0, 382.0, 67.0, 386.0, 63.0, 390.0, 63.0, 390.0, 49.0, 384.17023, 49.0, 358.0, 22.26087, 358.0, 15.0, 350.65396, 14.755132, 346.0, 10.0" shape="poly" alt=":Branch" id="areadiagram_map_06jWWEGGAqAGDxRM_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1213.0, 111.0, 1212.8207, 114.0, 1210.0, 114.0, 1210.0, 128.0, 1211.984, 128.0, 1199.016, 345.0, 1195.0, 345.0, 1195.0, 359.0, 1198.1793, 359.0, 1198.0, 362.0, 1212.0, 362.0, 1212.1793, 359.0, 1215.0, 359.0, 1215.0, 345.0, 1213.016, 345.0, 1225.984, 128.0, 1230.0, 128.0, 1230.0, 114.0, 1226.8207, 114.0, 1227.0, 111.0" coords2="1213.0, 111.0, 1212.8207, 114.0, 1210.0, 114.0, 1210.0, 128.0, 1211.984, 128.0, 1199.016, 345.0, 1195.0, 345.0, 1195.0, 359.0, 1198.1793, 359.0, 1198.0, 362.0, 1212.0, 362.0, 1212.1793, 359.0, 1215.0, 359.0, 1215.0, 345.0, 1213.016, 345.0, 1225.984, 128.0, 1230.0, 128.0, 1230.0, 114.0, 1226.8207, 114.0, 1227.0, 111.0" shape="poly" alt=":Branch" id="areadiagram_map_Qj02WEGGAqAGDxR6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="921.0, 415.0, 921.0, 431.0, 935.2, 431.0, 977.0, 436.5, 977.0, 438.0, 988.4, 438.0, 996.0, 439.0, 996.0714, 438.0, 997.0, 438.0, 997.0, 424.0, 989.4, 424.0, 941.0, 417.6316, 941.0, 417.6316, 941.0, 417.0, 936.2, 417.0, 921.0, 415.0" coords2="921.0, 415.0, 921.0, 431.0, 935.2, 431.0, 977.0, 436.5, 977.0, 438.0, 988.4, 438.0, 996.0, 439.0, 996.0714, 438.0, 997.0, 438.0, 997.0, 424.0, 989.4, 424.0, 941.0, 417.6316, 941.0, 417.6316, 941.0, 417.0, 936.2, 417.0, 921.0, 415.0" shape="poly" alt=":Branch" id="areadiagram_map_8T.2WEGGAqAGDxSU_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1356.6428, 488.0, 1269.5714, 580.0, 1264.0, 580.0, 1264.0, 594.0, 1268.0, 594.0, 1272.0, 598.0, 1275.7858, 594.0, 1284.0, 594.0, 1284.0, 585.32074, 1376.1072, 488.0" coords2="1356.6428, 488.0, 1269.5714, 580.0, 1264.0, 580.0, 1264.0, 594.0, 1268.0, 594.0, 1272.0, 598.0, 1275.7858, 594.0, 1284.0, 594.0, 1284.0, 585.32074, 1376.1072, 488.0" shape="poly" alt=":Branch" id="areadiagram_map_za32WEGGAqAGDxS6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="982.0, 419.0, 980.5, 423.0, 977.0, 423.0, 977.0, 432.33334, 942.25, 525.0, 936.0, 525.0, 936.0, 539.0, 937.0, 539.0, 951.0, 542.0, 952.13446, 539.0, 957.0, 539.0, 957.0, 526.13336, 990.7059, 437.0, 997.0, 437.0, 997.0, 423.0, 996.0, 423.0, 982.0, 419.0" coords2="982.0, 419.0, 980.5, 423.0, 977.0, 423.0, 977.0, 432.33334, 942.25, 525.0, 936.0, 525.0, 936.0, 539.0, 937.0, 539.0, 951.0, 542.0, 952.13446, 539.0, 957.0, 539.0, 957.0, 526.13336, 990.7059, 437.0, 997.0, 437.0, 997.0, 423.0, 996.0, 423.0, 982.0, 419.0" shape="poly" alt=":Branch" id="areadiagram_map_i7KOWEGGAqAGDxTc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1177.0, 575.0, 1170.9535, 580.0, 1164.0, 580.0, 1164.0, 585.75, 1133.4651, 611.0, 1128.0, 611.0, 1128.0, 625.0, 1130.7273, 625.0, 1134.0, 629.0, 1138.8372, 625.0, 1148.0, 625.0, 1148.0, 617.4231, 1148.0, 617.4231, 1176.3256, 594.0, 1184.0, 594.0, 1184.0, 580.0, 1181.091, 580.0, 1177.0, 575.0" coords2="1177.0, 575.0, 1170.9535, 580.0, 1164.0, 580.0, 1164.0, 585.75, 1133.4651, 611.0, 1128.0, 611.0, 1128.0, 625.0, 1130.7273, 625.0, 1134.0, 629.0, 1138.8372, 625.0, 1148.0, 625.0, 1148.0, 617.4231, 1148.0, 617.4231, 1176.3256, 594.0, 1184.0, 594.0, 1184.0, 580.0, 1181.091, 580.0, 1177.0, 575.0" shape="poly" alt=":Branch" id="areadiagram_map_bQ9OWEGGAqAGDxT8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1168.0, 577.0, 1167.4773, 580.0, 1164.0, 580.0, 1164.0, 594.0, 1165.0378, 594.0, 1147.4395, 695.0, 1143.0, 695.0, 1143.0, 709.0, 1145.0, 709.0, 1159.0, 711.0, 1159.3485, 709.0, 1164.0, 709.0, 1164.0, 695.0, 1161.7878, 695.0, 1179.3864, 594.0, 1184.0, 594.0, 1184.0, 580.0, 1181.8258, 580.0, 1182.0, 579.0, 1168.0, 577.0" coords2="1168.0, 577.0, 1167.4773, 580.0, 1164.0, 580.0, 1164.0, 594.0, 1165.0378, 594.0, 1147.4395, 695.0, 1143.0, 695.0, 1143.0, 709.0, 1145.0, 709.0, 1159.0, 711.0, 1159.3485, 709.0, 1164.0, 709.0, 1164.0, 695.0, 1161.7878, 695.0, 1179.3864, 594.0, 1184.0, 594.0, 1184.0, 580.0, 1181.8258, 580.0, 1182.0, 579.0, 1168.0, 577.0" shape="poly" alt=":Branch" id="areadiagram_map_QRvOWEGGAqAGDxUi_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="652.0, 324.0, 638.0, 328.0, 638.0, 342.0, 642.49054, 342.0, 667.0, 418.41177, 667.0, 431.0, 671.0377, 431.0, 672.0, 434.0, 686.0, 431.0, 687.0, 431.0, 687.0, 417.0, 681.5514, 417.0, 657.7196, 342.0, 658.0, 342.0, 658.0, 328.0, 653.27106, 328.0, 652.0, 324.0" coords2="652.0, 324.0, 638.0, 328.0, 638.0, 342.0, 642.49054, 342.0, 667.0, 418.41177, 667.0, 431.0, 671.0377, 431.0, 672.0, 434.0, 686.0, 431.0, 687.0, 431.0, 687.0, 417.0, 681.5514, 417.0, 657.7196, 342.0, 658.0, 342.0, 658.0, 328.0, 653.27106, 328.0, 652.0, 324.0" shape="poly" alt=":Branch" id="areadiagram_map_R8NuWEGGAqAGDxV__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="379.0, 43.0, 375.57895, 48.0, 370.0, 48.0, 370.0, 56.153847, 346.8421, 90.0, 342.0, 90.0, 342.0, 104.0, 345.5, 104.0, 351.0, 108.0, 353.73685, 104.0, 361.0, 104.0, 361.0, 93.38461, 382.4737, 62.0, 390.0, 62.0, 390.0, 48.0, 385.875, 48.0, 379.0, 43.0" coords2="379.0, 43.0, 375.57895, 48.0, 370.0, 48.0, 370.0, 56.153847, 346.8421, 90.0, 342.0, 90.0, 342.0, 104.0, 345.5, 104.0, 351.0, 108.0, 353.73685, 104.0, 361.0, 104.0, 361.0, 93.38461, 382.4737, 62.0, 390.0, 62.0, 390.0, 48.0, 385.875, 48.0, 379.0, 43.0" shape="poly" alt=":Branch" id="areadiagram_map_ZdLeWEGGAqAGDxZO_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="684.0, 414.0, 673.95917, 417.0, 667.0, 417.0, 667.0, 419.07925, 524.8974, 461.53674, 524.8974, 461.53674, 521.0, 461.66666, 521.0, 461.66666, 521.0, 475.66666, 521.0, 475.66666, 523.59436, 475.5802, 524.0, 477.0, 529.3627, 475.3879, 529.3627, 475.3879, 541.0, 475.0, 541.0, 471.88956, 541.0, 471.88956, 677.0204, 431.0, 687.0, 431.0, 687.0, 417.0, 684.6429, 417.0, 684.0, 414.0" coords2="684.0, 414.0, 673.95917, 417.0, 667.0, 417.0, 667.0, 419.07925, 524.8974, 461.53674, 524.8974, 461.53674, 521.0, 461.66666, 521.0, 461.66666, 521.0, 475.66666, 521.0, 475.66666, 523.59436, 475.5802, 524.0, 477.0, 529.3627, 475.3879, 529.3627, 475.3879, 541.0, 475.0, 541.0, 471.88956, 541.0, 471.88956, 677.0204, 431.0, 687.0, 431.0, 687.0, 417.0, 684.6429, 417.0, 684.0, 414.0" shape="poly" alt=":Branch" id="areadiagram_map_8CW.WEGGAqAGDxZm_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="253.0, 420.0, 246.88889, 424.44446, 246.88889, 424.44446, 244.0, 424.34482, 244.0, 424.34482, 244.0, 438.34482, 244.0, 438.34482, 248.46071, 438.49866, 248.46071, 438.49866, 265.0, 465.375, 265.0, 476.0, 271.53845, 476.0, 274.0, 480.0, 279.5, 476.0, 285.0, 476.0, 285.0, 462.0, 278.84616, 462.0, 263.0, 436.25, 263.0, 425.0, 255.92683, 424.7561, 255.92683, 424.7561, 253.0, 420.0" coords2="253.0, 420.0, 246.88889, 424.44446, 246.88889, 424.44446, 244.0, 424.34482, 244.0, 424.34482, 244.0, 438.34482, 244.0, 438.34482, 248.46071, 438.49866, 248.46071, 438.49866, 265.0, 465.375, 265.0, 476.0, 271.53845, 476.0, 274.0, 480.0, 279.5, 476.0, 285.0, 476.0, 285.0, 462.0, 278.84616, 462.0, 263.0, 436.25, 263.0, 425.0, 255.92683, 424.7561, 255.92683, 424.7561, 253.0, 420.0" shape="poly" alt=":Branch" id="areadiagram_map_UWUBWEGGAqAGDxa9_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1949.0, 102.0, 1948.7316, 105.0, 1946.0, 105.0, 1946.0, 119.0, 1947.479, 119.0, 1933.521, 275.0, 1930.0, 275.0, 1930.0, 289.0, 1932.2684, 289.0, 1932.0, 292.0, 1946.0, 292.0, 1946.2684, 289.0, 1949.0, 289.0, 1949.0, 275.0, 1947.521, 275.0, 1961.479, 119.0, 1966.0, 119.0, 1966.0, 105.0, 1962.7316, 105.0, 1963.0, 102.0" coords2="1949.0, 102.0, 1948.7316, 105.0, 1946.0, 105.0, 1946.0, 119.0, 1947.479, 119.0, 1933.521, 275.0, 1930.0, 275.0, 1930.0, 289.0, 1932.2684, 289.0, 1932.0, 292.0, 1946.0, 292.0, 1946.2684, 289.0, 1949.0, 289.0, 1949.0, 275.0, 1947.521, 275.0, 1961.479, 119.0, 1966.0, 119.0, 1966.0, 105.0, 1962.7316, 105.0, 1963.0, 102.0" shape="poly" alt=":Branch" id="areadiagram_map_sN_xWEGGAqAGDwjJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2211.0, 59.0, 2202.9375, 62.0, 2194.0, 62.0, 2194.0, 65.325584, 2087.375, 105.0, 2082.0, 105.0, 2082.0, 119.0, 2085.4285, 119.0, 2086.0, 121.0, 2091.3333, 119.0, 2103.0, 119.0, 2103.0, 114.625, 2206.0, 76.0, 2214.0, 76.0, 2214.0, 62.0, 2211.6428, 62.0, 2211.0, 59.0" coords2="2211.0, 59.0, 2202.9375, 62.0, 2194.0, 62.0, 2194.0, 65.325584, 2087.375, 105.0, 2082.0, 105.0, 2082.0, 119.0, 2085.4285, 119.0, 2086.0, 121.0, 2091.3333, 119.0, 2103.0, 119.0, 2103.0, 114.625, 2206.0, 76.0, 2214.0, 76.0, 2214.0, 62.0, 2211.6428, 62.0, 2211.0, 59.0" shape="poly" alt=":Branch" id="areadiagram_map_K.EJWEGGAqAGDwjb_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1426.1428, 488.0, 1425.0, 492.0, 1540.0, 534.6894, 1540.0, 534.6894, 1540.0, 539.0, 1551.6123, 539.0, 1557.0, 541.0, 1557.4286, 539.0, 1559.0, 539.0, 1559.0, 525.0, 1554.6531, 525.0, 1455.7347, 488.0" coords2="1426.1428, 488.0, 1425.0, 492.0, 1540.0, 534.6894, 1540.0, 534.6894, 1540.0, 539.0, 1551.6123, 539.0, 1557.0, 541.0, 1557.4286, 539.0, 1559.0, 539.0, 1559.0, 525.0, 1554.6531, 525.0, 1455.7347, 488.0" shape="poly" alt=":Branch" id="areadiagram_map_M2OJWEGGAqAGDwjx_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1759.0, 525.0, 1759.0, 539.0, 1802.0, 539.0, 1802.0, 525.0" coords2="1759.0, 525.0, 1759.0, 539.0, 1802.0, 539.0, 1802.0, 525.0" shape="poly" alt=":Branch" id="areadiagram_map_0WFJWEGGAqAGDwkH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1955.0, 519.0, 1947.6666, 525.0, 1946.0, 525.0, 1946.0, 539.0, 1952.6976, 539.0, 1968.0, 558.35297, 1968.0, 566.0, 1974.0465, 566.0, 1978.0, 571.0, 1984.1111, 566.0, 1987.0, 566.0, 1987.0, 552.0, 1981.093, 552.0, 1966.0, 532.91174, 1966.0, 525.0, 1959.7441, 525.0, 1955.0, 519.0" coords2="1955.0, 519.0, 1947.6666, 525.0, 1946.0, 525.0, 1946.0, 539.0, 1952.6976, 539.0, 1968.0, 558.35297, 1968.0, 566.0, 1974.0465, 566.0, 1978.0, 571.0, 1984.1111, 566.0, 1987.0, 566.0, 1987.0, 552.0, 1981.093, 552.0, 1966.0, 532.91174, 1966.0, 525.0, 1959.7441, 525.0, 1955.0, 519.0" shape="poly" alt=":Branch" id="areadiagram_map_wrzJWEGGAqAGDwkZ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2289.0, 548.0, 2275.0, 552.0, 2275.0, 566.0, 2278.75, 566.0, 2285.4465, 591.0, 2285.0, 591.0, 2285.0, 605.0, 2289.1965, 605.0, 2290.0, 608.0, 2304.0, 605.0, 2305.0, 605.0, 2305.0, 591.0, 2300.3157, 591.0, 2293.7368, 566.0, 2295.0, 566.0, 2295.0, 552.0, 2290.0527, 552.0, 2289.0, 548.0" coords2="2289.0, 548.0, 2275.0, 552.0, 2275.0, 566.0, 2278.75, 566.0, 2285.4465, 591.0, 2285.0, 591.0, 2285.0, 605.0, 2289.1965, 605.0, 2290.0, 608.0, 2304.0, 605.0, 2305.0, 605.0, 2305.0, 591.0, 2300.3157, 591.0, 2293.7368, 566.0, 2295.0, 566.0, 2295.0, 552.0, 2290.0527, 552.0, 2289.0, 548.0" shape="poly" alt=":Branch" id="areadiagram_map_tToZWEGGAqAGDwll_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1392.0, 488.0, 1486.0, 605.5, 1486.0, 613.0, 1492.0, 613.0, 1496.0, 618.0, 1502.1111, 613.0, 1506.0, 613.0, 1506.0, 599.0, 1499.0, 599.0, 1410.2, 488.0" coords2="1392.0, 488.0, 1486.0, 605.5, 1486.0, 613.0, 1492.0, 613.0, 1496.0, 618.0, 1502.1111, 613.0, 1506.0, 613.0, 1506.0, 599.0, 1499.0, 599.0, 1410.2, 488.0" shape="poly" alt=":Branch" id="areadiagram_map_5FiZWEGGAqAGDwl3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1894.0, 655.0, 1880.0, 659.0, 1880.0, 673.0, 1883.8889, 673.0, 1915.2753, 785.99084, 1915.2753, 785.99084, 1915.0, 786.0, 1915.0, 800.0, 1919.1284, 799.86237, 1919.1284, 799.86237, 1920.0, 803.0, 1934.0, 800.0, 1933.8269, 799.37244, 1933.8269, 799.37244, 1935.0, 799.3333, 1935.0, 799.3333, 1935.0, 785.3333, 1935.0, 785.3333, 1930.0, 785.5, 1930.0, 785.5, 1930.0, 785.5, 1930.0, 785.5, 1898.9656, 673.0, 1900.0, 673.0, 1900.0, 659.0, 1895.1034, 659.0, 1894.0, 655.0" coords2="1894.0, 655.0, 1880.0, 659.0, 1880.0, 673.0, 1883.8889, 673.0, 1915.2753, 785.99084, 1915.2753, 785.99084, 1915.0, 786.0, 1915.0, 800.0, 1919.1284, 799.86237, 1919.1284, 799.86237, 1920.0, 803.0, 1934.0, 800.0, 1933.8269, 799.37244, 1933.8269, 799.37244, 1935.0, 799.3333, 1935.0, 799.3333, 1935.0, 785.3333, 1935.0, 785.3333, 1930.0, 785.5, 1930.0, 785.5, 1930.0, 785.5, 1930.0, 785.5, 1898.9656, 673.0, 1900.0, 673.0, 1900.0, 659.0, 1895.1034, 659.0, 1894.0, 655.0" shape="poly" alt=":Branch" id="areadiagram_map_H5LZWEGGAqAGDw3V_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2724.0, 325.0, 2724.0, 339.0, 2846.0, 349.30984, 2846.0, 351.0, 2866.0, 351.0, 2866.0, 337.0, 2744.0, 326.69016, 2744.0, 326.69016, 2744.0, 325.0" coords2="2724.0, 325.0, 2724.0, 339.0, 2846.0, 349.30984, 2846.0, 351.0, 2866.0, 351.0, 2866.0, 337.0, 2744.0, 326.69016, 2744.0, 326.69016, 2744.0, 325.0" shape="poly" alt=":Branch" id="areadiagram_map_iHs5WEGGAqAGDw33_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="906.0, 289.0, 899.125, 294.0, 896.0, 294.0, 896.0, 308.0, 901.90344, 308.0, 977.0, 427.65933, 977.0, 438.0, 983.4897, 438.0, 986.0, 442.0, 991.5, 438.0, 997.0, 438.0, 997.0, 424.0, 990.7241, 424.0, 916.0, 304.93405, 916.0, 294.0, 909.13794, 294.0, 906.0, 289.0" coords2="906.0, 289.0, 899.125, 294.0, 896.0, 294.0, 896.0, 308.0, 901.90344, 308.0, 977.0, 427.65933, 977.0, 438.0, 983.4897, 438.0, 986.0, 442.0, 991.5, 438.0, 997.0, 438.0, 997.0, 424.0, 990.7241, 424.0, 916.0, 304.93405, 916.0, 294.0, 909.13794, 294.0, 906.0, 289.0" shape="poly" alt=":Branch" id="areadiagram_map_hg1FWEGGAqAGDw6o_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1361.0, 272.0, 1347.0, 274.0, 1347.1584, 275.0, 1346.0, 275.0, 1346.0, 289.0, 1349.3771, 289.0, 1374.5737, 448.0, 1388.8907, 448.0, 1363.694, 289.0, 1366.0, 289.0, 1366.0, 275.0, 1361.4755, 275.0, 1361.0, 272.0" coords2="1361.0, 272.0, 1347.0, 274.0, 1347.1584, 275.0, 1346.0, 275.0, 1346.0, 289.0, 1349.3771, 289.0, 1374.5737, 448.0, 1388.8907, 448.0, 1363.694, 289.0, 1366.0, 289.0, 1366.0, 275.0, 1361.4755, 275.0, 1361.0, 272.0" shape="poly" alt=":Branch" id="areadiagram_map_B151WEGGAqAGDw9v_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1374.2667, 488.0, 1313.4266, 839.0, 1310.0, 839.0, 1310.0, 853.0, 1311.0, 853.0, 1325.0, 855.0, 1325.3467, 853.0, 1330.0, 853.0, 1330.0, 839.0, 1327.7733, 839.0, 1388.6133, 488.0" coords2="1374.2667, 488.0, 1313.4266, 839.0, 1310.0, 839.0, 1310.0, 853.0, 1311.0, 853.0, 1325.0, 855.0, 1325.3467, 853.0, 1330.0, 853.0, 1330.0, 839.0, 1327.7733, 839.0, 1388.6133, 488.0" shape="poly" alt=":Branch" id="areadiagram_map_mlb1WEGGAqAGDw.N_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1765.0, 831.18365, 1765.0, 831.18365, 1765.0, 831.18365, 1765.0, 831.18365, 1765.0, 831.18365, 1765.0, 847.0, 1773.8889, 847.0, 1793.0, 850.5102, 1793.0, 853.0, 1806.5555, 853.0, 1812.0, 854.0, 1812.0714, 853.0, 1813.0, 853.0, 1813.0, 839.0, 1807.5555, 839.0, 1784.0, 834.67346, 1784.0, 834.67346, 1784.0, 833.0, 1774.8889, 833.0, 1765.0, 831.18365" coords2="1765.0, 831.18365, 1765.0, 831.18365, 1765.0, 831.18365, 1765.0, 831.18365, 1765.0, 831.18365, 1765.0, 847.0, 1773.8889, 847.0, 1793.0, 850.5102, 1793.0, 853.0, 1806.5555, 853.0, 1812.0, 854.0, 1812.0714, 853.0, 1813.0, 853.0, 1813.0, 839.0, 1807.5555, 839.0, 1784.0, 834.67346, 1784.0, 834.67346, 1784.0, 833.0, 1774.8889, 833.0, 1765.0, 831.18365" shape="poly" alt=":Branch" id="areadiagram_map_eJv1WEGGAqAGDw.l_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1542.0, 831.0, 1531.1111, 833.0, 1523.0, 833.0, 1523.0, 834.4898, 1498.4445, 839.0, 1493.0, 839.0, 1493.0, 853.0, 1493.9286, 853.0, 1494.0, 854.0, 1499.4445, 853.0, 1514.0, 853.0, 1514.0, 850.32654, 1514.0, 850.32654, 1532.1111, 847.0, 1544.0, 847.0, 1544.0, 833.0, 1542.1428, 833.0, 1542.0, 831.0" coords2="1542.0, 831.0, 1531.1111, 833.0, 1523.0, 833.0, 1523.0, 834.4898, 1498.4445, 839.0, 1493.0, 839.0, 1493.0, 853.0, 1493.9286, 853.0, 1494.0, 854.0, 1499.4445, 853.0, 1514.0, 853.0, 1514.0, 850.32654, 1514.0, 850.32654, 1532.1111, 847.0, 1544.0, 847.0, 1544.0, 833.0, 1542.1428, 833.0, 1542.0, 831.0" shape="poly" alt=":Branch" id="areadiagram_map_oFwNWEGGAqAGDw.7_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1387.7588, 488.0, 1648.7238, 974.0, 1652.0, 974.0, 1652.0, 991.0, 1657.8522, 991.0, 1660.0, 995.0, 1670.4, 991.0, 1673.0, 991.0, 1673.0, 977.0, 1666.0194, 977.0, 1403.4436, 488.0" coords2="1387.7588, 488.0, 1648.7238, 974.0, 1652.0, 974.0, 1652.0, 991.0, 1657.8522, 991.0, 1660.0, 995.0, 1670.4, 991.0, 1673.0, 991.0, 1673.0, 977.0, 1666.0194, 977.0, 1403.4436, 488.0" shape="poly" alt=":Branch" id="areadiagram_map_N.GNWEGGAqAGDw_n_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1602.0, 594.0, 1597.0, 599.0, 1594.0, 599.0, 1594.0, 613.0, 1601.1233, 613.0, 1655.0, 666.1486, 1655.0, 673.0, 1661.9452, 673.0, 1666.0, 677.0, 1670.0, 673.0, 1675.0, 673.0, 1675.0, 659.0, 1667.8904, 659.0, 1614.0, 605.8378, 1614.0, 599.0, 1607.0685, 599.0, 1602.0, 594.0" coords2="1602.0, 594.0, 1597.0, 599.0, 1594.0, 599.0, 1594.0, 613.0, 1601.1233, 613.0, 1655.0, 666.1486, 1655.0, 673.0, 1661.9452, 673.0, 1666.0, 677.0, 1670.0, 673.0, 1675.0, 673.0, 1675.0, 659.0, 1667.8904, 659.0, 1614.0, 605.8378, 1614.0, 599.0, 1607.0685, 599.0, 1602.0, 594.0" shape="poly" alt=":Branch" id="areadiagram_map_QS1J.EGGAqAGDw4A_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1888.0, 83.0, 1885.734, 87.0, 1882.0, 87.0, 1882.0, 104.0, 1876.1034, 104.0, 1779.2316, 275.0, 1774.0, 275.0, 1774.0, 284.23477, 1773.0, 286.0, 1774.0, 286.46155, 1774.0, 289.0, 1779.5, 289.0, 1786.0, 292.0, 1787.6995, 289.0, 1794.0, 289.0, 1794.0, 272.0, 1797.3301, 272.0, 1894.202, 101.0, 1901.0, 101.0, 1901.0, 87.0, 1896.6666, 87.0, 1888.0, 83.0" coords2="1888.0, 83.0, 1885.734, 87.0, 1882.0, 87.0, 1882.0, 104.0, 1876.1034, 104.0, 1779.2316, 275.0, 1774.0, 275.0, 1774.0, 284.23477, 1773.0, 286.0, 1774.0, 286.46155, 1774.0, 289.0, 1779.5, 289.0, 1786.0, 292.0, 1787.6995, 289.0, 1794.0, 289.0, 1794.0, 272.0, 1797.3301, 272.0, 1894.202, 101.0, 1901.0, 101.0, 1901.0, 87.0, 1896.6666, 87.0, 1888.0, 83.0" shape="poly" alt=":Branch" id="areadiagram_map_eElX.EGGAqAGDxtM_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1627, 84, 1882, 104" coords2="1627, 84, 1882, 104" shape="rect" alt="Найти в НПА определение профиля МП:Node" id="areadiagram_map_8ElX.EGGAqAGDxtH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1675, 642, 1880, 692" coords2="1675, 642, 1880, 692" shape="rect" alt="Текущий ТАП: 
+- добавить онкологию
+- сделать описание реквизитов:Node" id="areadiagram_map_di1J.EGGAqAGDw30_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1107, 974, 1652, 994" coords2="1107, 974, 1652, 994" shape="rect" alt=" ???Алгоритм расчета дифференцированных подушевых нормативов (пр 108н, ст 181) :Node" id="areadiagram_map_u.GNWEGGAqAGDw_i_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1544, 830, 1765, 850" coords2="1544, 830, 1765, 850" shape="rect" alt="Посмотреть текущую инструкцию:Node" id="areadiagram_map_v5wNWEGGAqAGDw.2_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1813, 836, 2144, 856" coords2="1813, 836, 2144, 856" shape="rect" alt="Подготовить предложение по структуре инструкции:Node" id="areadiagram_map_iJv1WEGGAqAGDw.g_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1330, 837, 1493, 857" coords2="1330, 837, 1493, 857" shape="rect" alt="Инструкция по учету МП:Node" id="areadiagram_map_clb1WEGGAqAGDw.I_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1366, 272, 1559, 292" coords2="1366, 272, 1559, 292" shape="rect" alt="Подушевое финансирование:Node" id="areadiagram_map_S151WEGGAqAGDw9q_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="753, 276, 896, 326" coords2="753, 276, 896, 326" shape="rect" alt="Анализ ТС регионов 
+тарификации 
+по обращениям:Node" id="areadiagram_map_Sg1FWEGGAqAGDw6j_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2866, 328, 3022, 362" coords2="2866, 328, 3022, 362" shape="rect" alt="Обсудить и утвердить 
+учет МП в ФПУМП:Node" id="areadiagram_map_IHs5WEGGAqAGDw3y_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1935, 768, 2077, 818" coords2="1935, 768, 2077, 818" shape="rect" alt="Скорректировать 
+ схему классов ТАП 
+и состав реквизитов:Node" id="areadiagram_map_15LZWEGGAqAGDw3Q_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1506, 596, 1594, 616" coords2="1506, 596, 1594, 616" shape="rect" alt="Состав ТАП:Node" id="areadiagram_map_6FiZWEGGAqAGDwly_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2305, 588, 2477, 608" coords2="2305, 588, 2477, 608" shape="rect" alt="Нарисовать схему "to be":Node" id="areadiagram_map_.ToZWEGGAqAGDwlg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1987, 542, 2275, 576" coords2="1987, 542, 2275, 576" shape="rect" alt="Посмотреть Регламент инф взаимодействия
+и нарисовать схему "as is":Node" id="areadiagram_map_nLzJWEGGAqAGDwkU_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1802, 522, 1946, 542" coords2="1802, 522, 1946, 542" shape="rect" alt="Определение F_Type:Node" id="areadiagram_map_vmFJWEGGAqAGDwkC_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1559, 522, 1759, 542" coords2="1559, 522, 1759, 542" shape="rect" alt="Формирование счетов по АПП:Node" id="areadiagram_map__WOJWEGGAqAGDwjs_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2214, 45, 2344, 95" coords2="2214, 45, 2344, 95" shape="rect" alt="Узнать чем 
+регламентируется,
+как формируется:Node" id="areadiagram_map_w.EJWEGGAqAGDwjW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1966, 95, 2082, 129" coords2="1966, 95, 2082, 129" shape="rect" alt="Монитрониг по 
+профилю в АПП:Node" id="areadiagram_map_v1_xWEGGAqAGDwi9_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="4, 414, 244, 448" coords2="4, 414, 244, 448" shape="rect" alt="Обсудить и утвердить предложение 
+по тарификации по обращениям:Node" id="areadiagram_map_fmUBWEGGAqAGDxa4_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="285, 452, 521, 486" coords2="285, 452, 521, 486" shape="rect" alt="Подготовить предложение по учету 
+при тарификации по обращениям:Node" id="areadiagram_map_wCW.WEGGAqAGDxZh_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="138, 73, 342, 123" coords2="138, 73, 342, 123" shape="rect" alt="Составить регламент ведения 
+тарифов и коэффициентов 
+по услгам АПП:Node" id="areadiagram_map_2dLeWEGGAqAGDxZJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="433, 311, 638, 361" coords2="433, 311, 638, 361" shape="rect" alt="Скорректировать 
+схему тарификации 
+(обращения посещения услуги):Node" id="areadiagram_map_S8NuWEGGAqAGDxV6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1020, 692, 1143, 712" coords2="1020, 692, 1143, 712" shape="rect" alt="Евгений Морозов:Node" id="areadiagram_map_jhvOWEGGAqAGDxUd_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="975, 608, 1128, 628" coords2="975, 608, 1128, 628" shape="rect" alt="Надежда Вислобокова:Node" id="areadiagram_map_mQ9OWEGGAqAGDxT2_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="769, 507, 936, 557" coords2="769, 507, 936, 557" shape="rect" alt="Узнать как стимулируют 
+диспансеризацию 
+беременных:Node" id="areadiagram_map_fbKOWEGGAqAGDxTX_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1184, 577, 1264, 597" coords2="1184, 577, 1264, 597" shape="rect" alt="Участники:Node" id="areadiagram_map_xa32WEGGAqAGDxS1_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" docContent="&amp;lt;head&amp;gt;
+    
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body style=&amp;quot;color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;&amp;quot;&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1086; &amp;#1086;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;&amp;#1084; &amp;#1077;&amp;#1089;&amp;#1090;&amp;#1100; &amp;#1087;&amp;#1083;&amp;#1072;&amp;#1085; &amp;#1074; &amp;#1087;&amp;#1088;&amp;#1086;&amp;#1075;&amp;#1088;&amp;#1072;&amp;#1084;&amp;#1084;&amp;#1077; &amp;#1075;&amp;#1086;&amp;#1089; &amp;#1075;&amp;#1072;&amp;#1088;&amp;#1072;&amp;#1085;&amp;#1090;&amp;#1080;&amp;#1081; (&amp;#1088;&amp;#1072;&amp;#1079;&amp;#1076;&amp;#1077;&amp;#1083; 7).
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1083;&amp;#1072;&amp;#1085; &amp;#1087;&amp;#1086; &amp;#1082;&amp;#1086;&amp;#1083;&amp;#1080;&amp;#1095;&amp;#1077;&amp;#1089;&amp;#1090;&amp;#1074;&amp;#1091; &amp;#1080; &amp;#1089;&amp;#1091;&amp;#1084;&amp;#1084;&amp;#1077;.
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1056;&amp;#1077;&amp;#1075;&amp;#1080;&amp;#1086;&amp;#1085;&amp;#1099;, &amp;#1080; &amp;#1052;&amp;#1054;, &amp;#1089;&amp;#1086;&amp;#1086;&amp;#1090;&amp;#1074;&amp;#1077;&amp;#1089;&amp;#1090;&amp;#1074;&amp;#1077;&amp;#1085;&amp;#1085;&amp;#1086; &amp;#1076;&amp;#1086;&amp;#1083;&amp;#1078;&amp;#1085;&amp;#1099; &amp;#1074;&amp;#1099;&amp;#1087;&amp;#1086;&amp;#1083;&amp;#1085;&amp;#1080;&amp;#1090;&amp;#1100; &amp;#1101;&amp;#1090;&amp;#1086;&amp;#1090; &amp;#1087;&amp;#1083;&amp;#1072;&amp;#1085;.
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1055;&amp;#1086;&amp;#1101;&amp;#1090;&amp;#1086;&amp;#1084;&amp;#1091; &amp;#1087;&amp;#1088;&amp;#1080; &amp;#1087;&amp;#1083;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1088;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1080; &amp;#1080;&amp;#1076;&amp;#1091;&amp;#1090; &amp;#1087;&amp;#1091;&amp;#1090;&amp;#1077;&amp;#1084; &amp;#1090;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;#1080;&amp;#1082;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1080; &amp;#1086;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1081;, &amp;#1090;&amp;#1072;&amp;#1082; &amp;#1082;&amp;#1072;&amp;#1082; &amp;#1087;&amp;#1088;&amp;#1080; 
+      &amp;#1090;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;#1080;&amp;#1082;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1080; &amp;#1087;&amp;#1086; &amp;#1091;&amp;#1089;&amp;#1083;&amp;#1091;&amp;#1075;&amp;#1072;&amp;#1084; &amp;#1084;&amp;#1086;&amp;#1078;&amp;#1085;&amp;#1086; &amp;#1085;&amp;#1077; &amp;#1087;&amp;#1086;&amp;#1087;&amp;#1072;&amp;#1089;&amp;#1090;&amp;#1100; &amp;#1074; &amp;#1089;&amp;#1090;&amp;#1086;&amp;#1080;&amp;#1084;&amp;#1086;&amp;#1089;&amp;#1090;&amp;#1100; &amp;#1086;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;.
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;lt;u&amp;gt;&amp;#1054;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;:&amp;lt;/u&amp;gt;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      - &amp;#1087;&amp;#1086; &amp;#1079;&amp;#1072;&amp;#1073;&amp;#1086;&amp;#1083;&amp;#1077;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1102; (&amp;#1086;&amp;#1076;&amp;#1085;&amp;#1072; &amp;#1089;&amp;#1087;&amp;#1077;&amp;#1094;&amp;#1080;&amp;#1072;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1086;&amp;#1089;&amp;#1090;&amp;#1100; &amp;#1074;&amp;#1088;&amp;#1072;&amp;#1095;&amp;#1072; &amp;#1080;&amp;#1083;&amp;#1080; &amp;#1074;&amp;#1079;&amp;#1072;&amp;#1080;&amp;#1084;&amp;#1086;&amp;#1079;&amp;#1072;&amp;#1084;&amp;#1077;&amp;#1085;&amp;#1103;&amp;#1077;&amp;#1084;&amp;#1099;&amp;#1077; 
+      &amp;#1089;&amp;#1087;&amp;#1077;&amp;#1094;&amp;#1080;&amp;#1072;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1086;&amp;#1089;&amp;#1090;&amp;#1080; (&amp;#1090;&amp;#1077;&amp;#1088;&amp;#1072;&amp;#1087;&amp;#1077;&amp;#1074;&amp;#1090;, &amp;#1074;&amp;#1088;&amp;#1072;&amp;#1095; &amp;#1086;&amp;#1073;&amp;#1097;&amp;#1077;&amp;#1081; &amp;#1087;&amp;#1088;&amp;#1072;&amp;#1082;&amp;#1090;&amp;#1080;&amp;#1082;&amp;#1080;) + ID &amp;quot;&amp;#1048;&amp;#1089;&amp;#1090;&amp;#1086;&amp;#1080;&amp;#1080; &amp;#1073;&amp;#1086;&amp;#1083;&amp;#1077;&amp;#1079;&amp;#1085;&amp;#1080; &amp;#1040;&amp;#1055;&amp;#1055;&amp;quot;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      - &amp;#1088;&amp;#1077;&amp;#1072;&amp;#1073;&amp;#1080;&amp;#1083;&amp;#1080;&amp;#1090;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1080;. &amp;#1082;&amp;#1086;&amp;#1085;&amp;#1077;&amp;#1095;&amp;#1085;&amp;#1099;&amp;#1081; &amp;#1085;&amp;#1072;&amp;#1073;&amp;#1086;&amp;#1088; &amp;#1087;&amp;#1086;&amp;#1089;&amp;#1077;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1081; (&amp;#1091;&amp;#1089;&amp;#1083;&amp;#1091;&amp;#1075;) + ID &amp;quot;&amp;#1048;&amp;#1089;&amp;#1090;&amp;#1086;&amp;#1080;&amp;#1080; &amp;#1073;&amp;#1086;&amp;#1083;&amp;#1077;&amp;#1079;&amp;#1085;&amp;#1080; 
+      &amp;#1040;&amp;#1055;&amp;#1055;&amp;quot;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1050;&amp;#1086;&amp;#1084;&amp;#1087;&amp;#1083;&amp;#1077;&amp;#1082;&amp;#1089;&amp;#1085;&amp;#1099;&amp;#1077; &amp;#1087;&amp;#1086;&amp;#1089;&amp;#1077;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;:
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      - &amp;#1044;&amp;#1080;&amp;#1089;&amp;#1087;&amp;#1072;&amp;#1085;&amp;#1089;&amp;#1077;&amp;#1088;&amp;#1080;&amp;#1079;&amp;#1072;&amp;#1094;&amp;#1080;&amp;#1080;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      - &amp;#1055;&amp;#1088;&amp;#1086;&amp;#1092;&amp;#1080;&amp;#1083;&amp;#1072;&amp;#1082;&amp;#1090;&amp;#1080;&amp;#1095;&amp;#1077;&amp;#1089;&amp;#1082;&amp;#1080;&amp;#1077; &amp;#1086;&amp;#1089;&amp;#1084;&amp;#1086;&amp;#1090;&amp;#1088;&amp;#1099;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;nbsp;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1054;&amp;#1090;&amp;#1076;&amp;#1077;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1099;&amp;#1081; &amp;#1074;&amp;#1086;&amp;#1087;&amp;#1088;&amp;#1086;&amp;#1089; &amp;#1087;&amp;#1086; &amp;#1087;&amp;#1086;&amp;#1089;&amp;#1077;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;&amp;#1084; &amp;#1087;&amp;#1086; &amp;quot;&amp;#1053;&amp;#1077;&amp;#1086;&amp;#1090;&amp;#1083;&amp;#1086;&amp;#1078;&amp;#1085;&amp;#1086;&amp;#1081; &amp;#1087;&amp;#1086;&amp;#1084;&amp;#1086;&amp;#1097;&amp;#1080;&amp;quot; (&amp;#1087;&amp;#1083;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1088;&amp;#1091;&amp;#1102;&amp;#1090;&amp;#1089;&amp;#1103; &amp;#1080; 
+      &amp;#1090;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1088;&amp;#1091;&amp;#1102;&amp;#1090;&amp;#1089;&amp;#1103; &amp;#1087;&amp;#1086; &amp;#1087;&amp;#1086;&amp;#1089;&amp;#1077;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1102;)
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1045;&amp;#1089;&amp;#1083;&amp;#1080; &amp;#1076;&amp;#1072;&amp;#1083;&amp;#1100;&amp;#1096;&amp;#1077; &amp;#1087;&amp;#1088;&amp;#1086;&amp;#1076;&amp;#1086;&amp;#1083;&amp;#1078;&amp;#1077;&amp;#1085;&amp;#1086; &amp;#1083;&amp;#1077;&amp;#1095;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1087;&amp;#1086; &amp;#1079;&amp;#1072;&amp;#1073;&amp;#1086;&amp;#1083;&amp;#1077;&amp;#1074;&amp;#1072;&amp;#1085;&amp;#1080;&amp;#1102;, &amp;#1090;&amp;#1086;
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      - &amp;#1082;&amp;#1072;&amp;#1082; &amp;#1090;&amp;#1072;&amp;#1088;&amp;#1080;&amp;#1092;&amp;#1080;&amp;#1094;&amp;#1080;&amp;#1088;&amp;#1086;&amp;#1074;&amp;#1072;&amp;#1090;&amp;#1100; &amp;#1076;&amp;#1072;&amp;#1083;&amp;#1100;&amp;#1085;&amp;#1077;&amp;#1081;&amp;#1096;&amp;#1077;&amp;#1077; &amp;#1086;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077;?
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      - &amp;#1074;&amp;#1082;&amp;#1083;&amp;#1102;&amp;#1095;&amp;#1072;&amp;#1090;&amp;#1100; &amp;#1083;&amp;#1080; &amp;#1087;&amp;#1086;&amp;#1089;&amp;#1077;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077; &amp;#1087;&amp;#1086; &amp;#1085;&amp;#1077;&amp;#1086;&amp;#1090;&amp;#1083;&amp;#1086;&amp;#1078;&amp;#1085;&amp;#1086;&amp;#1081; &amp;#1087;&amp;#1086;&amp;#1084;&amp;#1086;&amp;#1097;&amp;#1080; &amp;#1074; &amp;#1086;&amp;#1073;&amp;#1088;&amp;#1072;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077;, &amp;#1082;&amp;#1072;&amp;#1082; &amp;#1085;&amp;#1072;&amp;#1095;&amp;#1072;&amp;#1083;&amp;#1086; 
+      &amp;#1083;&amp;#1077;&amp;#1095;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1103;.
+    &amp;lt;/p&amp;gt;
+    &amp;lt;p style=&amp;quot;margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;&amp;quot;&amp;gt;
+      &amp;#1057;&amp;#1082;&amp;#1086;&amp;#1088;&amp;#1077; &amp;#1074;&amp;#1089;&amp;#1077;&amp;#1075;&amp;#1086; &amp;#1085;&amp;#1072;&amp;#1076;&amp;#1086; &amp;#1087;&amp;#1088;&amp;#1086;&amp;#1089;&amp;#1090;&amp;#1086; &amp;#1088;&amp;#1072;&amp;#1079;&amp;#1076;&amp;#1077;&amp;#1083;&amp;#1080;&amp;#1090;&amp;#1100; &amp;#1080; &amp;#1085;&amp;#1077; &amp;#1074;&amp;#1082;&amp;#1083;&amp;#1102;&amp;#1102;&amp;#1095;&amp;#1072;&amp;#1090;&amp;#1100;. &amp;#1045;&amp;#1089;&amp;#1083;&amp;#1080; &amp;#1073;&amp;#1091;&amp;#1076;&amp;#1077;&amp;#1090; &amp;#1087;&amp;#1088;&amp;#1086;&amp;#1076;&amp;#1086;&amp;#1083;&amp;#1078;&amp;#1077;&amp;#1085;&amp;#1086; 
+      &amp;#1083;&amp;#1077;&amp;#1095;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077;, &amp;#1090;&amp;#1086; &amp;#1073;&amp;#1091;&amp;#1076;&amp;#1077;&amp;#1090; &amp;#1086;&amp;#1090;&amp;#1082;&amp;#1088;&amp;#1099;&amp;#1090;&amp;#1086; &amp;#1086;&amp;#1073;&amp;#1086;&amp;#1088;&amp;#1072;&amp;#1097;&amp;#1077;&amp;#1085;&amp;#1080;&amp;#1077;.
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;" coords="687, 407, 921, 441" coords2="687, 407, 921, 441" shape="rect" alt="Уточнить цели тарификации 
+по обращению и что тарифицируют:Node" id="areadiagram_map_gT.2WEGGAqAGDxSP_default" href="MindMapNode_gT_2WEGGAqAGDxSQ.html" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),showTooltip(this)" onmousedown="clearSpotLight();" onmouseout="hideTooltip()"/>
+<area imageId="diagram" coords="1065, 96, 1210, 146" coords2="1065, 96, 1210, 146" shape="rect" alt="??? Предложения по 
+доработке 
+ТНКУ:Node" id="areadiagram_map_jD02WEGGAqAGDxR1_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="138, 4, 338, 38" coords2="138, 4, 338, 38" shape="rect" alt="Нарисовать схему для
+ тарификации по услугам АПП:Node" id="areadiagram_map_3ajWWEGGAqAGDxRH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="390, 38, 538, 72" coords2="390, 38, 538, 72" shape="rect" alt="Обсудить 
+обобщенную таблицу:Node" id="areadiagram_map_EuQmWEGGAqAGDxQh_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="539, 73, 729, 107" coords2="539, 73, 729, 107" shape="rect" alt="Составить обобщенную 
+ таблицу по коэффициентам:Node" id="areadiagram_map_zzlGWEGGAqAGDxQJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="719, 130, 905, 164" coords2="719, 130, 905, 164" shape="rect" alt="Анализ ТС регионов, 
+выделение коэффициентов:Node" id="areadiagram_map_gJOGWEGGAqAGDxPx_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="997, 414, 1183, 448" coords2="997, 414, 1183, 448" shape="rect" alt="Тарификация законченного 
+случая (обращения):Node" id="areadiagram_map_FlqGWEGGAqAGDxPb_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="910, 193, 1078, 213" coords2="910, 193, 1078, 213" shape="rect" alt="Тарификация по услугам:Node" id="areadiagram_map_cfIGWEGGAqAGDxPJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1215, 342, 1311, 362" coords2="1215, 342, 1311, 362" shape="rect" alt="Тарифы АПП:Node" id="areadiagram_map_FEX6WEGGAqAGDxO3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2353, 322, 2724, 342" coords2="2353, 322, 2724, 342" shape="rect" alt="Подготовить предложение по учету профиля МП в ФПУМП:Node" id="areadiagram_map_PGA6WEGGAqAGDxN7_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2238, 175, 2428, 209" coords2="2238, 175, 2428, 209" shape="rect" alt="Подготовить предложение 
+по унификации справочника:Node" id="areadiagram_map_FnFaWEGGAqAGDxNd_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2028, 433, 2282, 467" coords2="2028, 433, 2282, 467" shape="rect" alt="Нарисовать схему 
+отделение-мед. работник для МГФОМС:Node" id="areadiagram_map_YpyaWEGGAqAGDxNL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2046, 310, 2189, 360" coords2="2046, 310, 2189, 360" shape="rect" alt="Посмотреть как 
+определяют
+ профиль в регионах:Node" id="areadiagram_map_H89qWEGGAqAGDxM1_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2008, 215, 2168, 249" coords2="2008, 215, 2168, 249" shape="rect" alt="Сравнить справочники 
+Минздрава и ФОМС:Node" id="areadiagram_map_Hn.qWEGGAqAGDxL__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1794, 272, 1930, 292" coords2="1794, 272, 1930, 292" shape="rect" alt="Профиль МП в АПП:Node" id="areadiagram_map_Y6mqWEGGAqAGDwzm_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1313, 448, 1457, 488" coords2="1313, 448, 1457, 488" shape="rect" alt="АПП в ФПУМП:Node" id="areadiagram_map_UrSqWEGGAqAGDwy6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_SElX_EGGAqAGDxtI.html" class="ItemLink">Найти в НПА определение профиля МП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_di1J_EGGAqAGDw31.html" class="ItemLink">Текущий ТАП: 
+- добавить онкологию
+- сделать описание реквизитов : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_u_GNWEGGAqAGDw_j.html" class="ItemLink"> ???Алгоритм расчета дифференцированных подушевых нормативов (пр 108н, ст 181)  : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_v5wNWEGGAqAGDw_3.html" class="ItemLink">Посмотреть текущую инструкцию : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_iJv1WEGGAqAGDw_h.html" class="ItemLink">Подготовить предложение по структуре инструкции : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_8lb1WEGGAqAGDw_J.html" class="ItemLink">Инструкция по учету МП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_S151WEGGAqAGDw9r.html" class="ItemLink">Подушевое финансирование : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_Sg1FWEGGAqAGDw6k.html" class="ItemLink">Анализ ТС регионов 
+тарификации 
+по обращениям : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_IHs5WEGGAqAGDw3z.html" class="ItemLink">Обсудить и утвердить 
+учет МП в ФПУМП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_15LZWEGGAqAGDw3R.html" class="ItemLink">Скорректировать 
+ схему классов ТАП 
+и состав реквизитов : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_6FiZWEGGAqAGDwlz.html" class="ItemLink">Состав ТАП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_BToZWEGGAqAGDwlh.html" class="ItemLink">Нарисовать схему "to be" : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_nLzJWEGGAqAGDwkV.html" class="ItemLink">Посмотреть Регламент инф взаимодействия
+и нарисовать схему "as is" : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_vmFJWEGGAqAGDwkD.html" class="ItemLink">Определение F_Type : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode__WOJWEGGAqAGDwjt.html" class="ItemLink">Формирование счетов по АПП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_w_EJWEGGAqAGDwjX.html" class="ItemLink">Узнать чем 
+регламентируется,
+как формируется : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_v1_xWEGGAqAGDwi_.html" class="ItemLink">Монитрониг по 
+профилю в АПП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_fmUBWEGGAqAGDxa5.html" class="ItemLink">Обсудить и утвердить предложение 
+по тарификации по обращениям : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_wCW_WEGGAqAGDxZi.html" class="ItemLink">Подготовить предложение по учету 
+при тарификации по обращениям : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_2dLeWEGGAqAGDxZK.html" class="ItemLink">Составить регламент ведения 
+тарифов и коэффициентов 
+по услгам АПП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_S8NuWEGGAqAGDxV7.html" class="ItemLink">Скорректировать 
+схему тарификации 
+(обращения посещения услуги) : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_jhvOWEGGAqAGDxUe.html" class="ItemLink">Евгений Морозов : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_mQ9OWEGGAqAGDxT3.html" class="ItemLink">Надежда Вислобокова : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_fbKOWEGGAqAGDxTY.html" class="ItemLink">Узнать как стимулируют 
+диспансеризацию 
+беременных : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_xa32WEGGAqAGDxS2.html" class="ItemLink">Участники : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_gT_2WEGGAqAGDxSQ.html" class="ItemLink">Уточнить цели тарификации 
+по обращению и что тарифицируют : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"><head>
+    
+  </head>
+  <body style="color:#000000;margin-right:0;font-weight:normal;font-size:12px;margin-left:0;font-family:Dialog;">
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1086; &#1086;&#1073;&#1088;&#1072;&#1097;&#1077;&#1085;&#1080;&#1103;&#1084; &#1077;&#1089;&#1090;&#1100; &#1087;&#1083;&#1072;&#1085; &#1074; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1077; &#1075;&#1086;&#1089; &#1075;&#1072;&#1088;&#1072;&#1085;&#1090;&#1080;&#1081; (&#1088;&#1072;&#1079;&#1076;&#1077;&#1083; 7).
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1083;&#1072;&#1085; &#1087;&#1086; &#1082;&#1086;&#1083;&#1080;&#1095;&#1077;&#1089;&#1090;&#1074;&#1091; &#1080; &#1089;&#1091;&#1084;&#1084;&#1077;.
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1056;&#1077;&#1075;&#1080;&#1086;&#1085;&#1099;, &#1080; &#1052;&#1054;, &#1089;&#1086;&#1086;&#1090;&#1074;&#1077;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1086; &#1076;&#1086;&#1083;&#1078;&#1085;&#1099; &#1074;&#1099;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1100; &#1101;&#1090;&#1086;&#1090; &#1087;&#1083;&#1072;&#1085;.
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1055;&#1086;&#1101;&#1090;&#1086;&#1084;&#1091; &#1087;&#1088;&#1080; &#1087;&#1083;&#1072;&#1085;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1080;&#1080; &#1080;&#1076;&#1091;&#1090; &#1087;&#1091;&#1090;&#1077;&#1084; &#1090;&#1072;&#1088;&#1080;&#1092;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080; &#1086;&#1073;&#1088;&#1072;&#1097;&#1077;&#1085;&#1080;&#1081;, &#1090;&#1072;&#1082; &#1082;&#1072;&#1082; &#1087;&#1088;&#1080; 
+      &#1090;&#1072;&#1088;&#1080;&#1092;&#1080;&#1082;&#1072;&#1094;&#1080;&#1080; &#1087;&#1086; &#1091;&#1089;&#1083;&#1091;&#1075;&#1072;&#1084; &#1084;&#1086;&#1078;&#1085;&#1086; &#1085;&#1077; &#1087;&#1086;&#1087;&#1072;&#1089;&#1090;&#1100; &#1074; &#1089;&#1090;&#1086;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100; &#1086;&#1073;&#1088;&#1072;&#1097;&#1077;&#1085;&#1080;&#1103;.
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      <u>&#1054;&#1073;&#1088;&#1072;&#1097;&#1077;&#1085;&#1080;&#1103;:</u>
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      - &#1087;&#1086; &#1079;&#1072;&#1073;&#1086;&#1083;&#1077;&#1074;&#1072;&#1085;&#1080;&#1102; (&#1086;&#1076;&#1085;&#1072; &#1089;&#1087;&#1077;&#1094;&#1080;&#1072;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1100; &#1074;&#1088;&#1072;&#1095;&#1072; &#1080;&#1083;&#1080; &#1074;&#1079;&#1072;&#1080;&#1084;&#1086;&#1079;&#1072;&#1084;&#1077;&#1085;&#1103;&#1077;&#1084;&#1099;&#1077; 
+      &#1089;&#1087;&#1077;&#1094;&#1080;&#1072;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1080; (&#1090;&#1077;&#1088;&#1072;&#1087;&#1077;&#1074;&#1090;, &#1074;&#1088;&#1072;&#1095; &#1086;&#1073;&#1097;&#1077;&#1081; &#1087;&#1088;&#1072;&#1082;&#1090;&#1080;&#1082;&#1080;) + ID &quot;&#1048;&#1089;&#1090;&#1086;&#1080;&#1080; &#1073;&#1086;&#1083;&#1077;&#1079;&#1085;&#1080; &#1040;&#1055;&#1055;&quot;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      - &#1088;&#1077;&#1072;&#1073;&#1080;&#1083;&#1080;&#1090;&#1072;&#1094;&#1080;&#1080;. &#1082;&#1086;&#1085;&#1077;&#1095;&#1085;&#1099;&#1081; &#1085;&#1072;&#1073;&#1086;&#1088; &#1087;&#1086;&#1089;&#1077;&#1097;&#1077;&#1085;&#1080;&#1081; (&#1091;&#1089;&#1083;&#1091;&#1075;) + ID &quot;&#1048;&#1089;&#1090;&#1086;&#1080;&#1080; &#1073;&#1086;&#1083;&#1077;&#1079;&#1085;&#1080; 
+      &#1040;&#1055;&#1055;&quot;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1050;&#1086;&#1084;&#1087;&#1083;&#1077;&#1082;&#1089;&#1085;&#1099;&#1077; &#1087;&#1086;&#1089;&#1077;&#1097;&#1077;&#1085;&#1080;&#1103;:
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      - &#1044;&#1080;&#1089;&#1087;&#1072;&#1085;&#1089;&#1077;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      - &#1055;&#1088;&#1086;&#1092;&#1080;&#1083;&#1072;&#1082;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1077; &#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1099;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &nbsp;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1054;&#1090;&#1076;&#1077;&#1083;&#1100;&#1085;&#1099;&#1081; &#1074;&#1086;&#1087;&#1088;&#1086;&#1089; &#1087;&#1086; &#1087;&#1086;&#1089;&#1077;&#1097;&#1077;&#1085;&#1080;&#1103;&#1084; &#1087;&#1086; &quot;&#1053;&#1077;&#1086;&#1090;&#1083;&#1086;&#1078;&#1085;&#1086;&#1081; &#1087;&#1086;&#1084;&#1086;&#1097;&#1080;&quot; (&#1087;&#1083;&#1072;&#1085;&#1080;&#1088;&#1091;&#1102;&#1090;&#1089;&#1103; &#1080; 
+      &#1090;&#1072;&#1088;&#1080;&#1092;&#1080;&#1094;&#1080;&#1088;&#1091;&#1102;&#1090;&#1089;&#1103; &#1087;&#1086; &#1087;&#1086;&#1089;&#1077;&#1097;&#1077;&#1085;&#1080;&#1102;)
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1045;&#1089;&#1083;&#1080; &#1076;&#1072;&#1083;&#1100;&#1096;&#1077; &#1087;&#1088;&#1086;&#1076;&#1086;&#1083;&#1078;&#1077;&#1085;&#1086; &#1083;&#1077;&#1095;&#1077;&#1085;&#1080;&#1077; &#1087;&#1086; &#1079;&#1072;&#1073;&#1086;&#1083;&#1077;&#1074;&#1072;&#1085;&#1080;&#1102;, &#1090;&#1086;
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      - &#1082;&#1072;&#1082; &#1090;&#1072;&#1088;&#1080;&#1092;&#1080;&#1094;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1076;&#1072;&#1083;&#1100;&#1085;&#1077;&#1081;&#1096;&#1077;&#1077; &#1086;&#1073;&#1088;&#1072;&#1097;&#1077;&#1085;&#1080;&#1077;?
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      - &#1074;&#1082;&#1083;&#1102;&#1095;&#1072;&#1090;&#1100; &#1083;&#1080; &#1087;&#1086;&#1089;&#1077;&#1097;&#1077;&#1085;&#1080;&#1077; &#1087;&#1086; &#1085;&#1077;&#1086;&#1090;&#1083;&#1086;&#1078;&#1085;&#1086;&#1081; &#1087;&#1086;&#1084;&#1086;&#1097;&#1080; &#1074; &#1086;&#1073;&#1088;&#1072;&#1097;&#1077;&#1085;&#1080;&#1077;, &#1082;&#1072;&#1082; &#1085;&#1072;&#1095;&#1072;&#1083;&#1086; 
+      &#1083;&#1077;&#1095;&#1077;&#1085;&#1080;&#1103;.
+    </p>
+    <p style="margin-right:0pt;margin-left:0pt;margin-bottom:0px;margin-top:0px;">
+      &#1057;&#1082;&#1086;&#1088;&#1077; &#1074;&#1089;&#1077;&#1075;&#1086; &#1085;&#1072;&#1076;&#1086; &#1087;&#1088;&#1086;&#1089;&#1090;&#1086; &#1088;&#1072;&#1079;&#1076;&#1077;&#1083;&#1080;&#1090;&#1100; &#1080; &#1085;&#1077; &#1074;&#1082;&#1083;&#1102;&#1102;&#1095;&#1072;&#1090;&#1100;. &#1045;&#1089;&#1083;&#1080; &#1073;&#1091;&#1076;&#1077;&#1090; &#1087;&#1088;&#1086;&#1076;&#1086;&#1083;&#1078;&#1077;&#1085;&#1086; 
+      &#1083;&#1077;&#1095;&#1077;&#1085;&#1080;&#1077;, &#1090;&#1086; &#1073;&#1091;&#1076;&#1077;&#1090; &#1086;&#1090;&#1082;&#1088;&#1099;&#1090;&#1086; &#1086;&#1073;&#1086;&#1088;&#1072;&#1097;&#1077;&#1085;&#1080;&#1077;.
+    </p>
+  </body></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_jD02WEGGAqAGDxR2.html" class="ItemLink">??? Предложения по 
+доработке 
+ТНКУ : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_3ajWWEGGAqAGDxRI.html" class="ItemLink">Нарисовать схему для
+ тарификации по услугам АПП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_EuQmWEGGAqAGDxQi.html" class="ItemLink">Обсудить 
+обобщенную таблицу : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_zzlGWEGGAqAGDxQK.html" class="ItemLink">Составить обобщенную 
+ таблицу по коэффициентам : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_QJOGWEGGAqAGDxPy.html" class="ItemLink">Анализ ТС регионов, 
+выделение коэффициентов : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_FlqGWEGGAqAGDxPc.html" class="ItemLink">Тарификация законченного 
+случая (обращения) : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_cfIGWEGGAqAGDxPK.html" class="ItemLink">Тарификация по услугам : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_FEX6WEGGAqAGDxO4.html" class="ItemLink">Тарифы АПП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_PGA6WEGGAqAGDxN8.html" class="ItemLink">Подготовить предложение по учету профиля МП в ФПУМП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_FnFaWEGGAqAGDxNe.html" class="ItemLink">Подготовить предложение 
+по унификации справочника : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_YpyaWEGGAqAGDxNM.html" class="ItemLink">Нарисовать схему 
+отделение-мед. работник для МГФОМС : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_H89qWEGGAqAGDxM2.html" class="ItemLink">Посмотреть как 
+определяют
+ профиль в регионах : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_nn_qWEGGAqAGDxMA.html" class="ItemLink">Сравнить справочники 
+Минздрава и ФОМС : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_Y6mqWEGGAqAGDwzn.html" class="ItemLink">Профиль МП в АПП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Node.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Node.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="MindMapNode_UrSqWEGGAqAGDwy7.html" class="ItemLink">АПП в ФПУМП : Node</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

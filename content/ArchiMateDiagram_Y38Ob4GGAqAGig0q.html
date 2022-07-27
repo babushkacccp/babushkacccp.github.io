@@ -1,0 +1,611 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>ArchiMate Diagram - ЕРЗЛ для ПУМП</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			ArchiMate Diagram - ЕРЗЛ для ПУМП		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/Y38Ob4GGAqAGig0q', '&#x415;&#x420;&#x417;&#x41b; &#x434;&#x43b;&#x44f; &#x41f;&#x423;&#x41c;&#x41f;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/Y38Ob4GGAqAGig0q', '&#x415;&#x420;&#x417;&#x41b; &#x434;&#x43b;&#x44f; &#x41f;&#x423;&#x41c;&#x41f;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_35.png" usemap="#diagram_map" class="Image" width="1577" height="751"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="148.0, 29.0, 148.0, 43.0, 219.0, 43.0, 219.0, 29.0" coords2="148.0, 29.0, 148.0, 43.0, 219.0, 43.0, 219.0, 29.0" shape="poly" alt="Реализует:Realization" id="areadiagram_map_rCkub4GGAqAGig3d_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="365.0, 25.0, 365.0, 39.0, 437.0, 39.0, 437.0, 25.0" coords2="365.0, 25.0, 365.0, 39.0, 437.0, 39.0, 437.0, 25.0" shape="poly" alt=":Serving" id="areadiagram_map_a21.b4GGAqAGig8Q_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="282.0, 69.0, 282.0, 704.0, 279.0, 704.0, 279.0, 718.0, 282.0, 718.0, 282.0, 721.0, 296.0, 721.0, 296.0, 718.0, 438.0, 718.0, 438.0, 704.0, 296.0, 704.0, 296.0, 69.0" coords2="282.0, 69.0, 282.0, 704.0, 279.0, 704.0, 279.0, 718.0, 282.0, 718.0, 282.0, 721.0, 296.0, 721.0, 296.0, 718.0, 438.0, 718.0, 438.0, 704.0, 296.0, 704.0, 296.0, 69.0" shape="poly" alt=":Serving" id="areadiagram_map_3jglb4GGAqAGig9V_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="674.0, 26.0, 674.0, 40.0, 863.0, 40.0, 863.0, 26.0" coords2="674.0, 26.0, 674.0, 40.0, 863.0, 40.0, 863.0, 26.0" shape="poly" alt=":Serving" id="areadiagram_map_Evjtb4GGAqAGihIH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="675.0, 706.0, 675.0, 720.0, 864.0, 720.0, 864.0, 706.0" coords2="675.0, 706.0, 675.0, 720.0, 864.0, 720.0, 864.0, 706.0" shape="poly" alt=":Serving" id="areadiagram_map_d_Ltb4GGAqAGihIT_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1011.0, 706.0, 1011.0, 720.0, 1073.0, 720.0, 1073.0, 706.0" coords2="1011.0, 706.0, 1011.0, 720.0, 1073.0, 720.0, 1073.0, 706.0" shape="poly" alt=":Serving" id="areadiagram_map_9Rbtb4GGAqAGihIZ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1009.0, 27.0, 1009.0, 41.0, 1073.0, 41.0, 1073.0, 27.0" coords2="1009.0, 27.0, 1009.0, 41.0, 1073.0, 41.0, 1073.0, 27.0" shape="poly" alt=":Serving" id="areadiagram_map_Zu_534GGAqAGigv6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="676.0, 103.0, 676.0, 117.0, 864.0, 117.0, 864.0, 103.0" coords2="676.0, 103.0, 676.0, 117.0, 864.0, 117.0, 864.0, 103.0" shape="poly" alt=":Serving" id="areadiagram_map_Tldb34GGAqAGihHF_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="543.0, 159.0, 543.0, 189.0, 557.0, 189.0, 557.0, 159.0" coords2="543.0, 159.0, 543.0, 189.0, 557.0, 189.0, 557.0, 159.0" shape="poly" alt="Дополняет:Specialization" id="areadiagram_map_vlVH34GGAqAGihIw_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="282.0, 69.0, 282.0, 222.0, 279.0, 222.0, 279.0, 236.0, 282.0, 236.0, 282.0, 239.0, 296.0, 239.0, 296.0, 236.0, 439.0, 236.0, 439.0, 222.0, 296.0, 222.0, 296.0, 69.0" coords2="282.0, 69.0, 282.0, 222.0, 279.0, 222.0, 279.0, 236.0, 282.0, 236.0, 282.0, 239.0, 296.0, 239.0, 296.0, 236.0, 439.0, 236.0, 439.0, 222.0, 296.0, 222.0, 296.0, 69.0" shape="poly" alt=":Serving" id="areadiagram_map_En5n34GGAqAGihKP_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="282.0, 69.0, 282.0, 117.0, 279.0, 117.0, 279.0, 131.0, 282.0, 131.0, 282.0, 134.0, 296.0, 134.0, 296.0, 131.0, 438.0, 131.0, 438.0, 117.0, 296.0, 117.0, 296.0, 69.0" coords2="282.0, 69.0, 282.0, 117.0, 279.0, 117.0, 279.0, 131.0, 282.0, 131.0, 282.0, 134.0, 296.0, 134.0, 296.0, 131.0, 438.0, 131.0, 438.0, 117.0, 296.0, 117.0, 296.0, 69.0" shape="poly" alt=":Serving" id="areadiagram_map_T.Hn34GGAqAGihLJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="677.0, 211.0, 677.0, 225.0, 864.0, 225.0, 864.0, 211.0" coords2="677.0, 211.0, 677.0, 225.0, 864.0, 225.0, 864.0, 211.0" shape="poly" alt=":Serving" id="areadiagram_map_NDUX34GGAqAGihMH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="545.0, 367.0, 545.0, 398.0, 559.0, 398.0, 559.0, 367.0" coords2="545.0, 367.0, 545.0, 398.0, 559.0, 398.0, 559.0, 367.0" shape="poly" alt="Дополняет:Specialization" id="areadiagram_map_bpf0P4GGAqAGihhC_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="928.0, 272.0, 928.0, 586.0, 942.0, 586.0, 942.0, 272.0" coords2="928.0, 272.0, 928.0, 586.0, 942.0, 586.0, 942.0, 272.0" shape="poly" alt=":Serving" id="areadiagram_map_xprcP4GGAqAGihkz_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="674.0, 612.0, 674.0, 626.0, 864.0, 626.0, 864.0, 612.0" coords2="674.0, 612.0, 674.0, 626.0, 864.0, 626.0, 864.0, 612.0" shape="poly" alt=":Serving" id="areadiagram_map_cx3cP4GGAqAGihk__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1139.0, 67.0, 1139.0, 117.0, 1010.0, 117.0, 1010.0, 131.0, 1139.0, 131.0, 1139.0, 134.0, 1153.0, 134.0, 1153.0, 131.0, 1156.0, 131.0, 1156.0, 117.0, 1153.0, 117.0, 1153.0, 67.0" coords2="1139.0, 67.0, 1139.0, 117.0, 1010.0, 117.0, 1010.0, 131.0, 1139.0, 131.0, 1139.0, 134.0, 1153.0, 134.0, 1153.0, 131.0, 1156.0, 131.0, 1156.0, 117.0, 1153.0, 117.0, 1153.0, 67.0" shape="poly" alt=":Serving" id="areadiagram_map_i6l8P4GGAqAGihln_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1139.0, 67.0, 1139.0, 222.0, 1010.0, 222.0, 1010.0, 236.0, 1139.0, 236.0, 1139.0, 239.0, 1153.0, 239.0, 1153.0, 236.0, 1156.0, 236.0, 1156.0, 222.0, 1153.0, 222.0, 1153.0, 67.0" coords2="1139.0, 67.0, 1139.0, 222.0, 1010.0, 222.0, 1010.0, 236.0, 1139.0, 236.0, 1139.0, 239.0, 1153.0, 239.0, 1153.0, 236.0, 1156.0, 236.0, 1156.0, 222.0, 1153.0, 222.0, 1153.0, 67.0" shape="poly" alt=":Serving" id="areadiagram_map_uDj8P4GGAqAGihl8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1175.0, 651.0, 1175.0, 681.0, 1189.0, 681.0, 1189.0, 651.0" coords2="1175.0, 651.0, 1175.0, 681.0, 1189.0, 681.0, 1189.0, 651.0" shape="poly" alt=":Serving" id="areadiagram_map_nV9TAEGGAqAGigjk_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1173.0, 67.0, 1173.0, 586.0, 1187.0, 586.0, 1187.0, 67.0" coords2="1173.0, 67.0, 1173.0, 586.0, 1187.0, 586.0, 1187.0, 67.0" shape="poly" alt=":Serving" id="areadiagram_map_l07TAEGGAqAGigjq_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1219.0, 24.0, 1219.0, 38.0, 1313.0, 38.0, 1313.0, 24.0" coords2="1219.0, 24.0, 1219.0, 38.0, 1313.0, 38.0, 1313.0, 24.0" shape="poly" alt=":Serving" id="areadiagram_map_zmlrAEGGAqAGigml_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1219.0, 57.0, 1219.0, 67.0, 1212.0, 67.0, 1212.0, 119.0, 1209.0, 119.0, 1209.0, 133.0, 1212.0, 133.0, 1212.0, 136.0, 1226.0, 136.0, 1226.0, 133.0, 1313.0, 133.0, 1313.0, 119.0, 1226.0, 119.0, 1226.0, 57.0" coords2="1219.0, 57.0, 1219.0, 67.0, 1212.0, 67.0, 1212.0, 119.0, 1209.0, 119.0, 1209.0, 133.0, 1212.0, 133.0, 1212.0, 136.0, 1226.0, 136.0, 1226.0, 133.0, 1313.0, 133.0, 1313.0, 119.0, 1226.0, 119.0, 1226.0, 57.0" shape="poly" alt=":Serving" id="areadiagram_map_3VVrAEGGAqAGigms_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1219.0, 57.0, 1219.0, 67.0, 1212.0, 67.0, 1212.0, 222.0, 1209.0, 222.0, 1209.0, 236.0, 1212.0, 236.0, 1212.0, 239.0, 1226.0, 239.0, 1226.0, 236.0, 1313.0, 236.0, 1313.0, 222.0, 1226.0, 222.0, 1226.0, 57.0" coords2="1219.0, 57.0, 1219.0, 67.0, 1212.0, 67.0, 1212.0, 222.0, 1209.0, 222.0, 1209.0, 236.0, 1212.0, 236.0, 1212.0, 239.0, 1226.0, 239.0, 1226.0, 236.0, 1313.0, 236.0, 1313.0, 222.0, 1226.0, 222.0, 1226.0, 57.0" shape="poly" alt=":Serving" id="areadiagram_map_rsjrAEGGAqAGignA_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1219.0, 57.0, 1219.0, 67.0, 1212.0, 67.0, 1212.0, 327.0, 1209.0, 327.0, 1209.0, 341.0, 1212.0, 341.0, 1212.0, 344.0, 1226.0, 344.0, 1226.0, 341.0, 1313.0, 341.0, 1313.0, 327.0, 1226.0, 327.0, 1226.0, 57.0" coords2="1219.0, 57.0, 1219.0, 67.0, 1212.0, 67.0, 1212.0, 327.0, 1209.0, 327.0, 1209.0, 341.0, 1212.0, 341.0, 1212.0, 344.0, 1226.0, 344.0, 1226.0, 341.0, 1313.0, 341.0, 1313.0, 327.0, 1226.0, 327.0, 1226.0, 57.0" shape="poly" alt=":Serving" id="areadiagram_map_A6zrAEGGAqAGignG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1219.0, 57.0, 1219.0, 67.0, 1212.0, 67.0, 1212.0, 411.0, 1209.0, 411.0, 1209.0, 425.0, 1212.0, 425.0, 1212.0, 428.0, 1226.0, 428.0, 1226.0, 425.0, 1313.0, 425.0, 1313.0, 418.0, 1323.0, 418.0, 1323.0, 411.0, 1226.0, 411.0, 1226.0, 57.0" coords2="1219.0, 57.0, 1219.0, 67.0, 1212.0, 67.0, 1212.0, 411.0, 1209.0, 411.0, 1209.0, 425.0, 1212.0, 425.0, 1212.0, 428.0, 1226.0, 428.0, 1226.0, 425.0, 1313.0, 425.0, 1313.0, 418.0, 1323.0, 418.0, 1323.0, 411.0, 1226.0, 411.0, 1226.0, 57.0" shape="poly" alt=":Serving" id="areadiagram_map_6dXrAEGGAqAGignM_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1212.0, 418.0, 1212.0, 421.0, 1209.0, 421.0, 1209.0, 435.0, 1212.0, 435.0, 1212.0, 586.0, 1219.0, 586.0, 1219.0, 596.0, 1226.0, 596.0, 1226.0, 435.0, 1313.0, 435.0, 1313.0, 421.0, 1226.0, 421.0, 1226.0, 418.0" coords2="1212.0, 418.0, 1212.0, 421.0, 1209.0, 421.0, 1209.0, 435.0, 1212.0, 435.0, 1212.0, 586.0, 1219.0, 586.0, 1219.0, 596.0, 1226.0, 596.0, 1226.0, 435.0, 1313.0, 435.0, 1313.0, 421.0, 1226.0, 421.0, 1226.0, 418.0" shape="poly" alt=":Serving" id="areadiagram_map_ja4bAEGGAqAGigoC_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1316.0, 438.0, 1316.0, 706.0, 1220.0, 706.0, 1220.0, 720.0, 1316.0, 720.0, 1316.0, 723.0, 1330.0, 723.0, 1330.0, 720.0, 1333.0, 720.0, 1333.0, 706.0, 1330.0, 706.0, 1330.0, 438.0" coords2="1316.0, 438.0, 1316.0, 706.0, 1220.0, 706.0, 1220.0, 720.0, 1316.0, 720.0, 1316.0, 723.0, 1330.0, 723.0, 1330.0, 720.0, 1333.0, 720.0, 1333.0, 706.0, 1330.0, 706.0, 1330.0, 438.0" shape="poly" alt=":Serving" id="areadiagram_map_wf0bAEGGAqAGigoY_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1333.0, 25.0, 1333.0, 39.0, 1427.0, 39.0, 1427.0, 25.0" coords2="1333.0, 25.0, 1333.0, 39.0, 1427.0, 39.0, 1427.0, 25.0" shape="poly" alt=":Serving" id="areadiagram_map_AZybAEGGAqAGigow_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1492.0, 66.0, 1492.0, 120.0, 1333.0, 120.0, 1333.0, 134.0, 1492.0, 134.0, 1492.0, 137.0, 1506.0, 137.0, 1506.0, 134.0, 1509.0, 134.0, 1509.0, 120.0, 1506.0, 120.0, 1506.0, 66.0" coords2="1492.0, 66.0, 1492.0, 120.0, 1333.0, 120.0, 1333.0, 134.0, 1492.0, 134.0, 1492.0, 137.0, 1506.0, 137.0, 1506.0, 134.0, 1509.0, 134.0, 1509.0, 120.0, 1506.0, 120.0, 1506.0, 66.0" shape="poly" alt=":Serving" id="areadiagram_map_BkabAEGGAqAGigo8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1492.0, 66.0, 1492.0, 221.0, 1333.0, 221.0, 1333.0, 235.0, 1492.0, 235.0, 1492.0, 238.0, 1506.0, 238.0, 1506.0, 235.0, 1509.0, 235.0, 1509.0, 221.0, 1506.0, 221.0, 1506.0, 66.0" coords2="1492.0, 66.0, 1492.0, 221.0, 1333.0, 221.0, 1333.0, 235.0, 1492.0, 235.0, 1492.0, 238.0, 1506.0, 238.0, 1506.0, 235.0, 1509.0, 235.0, 1509.0, 221.0, 1506.0, 221.0, 1506.0, 66.0" shape="poly" alt=":Serving" id="areadiagram_map_6t2bAEGGAqAGigpG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1492.0, 66.0, 1492.0, 327.0, 1333.0, 327.0, 1333.0, 341.0, 1492.0, 341.0, 1492.0, 344.0, 1506.0, 344.0, 1506.0, 341.0, 1509.0, 341.0, 1509.0, 327.0, 1506.0, 327.0, 1506.0, 66.0" coords2="1492.0, 66.0, 1492.0, 327.0, 1333.0, 327.0, 1333.0, 341.0, 1492.0, 341.0, 1492.0, 344.0, 1506.0, 344.0, 1506.0, 341.0, 1509.0, 341.0, 1509.0, 327.0, 1506.0, 327.0, 1506.0, 66.0" shape="poly" alt=":Serving" id="areadiagram_map_FmxbAEGGAqAGigpi_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1492.0, 66.0, 1492.0, 421.0, 1333.0, 421.0, 1333.0, 435.0, 1492.0, 435.0, 1492.0, 438.0, 1506.0, 438.0, 1506.0, 435.0, 1509.0, 435.0, 1509.0, 421.0, 1506.0, 421.0, 1506.0, 66.0" coords2="1492.0, 66.0, 1492.0, 421.0, 1333.0, 421.0, 1333.0, 435.0, 1492.0, 435.0, 1492.0, 438.0, 1506.0, 438.0, 1506.0, 435.0, 1509.0, 435.0, 1509.0, 421.0, 1506.0, 421.0, 1506.0, 66.0" shape="poly" alt=":Serving" id="areadiagram_map_RO7bAEGGAqAGigqI_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1313, 418, 1333, 438" coords2="1313, 418, 1333, 438" shape="rect" alt="Отчёты:Application Interface" id="areadiagram_map_LC.LAEGGAqAGiglS_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1313, 116, 1333, 136" coords2="1313, 116, 1333, 136" shape="rect" alt="Форма ТАП/066/110 :Application Interface" id="areadiagram_map_G7SLAEGGAqAGiglB_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1313, 324, 1333, 344" coords2="1313, 324, 1333, 344" shape="rect" alt="МЭЭ / ЭКМП:Application Interface" id="areadiagram_map__HsLAEGGAqAGigkw_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1313, 219, 1333, 239" coords2="1313, 219, 1333, 239" shape="rect" alt="Реестр счетов:Application Interface" id="areadiagram_map_7mZzAEGGAqAGigkD_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1313, 24, 1333, 44" coords2="1313, 24, 1333, 44" shape="rect" alt="Сквозной поиск:Application Interface" id="areadiagram_map_Fh41AEGGAqAGighL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1073, 586, 1219, 651" coords2="1073, 586, 1219, 651" shape="rect" alt="Формирование 
+отчётов:Business Process" id="areadiagram_map_9HOtv4GGAqAGighI_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="864, 586, 1008, 651" coords2="864, 586, 1008, 651" shape="rect" alt="Сервис персонификации сведений на основании идентификаторов:Application Service" id="areadiagram_map__rUcP4GGAqAGihkc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="439, 398, 676, 460" coords2="439, 398, 676, 460" shape="rect" alt="Получение сведений о неидентифицированном пациенте, включая сведения о ходатайстве 
+&lt;getUnidentPersonPetitionsInfo&gt;:Application Interaction" id="areadiagram_map_.5QkP4GGAqAGihdS_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="438, 586, 674, 651" coords2="438, 586, 674, 651" shape="rect" alt="Получение персональных данных пациента по известному идентификатору
+&lt;getPersonsInfo&gt;:Application Interaction" id="areadiagram_map_LM7YP4GGAqAGihbY_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="440, 490, 676, 555" coords2="440, 490, 676, 555" shape="rect" alt="Получение всех существующих идентификаторов пациента по известному идентификатору
+&lt;getPersonIds&gt;:Application Interaction" id="areadiagram_map_xMkf34GGAqAGihXf_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="438, 302, 675, 367" coords2="438, 302, 675, 367" shape="rect" alt="Получение сведений о неидентифицированном пациенте 
+&lt;getUnidentPersonsInfo&gt; :Application Interaction" id="areadiagram_map_DO.v34GGAqAGihWp_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="438, 681, 675, 747" coords2="438, 681, 675, 747" shape="rect" alt="Получение количества прикрепленных к MO ЗЛ&lt;getMoSmoIntersection&gt;:Application Interaction" id="areadiagram_map_r5nFb4GGAqAGig8v_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="439, 189, 677, 272" coords2="439, 189, 677, 272" shape="rect" alt="Получение сведеней о новорожденном (мать, суррагатная мать, законный представитель), включая ДУДЛ
+&lt;getNewbornPersonsInfoWithPolicyData&gt;:Application Interaction" id="areadiagram_map_h68H34GGAqAGihHv_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="864, 189, 1010, 272" coords2="864, 189, 1010, 272" shape="rect" alt="Навигация (фильтрация и поиск) по персональным данным пациента:Business Function" id="areadiagram_map_py_r34GGAqAGihFa_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="864, 94, 1010, 159" coords2="864, 94, 1010, 159" shape="rect" alt="Регистрация оказанных медицинских услуг:Business Function" id="areadiagram_map_jmj934GGAqAGihEz_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="438, 94, 676, 159" coords2="438, 94, 676, 159" shape="rect" alt="Получение сведений новорожденном (мать, суррагатная мать, законные представители) 
+&lt;getNewbornPersonsInfo&gt;:Application Interaction" id="areadiagram_map_WC0N34GGAqAGihDw_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1073, 2, 1219, 67" coords2="1073, 2, 1219, 67" shape="rect" alt="Формирование и обработка счетов:Business Process" id="areadiagram_map_b.j534GGAqAGiguy_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1073, 681, 1220, 747" coords2="1073, 681, 1220, 747" shape="rect" alt="Рассчет подушевого финансирования:Business Process" id="areadiagram_map_6Tetb4GGAqAGihHE_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="864, 681, 1011, 747" coords2="864, 681, 1011, 747" shape="rect" alt="Учет фактически оказанной медицинсой помощи в разрезе ЗЛ:Business Function" id="areadiagram_map_P.0tb4GGAqAGihGH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="863, 2, 1009, 68" coords2="863, 2, 1009, 68" shape="rect" alt="Проведение 
+ФЛК/МЭК:Business Function" id="areadiagram_map_9ErNb4GGAqAGihFG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1427, 6, 1573, 66" coords2="1427, 6, 1573, 66" shape="rect" alt="ПУМП:Application Component" id="areadiagram_map_rbVVb4GGAqAGihBL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="437, 2, 674, 68" coords2="437, 2, 674, 68" shape="rect" alt="Получение сведеней о пациенте из Центрального сегмента (ЦС ЕРЗЛ) &lt;askInsuranceStatus&gt;:Application Interaction" id="areadiagram_map_bFQeb4GGAqAGig5o_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="219, 3, 365, 69" coords2="219, 3, 365, 69" shape="rect" alt="ЕРЗЛ для ПУМП:Application Service" id="areadiagram_map_175Ob4GGAqAGig17_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 2, 148, 68" coords2="2, 2, 148, 68" shape="rect" alt="ЕРЗЛ:Application Component" id="areadiagram_map_khqOb4GGAqAGig1J_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInterface.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInterface.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInterface_LC_LAEGGAqAGiglT.html" class="ItemLink">Отчёты : Application Interface</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInterface.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInterface.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInterface_G7SLAEGGAqAGiglC.html" class="ItemLink">Форма ТАП/066/110  : Application Interface</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInterface.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInterface.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInterface__HsLAEGGAqAGigkx.html" class="ItemLink">МЭЭ / ЭКМП : Application Interface</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInterface.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInterface.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInterface_7mZzAEGGAqAGigkE.html" class="ItemLink">Реестр счетов : Application Interface</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInterface.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInterface.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInterface_lh41AEGGAqAGighM.html" class="ItemLink">Сквозной поиск : Application Interface</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/BusinessProcess.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/BusinessProcess.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateBusinessProcess_9HOtv4GGAqAGighJ.html" class="ItemLink">Формирование 
+отчётов : Business Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationService.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationService.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationService__rUcP4GGAqAGihkd.html" class="ItemLink">Сервис персонификации сведений на основании идентификаторов : Application Service</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInteraction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInteraction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInteraction__5QkP4GGAqAGihdT.html" class="ItemLink">Получение сведений о неидентифицированном пациенте, включая сведения о ходатайстве 
+&lt;getUnidentPersonPetitionsInfo&gt; : Application Interaction</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInteraction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInteraction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInteraction_LM7YP4GGAqAGihbZ.html" class="ItemLink">Получение персональных данных пациента по известному идентификатору
+&lt;getPersonsInfo&gt; : Application Interaction</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInteraction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInteraction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInteraction_xMkf34GGAqAGihXg.html" class="ItemLink">Получение всех существующих идентификаторов пациента по известному идентификатору
+&lt;getPersonIds&gt; : Application Interaction</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInteraction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInteraction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInteraction_DO_v34GGAqAGihWq.html" class="ItemLink">Получение сведений о неидентифицированном пациенте 
+&lt;getUnidentPersonsInfo&gt;  : Application Interaction</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInteraction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInteraction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInteraction_b5nFb4GGAqAGig8w.html" class="ItemLink">Получение количества прикрепленных к MO ЗЛ&lt;getMoSmoIntersection&gt; : Application Interaction</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInteraction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInteraction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInteraction_h68H34GGAqAGihHw.html" class="ItemLink">Получение сведеней о новорожденном (мать, суррагатная мать, законный представитель), включая ДУДЛ
+&lt;getNewbornPersonsInfoWithPolicyData&gt; : Application Interaction</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/BusinessFunction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/BusinessFunction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateBusinessFunction_py_r34GGAqAGihFb.html" class="ItemLink">Навигация (фильтрация и поиск) по персональным данным пациента : Business Function</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/BusinessFunction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/BusinessFunction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateBusinessFunction_jmj934GGAqAGihE0.html" class="ItemLink">Регистрация оказанных медицинских услуг : Business Function</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInteraction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInteraction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInteraction_2C0N34GGAqAGihDx.html" class="ItemLink">Получение сведений новорожденном (мать, суррагатная мать, законные представители) 
+&lt;getNewbornPersonsInfo&gt; : Application Interaction</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/BusinessProcess.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/BusinessProcess.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateBusinessProcess_b_j534GGAqAGiguz.html" class="ItemLink">Формирование и обработка счетов : Business Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/BusinessProcess.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/BusinessProcess.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateBusinessProcess_6Tetb4GGAqAGihHF.html" class="ItemLink">Рассчет подушевого финансирования : Business Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/BusinessFunction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/BusinessFunction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateBusinessFunction_P_0tb4GGAqAGihGI.html" class="ItemLink">Учет фактически оказанной медицинсой помощи в разрезе ЗЛ : Business Function</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/BusinessFunction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/BusinessFunction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateBusinessFunction_9ErNb4GGAqAGihFH.html" class="ItemLink">Проведение 
+ФЛК/МЭК : Business Function</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationComponent.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationComponent.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationComponent_rbVVb4GGAqAGihBM.html" class="ItemLink">ПУМП : Application Component</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationInteraction.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationInteraction.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationInteraction_bFQeb4GGAqAGig5p.html" class="ItemLink">Получение сведеней о пациенте из Центрального сегмента (ЦС ЕРЗЛ) &lt;askInsuranceStatus&gt; : Application Interaction</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationService.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationService.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationService_175Ob4GGAqAGig18.html" class="ItemLink">ЕРЗЛ для ПУМП : Application Service</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ApplicationComponent.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ApplicationComponent.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ArchiMateApplicationComponent_mhqOb4GGAqAGig1K.html" class="ItemLink">ЕРЗЛ : Application Component</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

@@ -1,0 +1,548 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Business Process Diagram - Обработка жалоб пациентов</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Business Process Diagram - Обработка жалоб пациентов		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/CBA4U4GGAqAGexKJ', '&#x41e;&#x431;&#x440;&#x430;&#x431;&#x43e;&#x442;&#x43a;&#x430; &#x436;&#x430;&#x43b;&#x43e;&#x431; &#x43f;&#x430;&#x446;&#x438;&#x435;&#x43d;&#x442;&#x43e;&#x432;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/CBA4U4GGAqAGexKJ', '&#x41e;&#x431;&#x440;&#x430;&#x431;&#x43e;&#x442;&#x43a;&#x430; &#x436;&#x430;&#x43b;&#x43e;&#x431; &#x43f;&#x430;&#x446;&#x438;&#x435;&#x43d;&#x442;&#x43e;&#x432;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_19.png" usemap="#diagram_map" class="Image" width="1345" height="444"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="579.0, 223.0, 579.0, 237.0, 664.0, 237.0, 664.0, 223.0" coords2="579.0, 223.0, 579.0, 237.0, 664.0, 237.0, 664.0, 223.0" shape="poly" alt="Да:Sequence Flow" id="areadiagram_map_ZwksU4GGAqAGe0EU_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="552.0, 147.0, 552.0, 150.0, 549.0, 150.0, 549.0, 164.0, 552.0, 164.0, 552.0, 211.0, 566.0, 211.0, 566.0, 164.0, 593.0, 164.0, 593.0, 150.0, 566.0, 150.0, 566.0, 147.0" coords2="552.0, 147.0, 552.0, 150.0, 549.0, 150.0, 549.0, 164.0, 552.0, 164.0, 552.0, 211.0, 566.0, 211.0, 566.0, 164.0, 593.0, 164.0, 593.0, 150.0, 566.0, 150.0, 566.0, 147.0" shape="poly" alt="Нет:Sequence Flow" id="areadiagram_map_puKsU4GGAqAGe0Ey_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="677.0, 251.0, 677.0, 300.0, 674.0, 300.0, 674.0, 314.0, 677.0, 314.0, 677.0, 317.0, 691.0, 317.0, 691.0, 314.0, 852.0, 314.0, 852.0, 300.0, 691.0, 300.0, 691.0, 251.0" coords2="677.0, 251.0, 677.0, 300.0, 674.0, 300.0, 674.0, 314.0, 677.0, 314.0, 677.0, 317.0, 691.0, 317.0, 691.0, 314.0, 852.0, 314.0, 852.0, 300.0, 691.0, 300.0, 691.0, 251.0" shape="poly" alt="Да:Sequence Flow" id="areadiagram_map_23DsU4GGAqAGe0Ge_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="677.0, 177.0, 677.0, 211.0, 691.0, 211.0, 691.0, 177.0" coords2="677.0, 177.0, 677.0, 211.0, 691.0, 211.0, 691.0, 177.0" shape="poly" alt="Нет:Sequence Flow" id="areadiagram_map_huUcU4GGAqAGe0Hv_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="103.0, 225.0, 103.0, 239.0, 174.0, 239.0, 174.0, 225.0" coords2="103.0, 225.0, 103.0, 239.0, 174.0, 239.0, 174.0, 225.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_Uj18U4GGAqAGe0J4_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="373.0, 83.0, 373.0, 86.0, 370.0, 86.0, 370.0, 100.0, 373.0, 100.0, 373.0, 211.0, 387.0, 211.0, 387.0, 100.0, 432.0, 100.0, 432.0, 86.0, 387.0, 86.0, 387.0, 83.0" coords2="373.0, 83.0, 373.0, 86.0, 370.0, 86.0, 370.0, 100.0, 373.0, 100.0, 373.0, 211.0, 387.0, 211.0, 387.0, 100.0, 432.0, 100.0, 432.0, 86.0, 387.0, 86.0, 387.0, 83.0" shape="poly" alt="Жалоба на прикрепление (отказ, прикрепление без согласия):Sequence Flow" id="areadiagram_map_ooWqU4GGAqAGe0M._default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="400.0, 223.0, 400.0, 237.0, 539.0, 237.0, 539.0, 223.0" coords2="400.0, 223.0, 400.0, 237.0, 539.0, 237.0, 539.0, 223.0" shape="poly" alt="Жалоба на медицинскую помощь:Sequence Flow" id="areadiagram_map_LcHqU4GGAqAGe0N._default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="289.0, 225.0, 289.0, 239.0, 360.0, 239.0, 360.0, 225.0" coords2="289.0, 225.0, 289.0, 239.0, 360.0, 239.0, 360.0, 225.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_bVoaU4GGAqAGe0O6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="539.0, 86.0, 539.0, 100.0, 622.0, 100.0, 622.0, 86.0" coords2="539.0, 86.0, 539.0, 100.0, 622.0, 100.0, 622.0, 86.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_lJx6U4GGAqAGe0R__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="899.0, 177.0, 899.0, 287.0, 913.0, 287.0, 913.0, 177.0" coords2="899.0, 177.0, 899.0, 287.0, 913.0, 287.0, 913.0, 177.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_.5r6U4GGAqAGe0TL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="746.0, 86.0, 746.0, 100.0, 897.0, 100.0, 897.0, 86.0" coords2="746.0, 86.0, 746.0, 100.0, 897.0, 100.0, 897.0, 86.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_nRMGU4GGAqAGe0Ut_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="899.0, 103.0, 899.0, 137.0, 913.0, 137.0, 913.0, 103.0" coords2="899.0, 103.0, 899.0, 137.0, 913.0, 137.0, 913.0, 103.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_7ZsGU4GGAqAGe0U7_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="917.0, 85.0, 917.0, 99.0, 1055.0, 99.0, 1055.0, 85.0" coords2="917.0, 85.0, 917.0, 99.0, 1055.0, 99.0, 1055.0, 85.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_pqhGU4GGAqAGe0V5_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1057.0, 103.0, 1057.0, 137.0, 1071.0, 137.0, 1071.0, 103.0" coords2="1057.0, 103.0, 1057.0, 137.0, 1071.0, 137.0, 1071.0, 103.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_GNzGU4GGAqAGe0Wv_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1059.0, 177.0, 1059.0, 211.0, 1073.0, 211.0, 1073.0, 177.0" coords2="1059.0, 177.0, 1059.0, 211.0, 1073.0, 211.0, 1073.0, 177.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_rRLmU4GGAqAGe0aF_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1058.0, 251.0, 1058.0, 375.0, 1072.0, 375.0, 1072.0, 251.0" coords2="1058.0, 251.0, 1058.0, 375.0, 1072.0, 375.0, 1072.0, 251.0" shape="poly" alt=":Association" id="areadiagram_map_ZUbmU4GGAqAGe0aZ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="775.0, 150.0, 775.0, 164.0, 852.0, 164.0, 852.0, 150.0" coords2="775.0, 150.0, 775.0, 164.0, 852.0, 164.0, 852.0, 150.0" shape="poly" alt=":Sequence Flow" id="areadiagram_map_ai.WU4GGAqAGe2B9_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1045, 375, 1085, 425" coords2="1045, 375, 1085, 425" shape="rect" alt="Результаты экспертизы:Data Object" id="areadiagram_map_ripmU4GGAqAGe0Y2_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1000, 211, 1131, 251" coords2="1000, 211, 1131, 251" shape="rect" alt="Выгрузка результатов во внешние системы:Task" id="areadiagram_map_isrGU4GGAqAGe0W8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1000, 137, 1131, 177" coords2="1000, 137, 1131, 177" shape="rect" alt="Закрытие жалобы:Task" id="areadiagram_map_D6NGU4GGAqAGe0WW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1055, 83, 1075, 103" coords2="1055, 83, 1075, 103" shape="rect" alt="Результаты экспертизы получены:Intermediate Event" id="areadiagram_map_B6OGU4GGAqAGe0Vq_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="897, 83, 917, 103" coords2="897, 83, 917, 103" shape="rect" alt="Ожидание результатов экспертизы:Intermediate Event" id="areadiagram_map_TVwGU4GGAqAGe0Ua_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="852, 137, 962, 177" coords2="852, 137, 962, 177" shape="rect" alt="Регистрация заявки на ЭКМП:Task" id="areadiagram_map_Pa16U4GGAqAGe0Sg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="622, 73, 746, 113" coords2="622, 73, 746, 113" shape="rect" alt="Регистрация заявки на МЭЭ:Task" id="areadiagram_map_0R66U4GGAqAGe0RK_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="432, 73, 539, 113" coords2="432, 73, 539, 113" shape="rect" alt="Отбор связанных прикрпелений:Task" id="areadiagram_map_mHRaU4GGAqAGe0Pa_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="360, 211, 400, 251" coords2="360, 211, 400, 251" shape="rect" alt=":Gateway" id="areadiagram_map_fs2yU4GGAqAGe0MX_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="174, 211, 289, 251" coords2="174, 211, 289, 251" shape="rect" alt="Регистрация жалобы в системе:Task" id="areadiagram_map_mvJ8U4GGAqAGe0Jd_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="664, 211, 704, 251" coords2="664, 211, 704, 251" shape="rect" alt="Счет оплачен?:Gateway" id="areadiagram_map_JstMU4GGAqAGe0DG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="852, 287, 962, 327" coords2="852, 287, 962, 327" shape="rect" alt="Отбор связанных случаев:Task" id="areadiagram_map__M.MU4GGAqAGe0Cy_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="593, 137, 775, 177" coords2="593, 137, 775, 177" shape="rect" alt="Создание связанной с жалобой суррогатной медкарты:Task" id="areadiagram_map_CFmMU4GGAqAGe0Cs_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="539, 211, 579, 251" coords2="539, 211, 579, 251" shape="rect" alt="Медицинская помощь оказана?:Gateway" id="areadiagram_map_aPQUU4GGAqAGez1v_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="83, 221, 103, 241" coords2="83, 221, 103, 241" shape="rect" alt="Поступила жалоба пациента на медицинскую организацию:Start Event" id="areadiagram_map_5r2kU4GGAqAGezwo_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="18, 0, 1341, 352" coords2="18, 0, 1341, 352" shape="rect" alt=":Lane" id="areadiagram_map_v6L4U4GGAqAGezp5_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 0, 1341, 352" coords2="2, 0, 1341, 352" shape="rect" alt="Плательщик:Pool" id="areadiagram_map_x6L4U4GGAqAGezp1_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="6" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="6" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="10%">
+<span class="TableHeaderText">ID</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="6" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/SwimlanePool.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/SwimlanePool.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPPool_x6L4U4GGAqAGezp2.html" class="ItemLink">Плательщик : Pool</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/SwimlaneLane.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/SwimlaneLane.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPLane_v6L4U4GGAqAGezp6.html" class="ItemLink">N/A : Lane</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP01</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsStart.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsStart.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPStartEvent_Fr2kU4GGAqAGezwp.html" class="ItemLink">Поступила жалоба пациента на медицинскую организацию : Start Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP02</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/GatewayExDescMergeDataBased.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/GatewayExDescMergeDataBased.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPGateway_aPQUU4GGAqAGez1w.html" class="ItemLink">Медицинская помощь оказана? : Data-Based Exclusive Decision/Merge (XOR)</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP04</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_CFmMU4GGAqAGe0Ct.html" class="ItemLink">Создание связанной с жалобой суррогатной медкарты : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP05</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask__M_MU4GGAqAGe0Cz.html" class="ItemLink">Отбор связанных случаев : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP06</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/GatewayExDescMergeDataBased.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/GatewayExDescMergeDataBased.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPGateway_JstMU4GGAqAGe0DH.html" class="ItemLink">Счет оплачен? : Data-Based Exclusive Decision/Merge (XOR)</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP15</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_mvJ8U4GGAqAGe0Je.html" class="ItemLink">Регистрация жалобы в системе : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP19</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/GatewayExDescMergeDataBased.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/GatewayExDescMergeDataBased.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPGateway_fs2yU4GGAqAGe0MY.html" class="ItemLink">N/A : Data-Based Exclusive Decision/Merge (XOR)</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP23</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_mHRaU4GGAqAGe0Pb.html" class="ItemLink">Отбор связанных прикрпелений : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP24</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_0R66U4GGAqAGe0RL.html" class="ItemLink">Регистрация заявки на МЭЭ : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP26</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_Pa16U4GGAqAGe0Sh.html" class="ItemLink">Регистрация заявки на ЭКМП : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP31</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsIntermediate.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsIntermediate.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPIntermediateEvent_TVwGU4GGAqAGe0Ub.html" class="ItemLink">Ожидание результатов экспертизы : Intermediate Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP34</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/EventsIntermediate.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/EventsIntermediate.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPIntermediateEvent_B6OGU4GGAqAGe0Vr.html" class="ItemLink">Результаты экспертизы получены : Intermediate Event</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP36</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_D6NGU4GGAqAGe0WX.html" class="ItemLink">Закрытие жалобы : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP264.BP01.BP38</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ActivitiesTask.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ActivitiesTask.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPTask_isrGU4GGAqAGe0W9.html" class="ItemLink">Выгрузка результатов во внешние системы : Task</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+<span class="TableContent">BP265</span>			</td>
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/ArtifactDataObject.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/ArtifactDataObject.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="BPDataObject_bipmU4GGAqAGe0Y3.html" class="ItemLink">Результаты экспертизы : Data Object</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

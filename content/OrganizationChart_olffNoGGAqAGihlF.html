@@ -1,0 +1,1118 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Organization Chart - Организационная структура и бизнес-роли</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Organization Chart - Организационная структура и бизнес-роли		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/olffNoGGAqAGihlF', '&#x41e;&#x440;&#x433;&#x430;&#x43d;&#x438;&#x437;&#x430;&#x446;&#x438;&#x43e;&#x43d;&#x43d;&#x430;&#x44f; &#x441;&#x442;&#x440;&#x443;&#x43a;&#x442;&#x443;&#x440;&#x430; &#x438; &#x431;&#x438;&#x437;&#x43d;&#x435;&#x441;-&#x440;&#x43e;&#x43b;&#x438;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/olffNoGGAqAGihlF', '&#x41e;&#x440;&#x433;&#x430;&#x43d;&#x438;&#x437;&#x430;&#x446;&#x438;&#x43e;&#x43d;&#x43d;&#x430;&#x44f; &#x441;&#x442;&#x440;&#x443;&#x43a;&#x442;&#x443;&#x440;&#x430; &#x438; &#x431;&#x438;&#x437;&#x43d;&#x435;&#x441;-&#x440;&#x43e;&#x43b;&#x438;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_34.png" usemap="#diagram_map" class="Image" width="4089" height="452"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="57.0, 198.0, 57.0, 201.0, 54.0, 201.0, 54.0, 215.0, 57.0, 215.0, 57.0, 219.0, 71.0, 219.0, 71.0, 215.0, 142.0, 215.0, 142.0, 218.0, 156.0, 218.0, 156.0, 215.0, 159.0, 215.0, 159.0, 201.0, 156.0, 201.0, 156.0, 198.0, 142.0, 198.0, 142.0, 201.0, 71.0, 201.0, 71.0, 198.0" coords2="57.0, 198.0, 57.0, 201.0, 54.0, 201.0, 54.0, 215.0, 57.0, 215.0, 57.0, 219.0, 71.0, 219.0, 71.0, 215.0, 142.0, 215.0, 142.0, 218.0, 156.0, 218.0, 156.0, 215.0, 159.0, 215.0, 159.0, 201.0, 156.0, 201.0, 156.0, 198.0, 142.0, 198.0, 142.0, 201.0, 71.0, 201.0, 71.0, 198.0" shape="poly" alt=":Line" id="areadiagram_map_JQdhgYGGAqAGiofa_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="317.0, 198.0, 317.0, 201.0, 314.0, 201.0, 314.0, 215.0, 317.0, 215.0, 317.0, 219.0, 331.0, 219.0, 331.0, 215.0, 343.0, 215.0, 343.0, 218.0, 357.0, 218.0, 357.0, 215.0, 360.0, 215.0, 360.0, 201.0, 357.0, 201.0, 357.0, 198.0, 343.0, 198.0, 343.0, 201.0, 331.0, 201.0, 331.0, 198.0" coords2="317.0, 198.0, 317.0, 201.0, 314.0, 201.0, 314.0, 215.0, 317.0, 215.0, 317.0, 219.0, 331.0, 219.0, 331.0, 215.0, 343.0, 215.0, 343.0, 218.0, 357.0, 218.0, 357.0, 215.0, 360.0, 215.0, 360.0, 201.0, 357.0, 201.0, 357.0, 198.0, 343.0, 198.0, 343.0, 201.0, 331.0, 201.0, 331.0, 198.0" shape="poly" alt=":Line" id="areadiagram_map_WJQRgYGGAqAGiol3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="343.0, 198.0, 343.0, 201.0, 340.0, 201.0, 340.0, 215.0, 343.0, 215.0, 343.0, 218.0, 357.0, 218.0, 357.0, 215.0, 369.0, 215.0, 369.0, 219.0, 383.0, 219.0, 383.0, 215.0, 386.0, 215.0, 386.0, 201.0, 383.0, 201.0, 383.0, 198.0, 369.0, 198.0, 369.0, 201.0, 357.0, 201.0, 357.0, 198.0" coords2="343.0, 198.0, 343.0, 201.0, 340.0, 201.0, 340.0, 215.0, 343.0, 215.0, 343.0, 218.0, 357.0, 218.0, 357.0, 215.0, 369.0, 215.0, 369.0, 219.0, 383.0, 219.0, 383.0, 215.0, 386.0, 215.0, 386.0, 201.0, 383.0, 201.0, 383.0, 198.0, 369.0, 198.0, 369.0, 201.0, 357.0, 201.0, 357.0, 198.0" shape="poly" alt=":Line" id="areadiagram_map_OOqRgYGGAqAGionW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="118.0, 198.0, 118.0, 201.0, 115.0, 201.0, 115.0, 215.0, 118.0, 215.0, 118.0, 219.0, 132.0, 219.0, 132.0, 215.0, 142.0, 215.0, 142.0, 218.0, 156.0, 218.0, 156.0, 215.0, 159.0, 215.0, 159.0, 201.0, 156.0, 201.0, 156.0, 198.0, 142.0, 198.0, 142.0, 201.0, 132.0, 201.0, 132.0, 198.0" coords2="118.0, 198.0, 118.0, 201.0, 115.0, 201.0, 115.0, 215.0, 118.0, 215.0, 118.0, 219.0, 132.0, 219.0, 132.0, 215.0, 142.0, 215.0, 142.0, 218.0, 156.0, 218.0, 156.0, 215.0, 159.0, 215.0, 159.0, 201.0, 156.0, 201.0, 156.0, 198.0, 142.0, 198.0, 142.0, 201.0, 132.0, 201.0, 132.0, 198.0" shape="poly" alt=":Line" id="areadiagram_map_5rWpgYGGAqAGip40_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="142.0, 198.0, 142.0, 201.0, 139.0, 201.0, 139.0, 215.0, 142.0, 215.0, 142.0, 218.0, 156.0, 218.0, 156.0, 215.0, 169.0, 215.0, 169.0, 219.0, 183.0, 219.0, 183.0, 215.0, 186.0, 215.0, 186.0, 201.0, 183.0, 201.0, 183.0, 198.0, 169.0, 198.0, 169.0, 201.0, 156.0, 201.0, 156.0, 198.0" coords2="142.0, 198.0, 142.0, 201.0, 139.0, 201.0, 139.0, 215.0, 142.0, 215.0, 142.0, 218.0, 156.0, 218.0, 156.0, 215.0, 169.0, 215.0, 169.0, 219.0, 183.0, 219.0, 183.0, 215.0, 186.0, 215.0, 186.0, 201.0, 183.0, 201.0, 183.0, 198.0, 169.0, 198.0, 169.0, 201.0, 156.0, 201.0, 156.0, 198.0" shape="poly" alt=":Line" id="areadiagram_map_fT.pgYGGAqAGip5P_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="142.0, 198.0, 142.0, 201.0, 139.0, 201.0, 139.0, 215.0, 142.0, 215.0, 142.0, 218.0, 156.0, 218.0, 156.0, 215.0, 229.0, 215.0, 229.0, 219.0, 243.0, 219.0, 243.0, 215.0, 246.0, 215.0, 246.0, 201.0, 243.0, 201.0, 243.0, 198.0, 229.0, 198.0, 229.0, 201.0, 156.0, 201.0, 156.0, 198.0" coords2="142.0, 198.0, 142.0, 201.0, 139.0, 201.0, 139.0, 215.0, 142.0, 215.0, 142.0, 218.0, 156.0, 218.0, 156.0, 215.0, 229.0, 215.0, 229.0, 219.0, 243.0, 219.0, 243.0, 215.0, 246.0, 215.0, 246.0, 201.0, 243.0, 201.0, 243.0, 198.0, 229.0, 198.0, 229.0, 201.0, 156.0, 201.0, 156.0, 198.0" shape="poly" alt=":Line" id="areadiagram_map_0e5pgYGGAqAGip6v_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="15.0, 28.0, 15.0, 31.0, 12.0, 31.0, 12.0, 45.0, 15.0, 45.0, 15.0, 51.0, 29.0, 51.0, 29.0, 45.0, 105.0, 45.0, 105.0, 48.0, 119.0, 48.0, 119.0, 45.0, 122.0, 45.0, 122.0, 31.0, 29.0, 31.0, 29.0, 28.0" coords2="15.0, 28.0, 15.0, 31.0, 12.0, 31.0, 12.0, 45.0, 15.0, 45.0, 15.0, 51.0, 29.0, 51.0, 29.0, 45.0, 105.0, 45.0, 105.0, 48.0, 119.0, 48.0, 119.0, 45.0, 122.0, 45.0, 122.0, 31.0, 29.0, 31.0, 29.0, 28.0" shape="poly" alt=":Line" id="areadiagram_map_DDHpgYGGAqAGip7o_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="69.0, 31.0, 69.0, 45.0, 72.0, 45.0, 72.0, 51.0, 86.0, 51.0, 86.0, 45.0, 105.0, 45.0, 105.0, 48.0, 119.0, 48.0, 119.0, 45.0, 122.0, 45.0, 122.0, 31.0" coords2="69.0, 31.0, 69.0, 45.0, 72.0, 45.0, 72.0, 51.0, 86.0, 51.0, 86.0, 45.0, 105.0, 45.0, 105.0, 48.0, 119.0, 48.0, 119.0, 45.0, 122.0, 45.0, 122.0, 31.0" shape="poly" alt=":Line" id="areadiagram_map_NuAZgYGGAqAGip8G_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="102.0, 31.0, 102.0, 45.0, 105.0, 45.0, 105.0, 48.0, 119.0, 48.0, 119.0, 45.0, 130.0, 45.0, 130.0, 51.0, 144.0, 51.0, 144.0, 45.0, 147.0, 45.0, 147.0, 31.0" coords2="102.0, 31.0, 102.0, 45.0, 105.0, 45.0, 105.0, 48.0, 119.0, 48.0, 119.0, 45.0, 130.0, 45.0, 130.0, 51.0, 144.0, 51.0, 144.0, 45.0, 147.0, 45.0, 147.0, 31.0" shape="poly" alt=":Line" id="areadiagram_map_O4YZgYGGAqAGip8e_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="188.0, 28.0, 188.0, 31.0, 102.0, 31.0, 102.0, 45.0, 105.0, 45.0, 105.0, 48.0, 119.0, 48.0, 119.0, 45.0, 188.0, 45.0, 188.0, 51.0, 202.0, 51.0, 202.0, 45.0, 205.0, 45.0, 205.0, 31.0, 202.0, 31.0, 202.0, 28.0" coords2="188.0, 28.0, 188.0, 31.0, 102.0, 31.0, 102.0, 45.0, 105.0, 45.0, 105.0, 48.0, 119.0, 48.0, 119.0, 45.0, 188.0, 45.0, 188.0, 51.0, 202.0, 51.0, 202.0, 45.0, 205.0, 45.0, 205.0, 31.0, 202.0, 31.0, 202.0, 28.0" shape="poly" alt=":Line" id="areadiagram_map_MfUZgYGGAqAGip8w_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3426.0, 337.0, 3426.0, 339.0, 3423.0, 339.0, 3423.0, 353.0, 3426.0, 353.0, 3426.0, 357.0, 3440.0, 357.0, 3440.0, 353.0, 3453.0, 353.0, 3453.0, 356.0, 3467.0, 356.0, 3467.0, 353.0, 3470.0, 353.0, 3470.0, 339.0, 3467.0, 339.0, 3467.0, 337.0, 3453.0, 337.0, 3453.0, 339.0, 3440.0, 339.0, 3440.0, 337.0" coords2="3426.0, 337.0, 3426.0, 339.0, 3423.0, 339.0, 3423.0, 353.0, 3426.0, 353.0, 3426.0, 357.0, 3440.0, 357.0, 3440.0, 353.0, 3453.0, 353.0, 3453.0, 356.0, 3467.0, 356.0, 3467.0, 353.0, 3470.0, 353.0, 3470.0, 339.0, 3467.0, 339.0, 3467.0, 337.0, 3453.0, 337.0, 3453.0, 339.0, 3440.0, 339.0, 3440.0, 337.0" shape="poly" alt=":Line" id="areadiagram_map_HKrkoYGGAqAGigjE_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3453.0, 337.0, 3453.0, 339.0, 3450.0, 339.0, 3450.0, 353.0, 3453.0, 353.0, 3453.0, 356.0, 3467.0, 356.0, 3467.0, 353.0, 3479.0, 353.0, 3479.0, 357.0, 3493.0, 357.0, 3493.0, 353.0, 3496.0, 353.0, 3496.0, 339.0, 3493.0, 339.0, 3493.0, 337.0, 3479.0, 337.0, 3479.0, 339.0, 3467.0, 339.0, 3467.0, 337.0" coords2="3453.0, 337.0, 3453.0, 339.0, 3450.0, 339.0, 3450.0, 353.0, 3453.0, 353.0, 3453.0, 356.0, 3467.0, 356.0, 3467.0, 353.0, 3479.0, 353.0, 3479.0, 357.0, 3493.0, 357.0, 3493.0, 353.0, 3496.0, 353.0, 3496.0, 339.0, 3493.0, 339.0, 3493.0, 337.0, 3479.0, 337.0, 3479.0, 339.0, 3467.0, 339.0, 3467.0, 337.0" shape="poly" alt=":Line" id="areadiagram_map_EofkoYGGAqAGigjg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="258.0, 29.0, 258.0, 32.0, 255.0, 32.0, 255.0, 46.0, 258.0, 46.0, 258.0, 50.0, 272.0, 50.0, 272.0, 46.0, 311.0, 46.0, 311.0, 49.0, 325.0, 49.0, 325.0, 46.0, 328.0, 46.0, 328.0, 32.0, 325.0, 32.0, 325.0, 30.0, 311.0, 30.0, 311.0, 32.0, 272.0, 32.0, 272.0, 29.0" coords2="258.0, 29.0, 258.0, 32.0, 255.0, 32.0, 255.0, 46.0, 258.0, 46.0, 258.0, 50.0, 272.0, 50.0, 272.0, 46.0, 311.0, 46.0, 311.0, 49.0, 325.0, 49.0, 325.0, 46.0, 328.0, 46.0, 328.0, 32.0, 325.0, 32.0, 325.0, 30.0, 311.0, 30.0, 311.0, 32.0, 272.0, 32.0, 272.0, 29.0" shape="poly" alt=":Line" id="areadiagram_map_igyKoYGGAqAGigol_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="308.0, 30.0, 308.0, 32.0, 305.0, 32.0, 305.0, 46.0, 308.0, 46.0, 308.0, 50.0, 322.0, 50.0, 322.0, 49.0, 325.0, 49.0, 325.0, 46.0, 328.0, 46.0, 328.0, 32.0, 325.0, 32.0, 325.0, 30.0" coords2="308.0, 30.0, 308.0, 32.0, 305.0, 32.0, 305.0, 46.0, 308.0, 46.0, 308.0, 50.0, 322.0, 50.0, 322.0, 49.0, 325.0, 49.0, 325.0, 46.0, 328.0, 46.0, 328.0, 32.0, 325.0, 32.0, 325.0, 30.0" shape="poly" alt=":Line" id="areadiagram_map_7kqKoYGGAqAGigo3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="361.0, 29.0, 361.0, 32.0, 325.0, 32.0, 325.0, 30.0, 311.0, 30.0, 311.0, 32.0, 308.0, 32.0, 308.0, 46.0, 311.0, 46.0, 311.0, 49.0, 325.0, 49.0, 325.0, 46.0, 361.0, 46.0, 361.0, 50.0, 375.0, 50.0, 375.0, 46.0, 378.0, 46.0, 378.0, 32.0, 375.0, 32.0, 375.0, 29.0" coords2="361.0, 29.0, 361.0, 32.0, 325.0, 32.0, 325.0, 30.0, 311.0, 30.0, 311.0, 32.0, 308.0, 32.0, 308.0, 46.0, 311.0, 46.0, 311.0, 49.0, 325.0, 49.0, 325.0, 46.0, 361.0, 46.0, 361.0, 50.0, 375.0, 50.0, 375.0, 46.0, 378.0, 46.0, 378.0, 32.0, 375.0, 32.0, 375.0, 29.0" shape="poly" alt=":Line" id="areadiagram_map_LwmKoYGGAqAGigpH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3453.0, 287.0, 3453.0, 290.0, 3450.0, 290.0, 3450.0, 304.0, 3453.0, 304.0, 3453.0, 308.0, 3467.0, 308.0, 3467.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3760.0, 304.0, 3760.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3467.0, 290.0, 3467.0, 287.0" coords2="3453.0, 287.0, 3453.0, 290.0, 3450.0, 290.0, 3450.0, 304.0, 3453.0, 304.0, 3453.0, 308.0, 3467.0, 308.0, 3467.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3760.0, 304.0, 3760.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3467.0, 290.0, 3467.0, 287.0" shape="poly" alt=":Line" id="areadiagram_map_2u83UYGGAqAGDwvD_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3635.0, 287.0, 3635.0, 290.0, 3632.0, 290.0, 3632.0, 304.0, 3635.0, 304.0, 3635.0, 308.0, 3649.0, 308.0, 3649.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3760.0, 304.0, 3760.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3649.0, 290.0, 3649.0, 287.0" coords2="3635.0, 287.0, 3635.0, 290.0, 3632.0, 290.0, 3632.0, 304.0, 3635.0, 304.0, 3635.0, 308.0, 3649.0, 308.0, 3649.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3760.0, 304.0, 3760.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3649.0, 290.0, 3649.0, 287.0" shape="poly" alt=":Line" id="areadiagram_map_5p73UYGGAqAGDwyH_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3981.0, 287.0, 3981.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3740.0, 290.0, 3740.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3981.0, 304.0, 3981.0, 308.0, 3995.0, 308.0, 3995.0, 304.0, 3998.0, 304.0, 3998.0, 290.0, 3995.0, 290.0, 3995.0, 287.0" coords2="3981.0, 287.0, 3981.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3740.0, 290.0, 3740.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3981.0, 304.0, 3981.0, 308.0, 3995.0, 308.0, 3995.0, 304.0, 3998.0, 304.0, 3998.0, 290.0, 3995.0, 290.0, 3995.0, 287.0" shape="poly" alt=":Line" id="areadiagram_map_Iz8PUYGGAqAGDwyk_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3538.0, 327.0, 3538.0, 330.0, 3535.0, 330.0, 3535.0, 344.0, 3538.0, 344.0, 3538.0, 349.0, 3552.0, 349.0, 3552.0, 344.0, 3635.0, 344.0, 3635.0, 347.0, 3649.0, 347.0, 3649.0, 344.0, 3652.0, 344.0, 3652.0, 330.0, 3649.0, 330.0, 3649.0, 328.0, 3635.0, 328.0, 3635.0, 330.0, 3552.0, 330.0, 3552.0, 327.0" coords2="3538.0, 327.0, 3538.0, 330.0, 3535.0, 330.0, 3535.0, 344.0, 3538.0, 344.0, 3538.0, 349.0, 3552.0, 349.0, 3552.0, 344.0, 3635.0, 344.0, 3635.0, 347.0, 3649.0, 347.0, 3649.0, 344.0, 3652.0, 344.0, 3652.0, 330.0, 3649.0, 330.0, 3649.0, 328.0, 3635.0, 328.0, 3635.0, 330.0, 3552.0, 330.0, 3552.0, 327.0" shape="poly" alt=":Line" id="areadiagram_map_qPEvUYGGAqAGDwzn_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3607.0, 328.0, 3607.0, 330.0, 3604.0, 330.0, 3604.0, 344.0, 3607.0, 344.0, 3607.0, 349.0, 3621.0, 349.0, 3621.0, 344.0, 3635.0, 344.0, 3635.0, 347.0, 3649.0, 347.0, 3649.0, 344.0, 3652.0, 344.0, 3652.0, 330.0, 3649.0, 330.0, 3649.0, 328.0, 3635.0, 328.0, 3635.0, 330.0, 3621.0, 330.0, 3621.0, 328.0" coords2="3607.0, 328.0, 3607.0, 330.0, 3604.0, 330.0, 3604.0, 344.0, 3607.0, 344.0, 3607.0, 349.0, 3621.0, 349.0, 3621.0, 344.0, 3635.0, 344.0, 3635.0, 347.0, 3649.0, 347.0, 3649.0, 344.0, 3652.0, 344.0, 3652.0, 330.0, 3649.0, 330.0, 3649.0, 328.0, 3635.0, 328.0, 3635.0, 330.0, 3621.0, 330.0, 3621.0, 328.0" shape="poly" alt=":Line" id="areadiagram_map_GzkvUYGGAqAGDwzr_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3915.0, 327.0, 3915.0, 330.0, 3912.0, 330.0, 3912.0, 344.0, 3915.0, 344.0, 3915.0, 349.0, 3929.0, 349.0, 3929.0, 344.0, 3981.0, 344.0, 3981.0, 347.0, 3995.0, 347.0, 3995.0, 344.0, 3998.0, 344.0, 3998.0, 330.0, 3995.0, 330.0, 3995.0, 328.0, 3981.0, 328.0, 3981.0, 330.0, 3929.0, 330.0, 3929.0, 328.0, 3928.0, 328.0, 3928.0, 327.0" coords2="3915.0, 327.0, 3915.0, 330.0, 3912.0, 330.0, 3912.0, 344.0, 3915.0, 344.0, 3915.0, 349.0, 3929.0, 349.0, 3929.0, 344.0, 3981.0, 344.0, 3981.0, 347.0, 3995.0, 347.0, 3995.0, 344.0, 3998.0, 344.0, 3998.0, 330.0, 3995.0, 330.0, 3995.0, 328.0, 3981.0, 328.0, 3981.0, 330.0, 3929.0, 330.0, 3929.0, 328.0, 3928.0, 328.0, 3928.0, 327.0" shape="poly" alt=":Line" id="areadiagram_map_q5MvUYGGAqAGDwzy_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3981.0, 328.0, 3981.0, 330.0, 3978.0, 330.0, 3978.0, 344.0, 3981.0, 344.0, 3981.0, 347.0, 3985.0, 347.0, 3985.0, 349.0, 3999.0, 349.0, 3999.0, 344.0, 4002.0, 344.0, 4002.0, 330.0, 3999.0, 330.0, 3999.0, 328.0" coords2="3981.0, 328.0, 3981.0, 330.0, 3978.0, 330.0, 3978.0, 344.0, 3981.0, 344.0, 3981.0, 347.0, 3985.0, 347.0, 3985.0, 349.0, 3999.0, 349.0, 3999.0, 344.0, 4002.0, 344.0, 4002.0, 330.0, 3999.0, 330.0, 3999.0, 328.0" shape="poly" alt=":Line" id="areadiagram_map_tisvUYGGAqAGDwz2_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3796.0, 287.0, 3796.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3740.0, 290.0, 3740.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3796.0, 304.0, 3796.0, 308.0, 3810.0, 308.0, 3810.0, 304.0, 3813.0, 304.0, 3813.0, 290.0, 3810.0, 290.0, 3810.0, 287.0" coords2="3796.0, 287.0, 3796.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3740.0, 290.0, 3740.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3796.0, 304.0, 3796.0, 308.0, 3810.0, 308.0, 3810.0, 304.0, 3813.0, 304.0, 3813.0, 290.0, 3810.0, 290.0, 3810.0, 287.0" shape="poly" alt=":Line" id="areadiagram_map_enJvUYGGAqAGDxS6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3852.0, 287.0, 3852.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3740.0, 290.0, 3740.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3852.0, 304.0, 3852.0, 308.0, 3866.0, 308.0, 3866.0, 304.0, 3869.0, 304.0, 3869.0, 290.0, 3866.0, 290.0, 3866.0, 287.0" coords2="3852.0, 287.0, 3852.0, 290.0, 3757.0, 290.0, 3757.0, 288.0, 3743.0, 288.0, 3743.0, 290.0, 3740.0, 290.0, 3740.0, 304.0, 3743.0, 304.0, 3743.0, 307.0, 3757.0, 307.0, 3757.0, 304.0, 3852.0, 304.0, 3852.0, 308.0, 3866.0, 308.0, 3866.0, 304.0, 3869.0, 304.0, 3869.0, 290.0, 3866.0, 290.0, 3866.0, 287.0" shape="poly" alt=":Line" id="areadiagram_map_pBjvUYGGAqAGDxTQ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3705.0, 327.0, 3705.0, 330.0, 3649.0, 330.0, 3649.0, 328.0, 3635.0, 328.0, 3635.0, 330.0, 3632.0, 330.0, 3632.0, 344.0, 3635.0, 344.0, 3635.0, 347.0, 3649.0, 347.0, 3649.0, 344.0, 3705.0, 344.0, 3705.0, 349.0, 3719.0, 349.0, 3719.0, 344.0, 3722.0, 344.0, 3722.0, 330.0, 3719.0, 330.0, 3719.0, 327.0" coords2="3705.0, 327.0, 3705.0, 330.0, 3649.0, 330.0, 3649.0, 328.0, 3635.0, 328.0, 3635.0, 330.0, 3632.0, 330.0, 3632.0, 344.0, 3635.0, 344.0, 3635.0, 347.0, 3649.0, 347.0, 3649.0, 344.0, 3705.0, 344.0, 3705.0, 349.0, 3719.0, 349.0, 3719.0, 344.0, 3722.0, 344.0, 3722.0, 330.0, 3719.0, 330.0, 3719.0, 327.0" shape="poly" alt=":Line" id="areadiagram_map_5t_vUYGGAqAGDxTh_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3670.0, 408.0, 3670.0, 411.0, 3667.0, 411.0, 3667.0, 425.0, 3670.0, 425.0, 3670.0, 429.0, 3684.0, 429.0, 3684.0, 425.0, 3705.0, 425.0, 3705.0, 428.0, 3719.0, 428.0, 3719.0, 425.0, 3722.0, 425.0, 3722.0, 411.0, 3719.0, 411.0, 3719.0, 409.0, 3705.0, 409.0, 3705.0, 411.0, 3684.0, 411.0, 3684.0, 409.0, 3680.0, 409.0, 3680.0, 408.0" coords2="3670.0, 408.0, 3670.0, 411.0, 3667.0, 411.0, 3667.0, 425.0, 3670.0, 425.0, 3670.0, 429.0, 3684.0, 429.0, 3684.0, 425.0, 3705.0, 425.0, 3705.0, 428.0, 3719.0, 428.0, 3719.0, 425.0, 3722.0, 425.0, 3722.0, 411.0, 3719.0, 411.0, 3719.0, 409.0, 3705.0, 409.0, 3705.0, 411.0, 3684.0, 411.0, 3684.0, 409.0, 3680.0, 409.0, 3680.0, 408.0" shape="poly" alt=":Line" id="areadiagram_map_eyGfUYGGAqAGDxUW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3705.0, 409.0, 3705.0, 411.0, 3702.0, 411.0, 3702.0, 425.0, 3705.0, 425.0, 3705.0, 428.0, 3719.0, 428.0, 3719.0, 425.0, 3731.0, 425.0, 3731.0, 429.0, 3745.0, 429.0, 3745.0, 425.0, 3748.0, 425.0, 3748.0, 411.0, 3745.0, 411.0, 3745.0, 409.0, 3731.0, 409.0, 3731.0, 411.0, 3719.0, 411.0, 3719.0, 409.0" coords2="3705.0, 409.0, 3705.0, 411.0, 3702.0, 411.0, 3702.0, 425.0, 3705.0, 425.0, 3705.0, 428.0, 3719.0, 428.0, 3719.0, 425.0, 3731.0, 425.0, 3731.0, 429.0, 3745.0, 429.0, 3745.0, 425.0, 3748.0, 425.0, 3748.0, 411.0, 3745.0, 411.0, 3745.0, 409.0, 3731.0, 409.0, 3731.0, 411.0, 3719.0, 411.0, 3719.0, 409.0" shape="poly" alt=":Line" id="areadiagram_map_eUmfUYGGAqAGDxUa_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="4051.0, 327.0, 4051.0, 330.0, 3995.0, 330.0, 3995.0, 328.0, 3981.0, 328.0, 3981.0, 330.0, 3978.0, 330.0, 3978.0, 344.0, 3981.0, 344.0, 3981.0, 347.0, 3995.0, 347.0, 3995.0, 344.0, 4051.0, 344.0, 4051.0, 349.0, 4065.0, 349.0, 4065.0, 344.0, 4068.0, 344.0, 4068.0, 330.0, 4065.0, 330.0, 4065.0, 327.0" coords2="4051.0, 327.0, 4051.0, 330.0, 3995.0, 330.0, 3995.0, 328.0, 3981.0, 328.0, 3981.0, 330.0, 3978.0, 330.0, 3978.0, 344.0, 3981.0, 344.0, 3981.0, 347.0, 3995.0, 347.0, 3995.0, 344.0, 4051.0, 344.0, 4051.0, 349.0, 4065.0, 349.0, 4065.0, 344.0, 4068.0, 344.0, 4068.0, 330.0, 4065.0, 330.0, 4065.0, 327.0" shape="poly" alt=":Line" id="areadiagram_map_CkLfUYGGAqAGDxU7_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3705.0, 369.0, 3705.0, 389.0, 3719.0, 389.0, 3719.0, 369.0" coords2="3705.0, 369.0, 3705.0, 389.0, 3719.0, 389.0, 3719.0, 369.0" shape="poly" alt=":Line" id="areadiagram_map_J6HfUYGGAqAGDxVF_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="501.0, 49.0, 501.0, 52.0, 498.0, 52.0, 498.0, 66.0, 501.0, 66.0, 501.0, 70.0, 515.0, 70.0, 515.0, 66.0, 612.0, 66.0, 612.0, 69.0, 626.0, 69.0, 626.0, 66.0, 629.0, 66.0, 629.0, 52.0, 626.0, 52.0, 626.0, 50.0, 612.0, 50.0, 612.0, 52.0, 515.0, 52.0, 515.0, 49.0" coords2="501.0, 49.0, 501.0, 52.0, 498.0, 52.0, 498.0, 66.0, 501.0, 66.0, 501.0, 70.0, 515.0, 70.0, 515.0, 66.0, 612.0, 66.0, 612.0, 69.0, 626.0, 69.0, 626.0, 66.0, 629.0, 66.0, 629.0, 52.0, 626.0, 52.0, 626.0, 50.0, 612.0, 50.0, 612.0, 52.0, 515.0, 52.0, 515.0, 49.0" shape="poly" alt=":Line" id="areadiagram_map_2nBov4GGAqAGGTeC_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="723.0, 49.0, 723.0, 52.0, 626.0, 52.0, 626.0, 50.0, 612.0, 50.0, 612.0, 52.0, 609.0, 52.0, 609.0, 66.0, 612.0, 66.0, 612.0, 69.0, 626.0, 69.0, 626.0, 66.0, 723.0, 66.0, 723.0, 70.0, 737.0, 70.0, 737.0, 66.0, 740.0, 66.0, 740.0, 52.0, 737.0, 52.0, 737.0, 49.0" coords2="723.0, 49.0, 723.0, 52.0, 626.0, 52.0, 626.0, 50.0, 612.0, 50.0, 612.0, 52.0, 609.0, 52.0, 609.0, 66.0, 612.0, 66.0, 612.0, 69.0, 626.0, 69.0, 626.0, 66.0, 723.0, 66.0, 723.0, 70.0, 737.0, 70.0, 737.0, 66.0, 740.0, 66.0, 740.0, 52.0, 737.0, 52.0, 737.0, 49.0" shape="poly" alt=":Line" id="areadiagram_map_oZrov4GGAqAGGTeq_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="563.0, 185.0, 563.0, 205.0, 577.0, 205.0, 577.0, 185.0" coords2="563.0, 185.0, 563.0, 205.0, 577.0, 205.0, 577.0, 185.0" shape="poly" alt=":Line" id="areadiagram_map_7J3Ov4GGAqAGGZXa_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="472.0, 184.0, 472.0, 187.0, 469.0, 187.0, 469.0, 201.0, 472.0, 201.0, 472.0, 205.0, 486.0, 205.0, 486.0, 201.0, 563.0, 201.0, 563.0, 204.0, 577.0, 204.0, 577.0, 201.0, 580.0, 201.0, 580.0, 187.0, 577.0, 187.0, 577.0, 185.0, 563.0, 185.0, 563.0, 187.0, 486.0, 187.0, 486.0, 184.0" coords2="472.0, 184.0, 472.0, 187.0, 469.0, 187.0, 469.0, 201.0, 472.0, 201.0, 472.0, 205.0, 486.0, 205.0, 486.0, 201.0, 563.0, 201.0, 563.0, 204.0, 577.0, 204.0, 577.0, 201.0, 580.0, 201.0, 580.0, 187.0, 577.0, 187.0, 577.0, 185.0, 563.0, 185.0, 563.0, 187.0, 486.0, 187.0, 486.0, 184.0" shape="poly" alt=":Line" id="areadiagram_map_zKQuv4GGAqAGGZXu_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="563.0, 185.0, 563.0, 188.0, 560.0, 188.0, 560.0, 202.0, 563.0, 202.0, 563.0, 205.0, 577.0, 205.0, 577.0, 202.0, 653.0, 202.0, 653.0, 205.0, 667.0, 205.0, 667.0, 202.0, 670.0, 202.0, 670.0, 188.0, 667.0, 188.0, 667.0, 185.0, 653.0, 185.0, 653.0, 188.0, 577.0, 188.0, 577.0, 185.0" coords2="563.0, 185.0, 563.0, 188.0, 560.0, 188.0, 560.0, 202.0, 563.0, 202.0, 563.0, 205.0, 577.0, 205.0, 577.0, 202.0, 653.0, 202.0, 653.0, 205.0, 667.0, 205.0, 667.0, 202.0, 670.0, 202.0, 670.0, 188.0, 667.0, 188.0, 667.0, 185.0, 653.0, 185.0, 653.0, 188.0, 577.0, 188.0, 577.0, 185.0" shape="poly" alt=":Line" id="areadiagram_map_EkSuv4GGAqAGGZX8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="539, 56, 589, 91" coords2="539, 56, 589, 91" shape="rect" alt=":Freehand Shape" id="areadiagram_map_bfpwv4GGAqAGGTXJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="507, 365, 548, 397.0" coords2="507, 365, 548, 397.0" shape="rect" alt="Персона:Unit" id="areadiagram_map_NPEnLYGGAqAGGTHw_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','507, 365, 548, 385',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_aIVs9YGGAqAGGaFA.html?shapeid=l6RnLYGGAqAGGTIk/&#x41f;&#x435;&#x440;&#x441;&#x43e;&#x43d;&#x430;/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '507, 365, 548, 385')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="4030, 349, 4087, 369" coords2="4030, 349, 4087, 369" shape="rect" alt="Отделения МО СТЦ:Unit" id="areadiagram_map_bm1fUYGGAqAGDxUu_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3708, 429, 3767, 461.0" coords2="3708, 429, 3767, 461.0" shape="rect" alt="Медицинская сестра:Unit" id="areadiagram_map_0xqfUYGGAqAGDxUL_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','3708, 429, 3767, 449',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPLane_qERps4GGAqAGiik_.html/&#x41c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x430;&#x44f; &#x441;&#x435;&#x441;&#x442;&#x440;&#x430;/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '3708, 429, 3767, 449')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3657, 429, 3697, 449" coords2="3657, 429, 3697, 449" shape="rect" alt="Врач:Unit" id="areadiagram_map_RncfUYGGAqAGDxT8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3680, 389, 3745, 421.0" coords2="3680, 389, 3745, 421.0" shape="rect" alt="Медицинский работник:Unit" id="areadiagram_map_yzQfUYGGAqAGDxTp_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','3680, 389, 3745, 409',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('ClassDiagram_r_TwCYGGAqAGDxCf.html?shapeid=WhJhKYGGAqAGD3DB/&#x41c;&#x435;&#x434;&#x440;&#x430;&#x431;&#x43e;&#x442;&#x43d;&#x438;&#x43a;/Class'),new Array('BPLane_4ERps4GGAqAGiik_.html/&#x41c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x438;&#x439; &#x440;&#x430;&#x431;&#x43e;&#x442;&#x43d;&#x438;&#x43a;/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '3680, 389, 3745, 409')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3683, 349, 3740, 381.0" coords2="3683, 349, 3740, 381.0" shape="rect" alt="Отделения МО АПП:Unit" id="areadiagram_map_oULvUYGGAqAGDxTW_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','3683, 349, 3740, 369',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPLane_r4Rps4GGAqAGiik9.html/&#x41e;&#x442;&#x434;&#x435;&#x43b;&#x435;&#x43d;&#x438;&#x44f; &#x41c;&#x41e; &#x410;&#x41f;&#x41f;/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '3683, 349, 3740, 369')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3839, 308, 3879, 328" coords2="3839, 308, 3879, 328" shape="rect" alt="Оператор МО:Unit" id="areadiagram_map_f0RvUYGGAqAGDxSv_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3777, 308, 3828, 328" coords2="3777, 308, 3828, 328" shape="rect" alt="Руководитель МО:Unit" id="areadiagram_map_NR.vUYGGAqAGDxSk_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3965, 349, 4018, 369" coords2="3965, 349, 4018, 369" shape="rect" alt="Оператор МО СТЦ:Unit" id="areadiagram_map_ZPQvUYGGAqAGDwzc_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3890, 349, 3955, 369" coords2="3890, 349, 3955, 369" shape="rect" alt="Руководитель МО СТЦ:Unit" id="areadiagram_map_oh_PUYGGAqAGDwzR_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3582, 349, 3647, 369" coords2="3582, 349, 3647, 369" shape="rect" alt="Руководитель МО АПП:Unit" id="areadiagram_map_py7PUYGGAqAGDwzG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3518, 349, 3572, 369" coords2="3518, 349, 3572, 369" shape="rect" alt="Оператор МО АПП:Unit" id="areadiagram_map_NLjPUYGGAqAGDwy6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3928, 308, 4049, 328" coords2="3928, 308, 4049, 328" shape="rect" alt="Медицинская организация круглосуточной стационарной помощи:Unit" id="areadiagram_map_YKoPUYGGAqAGDwyZ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3582, 308, 3702, 340.0" coords2="3582, 308, 3702, 340.0" shape="rect" alt="Медицинская организация амбулаторно поликлинической помощи:Unit" id="areadiagram_map_Tsy3UYGGAqAGDwvG_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','3582, 308, 3702, 328',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPLane_p4Rps4GGAqAGiik8.html/&#x41c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x430;&#x44f; &#x43e;&#x440;&#x433;&#x430;&#x43d;&#x438;&#x437;&#x430;&#x446;&#x438;&#x44f; &#x430;&#x43c;&#x431;&#x443;&#x43b;&#x430;&#x442;&#x43e;&#x440;&#x43d;&#x43e; &#x43f;&#x43e;&#x43b;&#x438;&#x43a;&#x43b;&#x438;&#x43d;&#x438;&#x447;&#x435;&#x441;&#x43a;&#x43e;&#x439; &#x43f;&#x43e;&#x43c;&#x43e;&#x449;&#x438;/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '3582, 308, 3702, 328')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="625, 70, 835, 104" coords2="625, 70, 835, 104" shape="rect" alt="Федеральная государственная информационная система "Единый государственный реестр записей актов гражданского состояния" (ЕГР ЗАГС):Unit" id="areadiagram_map_8L6Y4YGGAqAGgQwW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="404, 70, 615, 118.0" coords2="404, 70, 615, 118.0" shape="rect" alt="Федеральная государственная информационная система ведения Единого федерального информационного регистра, содержащего сведения о населении Российской Федерации (ФРН):Unit" id="areadiagram_map_Hj_o4YGGAqAGgQvF_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','404, 70, 615, 106',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPLane_NlAsv4GGAqAGGWrp.html/&#x424;&#x435;&#x434;&#x435;&#x440;&#x430;&#x43b;&#x44c;&#x43d;&#x430;&#x44f; &#x433;&#x43e;&#x441;&#x443;&#x434;&#x430;&#x440;&#x441;&#x442;&#x432;&#x435;&#x43d;&#x43d;&#x430;&#x44f; \x0a&#x438;&#x43d;&#x444;&#x43e;&#x440;&#x43c;&#x430;&#x446;&#x438;&#x43e;&#x43d;&#x43d;&#x430;&#x44f; &#x441;&#x438;&#x441;&#x442;&#x435;&#x43c;&#x430; &#x432;&#x435;&#x434;&#x435;&#x43d;&#x438;&#x44f; \x0a&#x415;&#x434;&#x438;&#x43d;&#x43e;&#x433;&#x43e; &#x444;&#x435;&#x434;&#x435;&#x440;&#x430;&#x43b;&#x44c;&#x43d;&#x43e;&#x433;&#x43e; \x0a&#x438;&#x43d;&#x444;&#x43e;&#x440;&#x43c;&#x430;&#x446;&#x438;&#x43e;&#x43d;&#x43d;&#x43e;&#x433;&#x43e; &#x440;&#x435;&#x433;&#x438;&#x441;&#x442;&#x440;&#x430;, \x0a&#x441;&#x43e;&#x434;&#x435;&#x440;&#x436;&#x430;&#x449;&#x435;&#x433;&#x43e; &#x441;&#x432;&#x435;&#x434;&#x435;&#x43d;&#x438;&#x44f; \x0a&#x43e; &#x43d;&#x430;&#x441;&#x435;&#x43b;&#x435;&#x43d;&#x438;&#x438; &#x420;&#x43e;&#x441;&#x441;&#x438;&#x439;&#x441;&#x43a;&#x43e;&#x439; &#x424;&#x435;&#x434;&#x435;&#x440;&#x430;&#x446;&#x438;&#x438; (&#x424;&#x420;&#x41d;)/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '404, 70, 615, 106')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="818, 197, 899, 229.0" coords2="818, 197, 899, 229.0" shape="rect" alt="АО "Гознак":Unit" id="areadiagram_map_vSjo4YGGAqAGgQux_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','818, 197, 899, 217',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPPool_yqpn34GGAqAGgRjU.html/&#x410;&#x41e; &#x22;&#x413;&#x43e;&#x437;&#x43d;&#x430;&#x43a;&#x22;/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '818, 197, 899, 217')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="818, 22, 939, 51" coords2="818, 22, 939, 51" shape="rect" alt="Министерство обороны Российской Федерации
+(Минобороны России):Unit" id="areadiagram_map_XQwo4YGGAqAGgQs__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="857, 331, 927, 363" coords2="857, 331, 927, 363" shape="rect" alt="Федеральный регистр медицинских работников (ФРМР):Unit" id="areadiagram_map_ufxI4YGGAqAGgQsD_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="857, 294, 927, 324" coords2="857, 294, 927, 324" shape="rect" alt="Федеральный регистр медицинских организаций (ФРМО):Unit" id="areadiagram_map_G5qI4YGGAqAGgQrr_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="438, 205, 518, 237" coords2="438, 205, 518, 237" shape="rect" alt="Единая система идентификации и аутентификации (ЕСИА):Unit" id="areadiagram_map_DZdA4YGGAqAGgQpX_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="509, 158, 630, 197.0" coords2="509, 158, 630, 197.0" shape="rect" alt="Министерство цифрового развития, связи и массовых коммуникаций Российской Федерации:Unit" id="areadiagram_map_RpxA4YGGAqAGgQo1_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','509, 158, 630, 185',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_D8bEH4GGAqAGgQYl.html?shapeid=SUoRv4GGAqAGgbs7/&#x41c;&#x438;&#x43d;&#x438;&#x441;&#x442;&#x435;&#x440;&#x441;&#x442;&#x432;&#x43e; &#x446;&#x438;&#x444;&#x440;&#x43e;&#x432;&#x43e;&#x433;&#x43e; &#x440;&#x430;&#x437;&#x432;&#x438;&#x442;&#x438;&#x44f;,\x0a&#x441;&#x432;&#x44f;&#x437;&#x438; &#x438; &#x43c;&#x430;&#x441;&#x441;&#x43e;&#x432;&#x44b;&#x445; &#x43a;&#x43e;&#x43c;&#x43c;&#x443;&#x43d;&#x438;&#x43a;&#x430;&#x446;&#x438;&#x439;\x0a&#x420;&#x43e;&#x441;&#x441;&#x438;&#x439;&#x441;&#x43a;&#x43e;&#x439; &#x424;&#x435;&#x434;&#x435;&#x440;&#x430;&#x446;&#x438;&#x438;/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '509, 158, 630, 185')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="529, 205, 609, 247.0" coords2="529, 205, 609, 247.0" shape="rect" alt="Единая система межведомственного электронного взаимодействия (СМЭВ):Unit" id="areadiagram_map_wuiA4YGGAqAGgQoZ_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','529, 205, 609, 235',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPPool_O_Ehv4GGAqAGgZgh.html/&#x415;&#x434;&#x438;&#x43d;&#x430;&#x44f; &#x441;&#x438;&#x441;&#x442;&#x435;&#x43c;&#x430; &#x43c;&#x435;&#x436;&#x432;&#x435;&#x434;&#x43e;&#x43c;&#x441;&#x442;&#x432;&#x435;&#x43d;&#x43d;&#x43e;&#x433;&#x43e; &#x44d;&#x43b;&#x435;&#x43a;&#x442;&#x440;&#x43e;&#x43d;&#x43d;&#x43e;&#x433;&#x43e; &#x432;&#x437;&#x430;&#x438;&#x43c;&#x43e;&#x434;&#x435;&#x439;&#x441;&#x442;&#x432;&#x438;&#x44f; (&#x421;&#x41c;&#x42d;&#x412;)/SwimlanePool','BusinessProcessDiagram_D8bEH4GGAqAGgQYl.html?shapeid=yUoRv4GGAqAGgbs9/&#x415;&#x434;&#x438;&#x43d;&#x430;&#x44f; &#x441;&#x438;&#x441;&#x442;&#x435;&#x43c;&#x430;\x0a&#x43c;&#x435;&#x436;&#x432;&#x435;&#x434;&#x43e;&#x43c;&#x441;&#x442;&#x432;&#x435;&#x43d;&#x43d;&#x43e;&#x433;&#x43e; &#x44d;&#x43b;&#x435;&#x43a;&#x442;&#x440;&#x43e;&#x43d;&#x43d;&#x43e;&#x433;&#x43e;\x0a&#x432;&#x437;&#x430;&#x438;&#x43c;&#x43e;&#x434;&#x435;&#x439;&#x441;&#x442;&#x432;&#x438;&#x44f; (&#x421;&#x41c;&#x42d;&#x412;)/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '529, 205, 609, 235')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="818, 151, 898, 183" coords2="818, 151, 898, 183" shape="rect" alt="Министерство внутренних дел Российской Федерации (МВД России):Unit" id="areadiagram_map_2Ib_YYGGAqAGgQn6_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="205, 130, 285, 169.0" coords2="205, 130, 285, 169.0" shape="rect" alt="Плательщик:Unit" id="areadiagram_map_ENNxYYGGAqAGigwD_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','205, 130, 285, 157',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=6ZsJYYGGAqAGigxS/&#x41f;&#x43b;&#x430;&#x442;&#x435;&#x43b;&#x44c;&#x449;&#x438;&#x43a;/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '205, 130, 285, 157')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="620, 205, 700, 269.0" coords2="620, 205, 700, 269.0" shape="rect" alt="Федеральная государственная информационная система «Единый портал государственных и муниципальных услуг (функций)» (ЕПГУ):Unit" id="areadiagram_map_AoKqoYGGAqAGihtX_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','620, 205, 700, 257',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_aIVs9YGGAqAGGaFA.html?shapeid=FjdbHYGGAqAGGcus/&#x424;&#x435;&#x434;&#x435;&#x440;&#x430;&#x43b;&#x44c;&#x43d;&#x430;&#x44f; &#x433;&#x43e;&#x441;&#x443;&#x434;&#x430;&#x440;&#x441;&#x442;&#x432;&#x435;&#x43d;&#x43d;&#x430;&#x44f; &#x438;&#x43d;&#x444;&#x43e;&#x440;&#x43c;&#x430;&#x446;&#x438;&#x43e;&#x43d;&#x43d;&#x430;&#x44f; &#x441;&#x438;&#x441;&#x442;&#x435;&#x43c;&#x430; \x0a&#xab;&#x415;&#x434;&#x438;&#x43d;&#x44b;&#x439; &#x43f;&#x43e;&#x440;&#x442;&#x430;&#x43b; &#x433;&#x43e;&#x441;&#x443;&#x434;&#x430;&#x440;&#x441;&#x442;&#x432;&#x435;&#x43d;&#x43d;&#x44b;&#x445; &#x438;\x0a&#x43c;&#x443;&#x43d;&#x438;&#x446;&#x438;&#x43f;&#x430;&#x43b;&#x44c;&#x43d;&#x44b;&#x445; &#x443;&#x441;&#x43b;&#x443;&#x433; (&#x444;&#x443;&#x43d;&#x43a;&#x446;&#x438;&#x439;)&#xbb; (&#x415;&#x41f;&#x413;&#x423;)/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '620, 205, 700, 257')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="857, 370, 927, 402" coords2="857, 370, 927, 402" shape="rect" alt="Федеральная электронная регистратура (ФЭР):Unit" id="areadiagram_map_d8CqoYGGAqAGihtG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="818, 254, 912, 281" coords2="818, 254, 912, 281" shape="rect" alt="Единая государственная информационная система в сфере здравоохранения (ЕГИСЗ):Unit" id="areadiagram_map_ZMMqoYGGAqAGihs1_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="857, 69, 937, 106.0" coords2="857, 69, 937, 106.0" shape="rect" alt="Военные комиссариаты:Unit" id="areadiagram_map_F3EqoYGGAqAGihsq_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','857, 69, 937, 94',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_ihYhnEGGAqAGgTGO.html?shapeid=qb2RnEGGAqAGgTKA/&#x412;&#x43e;&#x435;&#x43d;&#x43d;&#x44b;&#x435;\x0a&#x43a;&#x43e;&#x43c;&#x438;&#x441;&#x441;&#x430;&#x440;&#x438;&#x430;&#x442;&#x44b;/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '857, 69, 937, 94')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="818, 112, 898, 152.0" coords2="818, 112, 898, 152.0" shape="rect" alt="Органы записи актов гражданского состояния (ЗАГС):Unit" id="areadiagram_map_eFgqoYGGAqAGihsN_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','818, 112, 898, 140',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_JNqstoGGAqAGgToE.html?shapeid=P1nVUYGGAqAGGQcz/&#x41e;&#x440;&#x433;&#x430;&#x43d;&#x44b; &#x437;&#x430;&#x43f;&#x438;&#x441;&#x438; &#x430;&#x43a;&#x442;&#x43e;&#x432;\x0a &#x433;&#x440;&#x430;&#x436;&#x434;&#x430;&#x43d;&#x441;&#x43a;&#x43e;&#x433;&#x43e; &#x441;&#x43e;&#x441;&#x442;&#x43e;&#x44f;&#x43d;&#x438;&#x44f; (&#x417;&#x410;&#x413;&#x421;)/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '818, 112, 898, 140')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="579, 30, 659, 62.0" coords2="579, 30, 659, 62.0" shape="rect" alt="Федеральная налоговая служба (ФНС России):Unit" id="areadiagram_map_rp3KoYGGAqAGihsC_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','579, 30, 659, 50',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPPool_BGH0v4GGAqAGGUrq.html/&#x424;&#x435;&#x434;&#x435;&#x440;&#x430;&#x43b;&#x44c;&#x43d;&#x430;&#x44f; &#x43d;&#x430;&#x43b;&#x43e;&#x433;&#x43e;&#x432;&#x430;&#x44f; &#x441;&#x43b;&#x443;&#x436;&#x431;&#x430; (&#x424;&#x41d;&#x421; &#x420;&#x43e;&#x441;&#x441;&#x438;&#x438;)/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '579, 30, 659, 50')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="486, 1, 566, 29" coords2="486, 1, 566, 29" shape="rect" alt="Пенсионный фонд Российской Федерации (ПФР):Unit" id="areadiagram_map_6BbKoYGGAqAGihrt_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="347, 50, 391, 70" coords2="347, 50, 391, 70" shape="rect" alt="Аналитический отдел:Unit" id="areadiagram_map_2wmKoYGGAqAGigpC_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="297, 50, 337, 70" coords2="297, 50, 337, 70" shape="rect" alt="Медицинский отдел:Unit" id="areadiagram_map_qkqKoYGGAqAGigoy_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="245, 50, 286, 70" coords2="245, 50, 286, 70" shape="rect" alt="Руководитель:Unit" id="areadiagram_map_dAyKoYGGAqAGigog_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3465, 357, 3507, 379" coords2="3465, 357, 3507, 379" shape="rect" alt="Оператор МО Скорая помощь:Unit" id="areadiagram_map_5IfkoYGGAqAGigjb_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3412, 357, 3454, 379" coords2="3412, 357, 3454, 379" shape="rect" alt="Руководитель МО Скорая помощь:Unit" id="areadiagram_map_RKrkoYGGAqAGigi__default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3418, 308, 3501, 337" coords2="3418, 308, 3501, 337" shape="rect" alt="Медицинская организация Скорая помощь:Unit" id="areadiagram_map_NkRkoYGGAqAGigiU_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="980, 69, 1020, 89" coords2="980, 69, 1020, 89" shape="rect" alt="ВИП:Unit" id="areadiagram_map_jOnZgYGGAqAGiq6r_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="980, 22, 1020, 42" coords2="980, 22, 1020, 42" shape="rect" alt="Пациент:Unit" id="areadiagram_map_EZLZgYGGAqAGiq6V_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="167, 51, 223, 77" coords2="167, 51, 223, 77" shape="rect" alt="Системный администратор ФЕРЗЛ:Unit" id="areadiagram_map_9vUZgYGGAqAGip8r_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="117, 51, 157, 71" coords2="117, 51, 157, 71" shape="rect" alt="Куратор ФФОМС:Unit" id="areadiagram_map_3YYZgYGGAqAGip8Z_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="53, 51, 106, 71" coords2="53, 51, 106, 71" shape="rect" alt="Оператор ФФОМС:Unit" id="areadiagram_map_0uAZgYGGAqAGip8B_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1, 51, 42, 71" coords2="1, 51, 42, 71" shape="rect" alt="Руководитель ФФОМС:Unit" id="areadiagram_map_cDHpgYGGAqAGip7j_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="206, 219, 266, 244" coords2="206, 219, 266, 244" shape="rect" alt="Системный администратор ФЕРЗЛ в ТФОМС:Unit" id="areadiagram_map_Tu5pgYGGAqAGip6q_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="155, 219, 195, 239" coords2="155, 219, 195, 239" shape="rect" alt="Куратор ТФОМС:Unit" id="areadiagram_map_uT.pgYGGAqAGip5K_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="105, 219, 145, 239" coords2="105, 219, 145, 239" shape="rect" alt="Оператор ТФОМС:Unit" id="areadiagram_map_srWpgYGGAqAGip4v_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="356, 219, 396, 251.0" coords2="356, 219, 396, 251.0" shape="rect" alt="Оператор СМО:Unit" id="areadiagram_map_BcSRgYGGAqAGiom8_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','356, 219, 396, 239',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPLane_kOWRgYGGAqAGiont.html/&#x41e;&#x43f;&#x435;&#x440;&#x430;&#x442;&#x43e;&#x440; &#x421;&#x41c;&#x41e;/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '356, 219, 396, 239')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="303, 219, 345, 251.0" coords2="303, 219, 345, 251.0" shape="rect" alt="Руководитель СМО:Unit" id="areadiagram_map_h6PhgYGGAqAGiolg_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','303, 219, 345, 239',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BPLane_KBERgYGGAqAGiomQ.html/&#x420;&#x443;&#x43a;&#x43e;&#x432;&#x43e;&#x434;&#x438;&#x442;&#x435;&#x43b;&#x44c; &#x421;&#x41c;&#x41e;/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '303, 219, 345, 239')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="33, 219, 94, 239" coords2="33, 219, 94, 239" shape="rect" alt="Руководитель ТФОМС:Unit" id="areadiagram_map_r6NhgYGGAqAGiofJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="387, 2, 470, 31" coords2="387, 2, 470, 31" shape="rect" alt="Национальный медицинский исследовательский центр:Unit" id="areadiagram_map_TW2gtoGGAqAGihsg_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="289, 87, 396, 120" coords2="289, 87, 396, 120" shape="rect" alt="Орган исполнительной власти субъекта Российской Федерации в сфере охраны здоровья:Unit" id="areadiagram_map_GrAgtoGGAqAGihsK_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="277, 1, 360, 30" coords2="277, 1, 360, 30" shape="rect" alt="Министерство здравоохранения 
+Российской Федерации:Unit" id="areadiagram_map_zinAtoGGAqAGihr0_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="3708, 259, 3791, 300.0" coords2="3708, 259, 3791, 300.0" shape="rect" alt="Медицинская 
+организация:Unit" id="areadiagram_map_8sBAtoGGAqAGihrg_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','3708, 259, 3791, 288',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_PKEotoGGAqAGikln.html?shapeid=chqotoGGAqAGikl8/&#x41c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x430;&#x44f; \x0a&#x43e;&#x440;&#x433;&#x430;&#x43d;&#x438;&#x437;&#x430;&#x446;&#x438;&#x44f;&#x43f;&#x440;&#x43e;&#x441;&#x43d;/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '3708, 259, 3791, 288')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="309, 169, 392, 210.0" coords2="309, 169, 392, 210.0" shape="rect" alt="Страховая медицинская организация
+(СМО):Unit" id="areadiagram_map_VUCAtoGGAqAGihrA_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','309, 169, 392, 198',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_YfbuzYGGAqAGijFy.html?shapeid=pUaNzYGGAqAGiBPK/&#x421;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x44f; \x0a&#x43c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x430;&#x44f; &#x43e;&#x440;&#x433;&#x430;&#x43d;&#x438;&#x437;&#x430;&#x446;&#x438;&#x44f;\x0a(&#x43f;&#x43b;&#x430;&#x442;&#x435;&#x43b;&#x44c;&#x449;&#x438;&#x43a;)/SwimlanePool','BPLane_655cdYGGAqAGihHD.html/&#x421;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x44f; &#x43c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x430;&#x44f; &#x43e;&#x440;&#x433;&#x430;&#x43d;&#x438;&#x437;&#x430;&#x446;&#x438;&#x44f;/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '309, 169, 392, 198')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="108, 169, 191, 210.0" coords2="108, 169, 191, 210.0" shape="rect" alt="Территориальный фонд обязательного медицинского страхования(ТФОМС):Unit" id="areadiagram_map_xPwAtoGGAqAGihqv_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','108, 169, 191, 198',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_JNqstoGGAqAGgToE.html?shapeid=ueHCtoGGAqAGgU4./&#x422;&#x435;&#x440;&#x440;&#x438;&#x442;&#x43e;&#x440;&#x438;&#x430;&#x43b;&#x44c;&#x43d;&#x44b;&#x439; &#x444;&#x43e;&#x43d;&#x434; \x0a&#x43e;&#x431;&#x44f;&#x437;&#x430;&#x442;&#x435;&#x43b;&#x44c;&#x43d;&#x43e;&#x433;&#x43e; &#x43c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x43e;&#x433;&#x43e; \x0a&#x441;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x44f; &#x422;&#x424;&#x41e;&#x41c;&#x421;/SwimlanePool','BPLane_2OnkdYGGAqAGgRh_.html/&#x422;&#x435;&#x440;&#x440;&#x438;&#x442;&#x43e;&#x440;&#x438;&#x430;&#x43b;&#x44c;&#x43d;&#x44b;&#x439; &#x444;&#x43e;&#x43d;&#x434; &#x43e;&#x431;&#x44f;&#x437;&#x430;&#x442;&#x435;&#x43b;&#x44c;&#x43d;&#x43e;&#x433;&#x43e; &#x43c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x43e;&#x433;&#x43e; &#x441;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x44f;/SwimlaneLane','BPLane_S4kcdYGGAqAGihEh.html/&#x422;&#x435;&#x440;&#x440;&#x438;&#x442;&#x43e;&#x440;&#x438;&#x430;&#x43b;&#x44c;&#x43d;&#x44b;&#x439; &#x444;&#x43e;&#x43d;&#x434; &#x43e;&#x431;&#x44f;&#x437;&#x430;&#x442;&#x435;&#x43b;&#x44c;&#x43d;&#x43e;&#x433;&#x43e; &#x43c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x43e;&#x433;&#x43e; &#x441;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x44f;/SwimlaneLane')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '108, 169, 191, 198')" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="61, 2, 163, 43.0" coords2="61, 2, 163, 43.0" shape="rect" alt="Федеральный фонд обязательного медицинского страхования
+(ФФОМС):Unit" id="areadiagram_map_7YU_NoGGAqAGihqB_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','61, 2, 163, 31',new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_JNqstoGGAqAGgToE.html?shapeid=XILCtoGGAqAGgU4Q/&#x424;&#x435;&#x434;&#x435;&#x440;&#x430;&#x43b;&#x44c;&#x43d;&#x44b;&#x439; &#x444;&#x43e;&#x43d;&#x434; &#x43e;&#x431;&#x44f;&#x437;&#x430;&#x442;&#x435;&#x43b;&#x44c;&#x43d;&#x43e;&#x433;&#x43e; \x0a&#x43c;&#x435;&#x434;&#x438;&#x446;&#x438;&#x43d;&#x441;&#x43a;&#x43e;&#x433;&#x43e; &#x441;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x44f; (&#x424;&#x41e;&#x41c;&#x421;)/SwimlanePool')),hideReferenceIcon(),hideSubdiagramIcon(),showTransitorIcon('diagram', '61, 2, 163, 31')" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/FreehandShapes.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/FreehandShapes.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="ShapeEditorShape_bfpwv4GGAqAGGTXK.html" class="ItemLink">N/A : Freehand Shape</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_dPEnLYGGAqAGGTHy.html" class="ItemLink">Персона : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_bm1fUYGGAqAGDxUv.html" class="ItemLink">Отделения МО СТЦ : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_0xqfUYGGAqAGDxUM.html" class="ItemLink">Медицинская сестра : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_RncfUYGGAqAGDxT9.html" class="ItemLink">Врач : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_yzQfUYGGAqAGDxTq.html" class="ItemLink">Медицинский работник : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_oULvUYGGAqAGDxTX.html" class="ItemLink">Отделения МО АПП : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_YjvJgYGGAqAGioy_.html" class="ItemLink">Оператор МО : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_CxbJgYGGAqAGioxd.html" class="ItemLink">Руководитель МО : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_ZPQvUYGGAqAGDwzd.html" class="ItemLink">Оператор МО СТЦ : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_oh_PUYGGAqAGDwzS.html" class="ItemLink">Руководитель МО СТЦ : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_py7PUYGGAqAGDwzH.html" class="ItemLink">Руководитель МО АПП : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_NLjPUYGGAqAGDwy7.html" class="ItemLink">Оператор МО АПП : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_YKoPUYGGAqAGDwya.html" class="ItemLink">Медицинская организация круглосуточной стационарной помощи : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_Tsy3UYGGAqAGDwvH.html" class="ItemLink">Медицинская организация амбулаторно поликлинической помощи : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_8L6Y4YGGAqAGgQwX.html" class="ItemLink">Федеральная государственная информационная система "Единый государственный реестр записей актов гражданского состояния" (ЕГР ЗАГС) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_Hj_o4YGGAqAGgQvG.html" class="ItemLink">Федеральная государственная информационная система ведения Единого федерального информационного регистра, содержащего сведения о населении Российской Федерации (ФРН) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_vSjo4YGGAqAGgQuy.html" class="ItemLink">АО "Гознак" : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_XQwo4YGGAqAGgQtA.html" class="ItemLink">Министерство обороны Российской Федерации
+(Минобороны России) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_ufxI4YGGAqAGgQsE.html" class="ItemLink">Федеральный регистр медицинских работников (ФРМР) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_G5qI4YGGAqAGgQrs.html" class="ItemLink">Федеральный регистр медицинских организаций (ФРМО) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_DZdA4YGGAqAGgQpY.html" class="ItemLink">Единая система идентификации и аутентификации (ЕСИА) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_RpxA4YGGAqAGgQo2.html" class="ItemLink">Министерство цифрового развития, связи и массовых коммуникаций Российской Федерации : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_wuiA4YGGAqAGgQoa.html" class="ItemLink">Единая система межведомственного электронного взаимодействия (СМЭВ) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_2Ib_YYGGAqAGgQn7.html" class="ItemLink">Министерство внутренних дел Российской Федерации (МВД России) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_ENNxYYGGAqAGigwE.html" class="ItemLink">Плательщик : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_AoKqoYGGAqAGihtY.html" class="ItemLink">Федеральная государственная информационная система «Единый портал государственных и муниципальных услуг (функций)» (ЕПГУ) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_d8CqoYGGAqAGihtH.html" class="ItemLink">Федеральная электронная регистратура (ФЭР) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_5MMqoYGGAqAGihs2.html" class="ItemLink">Единая государственная информационная система в сфере здравоохранения (ЕГИСЗ) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_F3EqoYGGAqAGihsr.html" class="ItemLink">Военные комиссариаты : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_eFgqoYGGAqAGihsO.html" class="ItemLink">Органы записи актов гражданского состояния (ЗАГС) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_rp3KoYGGAqAGihsD.html" class="ItemLink">Федеральная налоговая служба (ФНС России) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_6BbKoYGGAqAGihru.html" class="ItemLink">Пенсионный фонд Российской Федерации (ПФР) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_2wmKoYGGAqAGigpD.html" class="ItemLink">Аналитический отдел : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_qkqKoYGGAqAGigoz.html" class="ItemLink">Медицинский отдел : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_9AyKoYGGAqAGigoh.html" class="ItemLink">Руководитель : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_FIfkoYGGAqAGigjc.html" class="ItemLink">Оператор МО Скорая помощь : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_xKrkoYGGAqAGigjA.html" class="ItemLink">Руководитель МО Скорая помощь : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_NkRkoYGGAqAGigiV.html" class="ItemLink">Медицинская организация Скорая помощь : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_jOnZgYGGAqAGiq6s.html" class="ItemLink">ВИП : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_EZLZgYGGAqAGiq6W.html" class="ItemLink">Пациент : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_9vUZgYGGAqAGip8s.html" class="ItemLink">Системный администратор ФЕРЗЛ : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_PYYZgYGGAqAGip8a.html" class="ItemLink">Куратор ФФОМС : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_0uAZgYGGAqAGip8C.html" class="ItemLink">Оператор ФФОМС : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_cDHpgYGGAqAGip7k.html" class="ItemLink">Руководитель ФФОМС : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_Tu5pgYGGAqAGip6r.html" class="ItemLink">Системный администратор ФЕРЗЛ в ТФОМС : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_eT_pgYGGAqAGip5L.html" class="ItemLink">Куратор ТФОМС : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_srWpgYGGAqAGip4w.html" class="ItemLink">Оператор ТФОМС : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_BcSRgYGGAqAGiom9.html" class="ItemLink">Оператор СМО : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_h6PhgYGGAqAGiolh.html" class="ItemLink">Руководитель СМО : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_r6NhgYGGAqAGiofK.html" class="ItemLink">Руководитель ТФОМС : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_zW2gtoGGAqAGihsh.html" class="ItemLink">Национальный медицинский исследовательский центр : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_mrAgtoGGAqAGihsL.html" class="ItemLink">Орган исполнительной власти субъекта Российской Федерации в сфере охраны здоровья : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_zinAtoGGAqAGihr1.html" class="ItemLink">Министерство здравоохранения 
+Российской Федерации : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_8sBAtoGGAqAGihrh.html" class="ItemLink">Медицинская 
+организация : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_1UCAtoGGAqAGihrB.html" class="ItemLink">Страховая медицинская организация
+(СМО) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_xPwAtoGGAqAGihqw.html" class="ItemLink">Территориальный фонд обязательного медицинского страхования(ТФОМС) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/OCUnit.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/OCUnit.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="OCUnit_HYU_NoGGAqAGihqC.html" class="ItemLink">Федеральный фонд обязательного медицинского страхования
+(ФФОМС) : Unit</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>

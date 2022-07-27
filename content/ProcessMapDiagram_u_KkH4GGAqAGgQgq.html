@@ -1,0 +1,452 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="report.css" type="text/css"/>
+	<title>Process Overview Diagram - Процессы верхнего уровня МПИ</title>
+	<script type="text/javascript" src="report.js"></script>
+	<script type="text/javascript" src="link_popup.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+</head>
+<body style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" onload="initPage();initDiagram();initGridDiagram();">
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_top">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-top: 2px #FF0000 solid;" id="spotlight_bottom">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_left">
+	</div>
+	<div style="position:absolute; z-index:2; visibility:hidden;border-left: 2px #FF0000 solid;" id="spotlight_right">
+	</div>
+	<canvas width="100" style="position:absolute; z-index:2; visibility:hidden" id="spotlight_c" height="100">
+	</canvas>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesTop">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; width:100px; height:100px; z-index:1; visibility:hidden" id="spotLightResourcesRight">
+		<table border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td>
+<a href="#top"><img style="border:none" src="../images/icons/BackToTop.gif" alt="Back to top"/></a>				</td>
+			</tr>
+			<tr>
+				<td>
+<a href="javascript:clearSpotLightFromOpenSpecButton();"><img style="border:none" src="../images/icons/OpenSpecification.gif" alt="Open specification"/></a>				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute;z-index:4;visibility:hidden" id="linkPopupMenuLayer">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="linkPopupMenuTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="referenceIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Ref.gif" style="border:none" onclick="movePopupPositionToReferenceIconPosition();resetPopupForReference();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="subdiagramIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Subdiagram.gif" style="border:none" onclick="movePopupPositionToSubdiagramIconPosition();resetPopupForSubdiagram();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="transitorIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Transitor.gif" style="border:none" onclick="movePopupPositionToTransitorIconPosition();resetPopupForTransitor();switchPopupShowHideStatus();" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position:absolute; z-index:1; visibility:hidden; " id="documentationIconLayer">
+		<table border="0" cellpadding="3" cellspacing="0" style="font-size:1;">
+			<tr>
+				<td>
+					<img src="../images/icons/Documentation.png" style="border:none" />				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="HeaderText">
+		ФКМП	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="HeaderLine1">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine2">
+			</td>
+		</tr>
+		<tr>
+			<td class="HeaderLine3">
+			</td>
+		</tr>
+	</table>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="referencedBys">
+		<table border="0" width="100%" style="border-style:solid; border-width:1px; border-color:#000000; background:#FFFFFF; width:250px" id="referencedBysTable">
+		</table>
+	</div>
+	<div style="position:absolute; z-index:21; visibility:hidden" id="vplink">
+		<table border="1" cellpadding="0" cellspacing="0" bordercolor="#A9BFD3">
+			<tr>
+				<td>
+					<table border="0" cellpadding="0" width="100%" cellspacing="0">
+						<tr style="background:#DDDDDD">
+							<td style="font-size: 12px;" align="left">
+								<select onchange="vpLinkToggleName()" id="vplink-linkType">
+	<option value="Project Link">Project Link</option>
+	<option value="Page URL">Page URL</option>
+</select>
+							</td>
+							<td style="font-size: 12px;" align="right">
+								<input onclick="javascript: vpLinkToggleName()" id="vplink-checkbox" type="checkbox" />
+								<label for="vplink-checkbox">with Name</label>							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<textarea id="vplink-text" style="width: 348px; height: 60px; border-color: #7EADD9; outline: none;"></textarea>				</td>
+			</tr>
+		</table>
+	</div>
+	<p class="PageTitle">
+		<span id="PageTitleText">
+			Process Overview Diagram - Процессы верхнего уровня МПИ		</span>
+<a onclick="javascript: showVpLink('ФКМП.vpp://diagram/u_KkH4GGAqAGgQgq', '&#x41f;&#x440;&#x43e;&#x446;&#x435;&#x441;&#x441;&#x44b; &#x432;&#x435;&#x440;&#x445;&#x43d;&#x435;&#x433;&#x43e; &#x443;&#x440;&#x43e;&#x432;&#x43d;&#x44f; &#x41c;&#x41f;&#x418;\n&#x424;&#x41a;&#x41c;&#x41f;.vpp://diagram/u_KkH4GGAqAGgQgq', '&#x41f;&#x440;&#x43e;&#x446;&#x435;&#x441;&#x441;&#x44b; &#x432;&#x435;&#x440;&#x445;&#x43d;&#x435;&#x433;&#x43e; &#x443;&#x440;&#x43e;&#x432;&#x43d;&#x44f; &#x41c;&#x41f;&#x418;', this); return false;" style="padding-left: 16px; font-size: 12px" href="#"><img src="../images/icons/link.png" border="0"> link</a>	</p>
+	<div style="position: relative; padding-bottom: 20px;">
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: absolute; top: 0; left: 0; z-index: 20;" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon(),hideLinkPopup(),hideReferencedBys();">
+			<tr>
+				<td>
+<span class="TableContent">Jump to:</span>					<select id="SelectShape" class="TableContent" onChange="scrollWin('diagram', this.value);hideLinkPopup();showSpotLight('diagram', this.value)">
+<option value="">Please select a model element</option>
+</select>				</td>
+			</tr>
+		</table>
+		<table border="0" cellpadding="0" width="100%" cellspacing="0" style="position: relative; top: 24;">
+			<tr>
+				<td>
+					<img id="diagram" src="../images/_31.png" usemap="#diagram_map" class="Image" width="1195" height="629"/>
+					<map name="diagram_map">
+<area imageId="diagram" coords="634.0, 146.0, 634.0, 170.0, 648.0, 170.0, 648.0, 146.0" coords2="634.0, 146.0, 634.0, 170.0, 648.0, 170.0, 648.0, 146.0" shape="poly" alt=":Process Link" id="areadiagram_map_vMq5iEGGAqAGGVts_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="399.0, 146.0, 399.0, 170.0, 413.0, 170.0, 413.0, 146.0" coords2="399.0, 146.0, 399.0, 170.0, 413.0, 170.0, 413.0, 146.0" shape="poly" alt=":Process Link" id="areadiagram_map_5Hp5iEGGAqAGGVuy_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="742.0, 146.0, 742.0, 314.0, 756.0, 314.0, 756.0, 146.0" coords2="742.0, 146.0, 742.0, 314.0, 756.0, 314.0, 756.0, 146.0" shape="poly" alt=":Process Link" id="areadiagram_map_rC9DiEGGAqAGgbnV_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="294.0, 211.0, 294.0, 225.0, 310.0, 225.0, 310.0, 211.0" coords2="294.0, 211.0, 294.0, 225.0, 310.0, 225.0, 310.0, 211.0" shape="poly" alt=":Process Link" id="areadiagram_map_HapjiEGGAqAGGaXh_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="91.0, 549.0, 91.0, 585.0, 105.0, 585.0, 105.0, 549.0" coords2="91.0, 549.0, 91.0, 585.0, 105.0, 585.0, 105.0, 549.0" shape="poly" alt=":Process Link" id="areadiagram_map_aCAKSEGGAqAGGekL_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="312.0, 549.0, 312.0, 585.0, 326.0, 585.0, 326.0, 549.0" coords2="312.0, 549.0, 312.0, 585.0, 326.0, 585.0, 326.0, 549.0" shape="poly" alt=":Process Link" id="areadiagram_map_rdeKSEGGAqAGGeo8_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="261, 585, 502, 625" coords2="261, 585, 502, 625" shape="rect" alt="МПИ Учёт лиц, неидентифицированных и не застрахованных по ОМС (НИЛ):Process" id="areadiagram_map_TX8KSEGGAqAGGenO_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','261, 585, 502, 625',new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_hj_BlYGGAqAGgSBR.html/&#x41c;&#x41f;&#x418; &#x423;&#x447;&#x451;&#x442; &#x43b;&#x438;&#x446;, &#x43d;&#x435;&#x438;&#x434;&#x435;&#x43d;&#x442;&#x438;&#x444;&#x438;&#x446;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x43d;&#x43d;&#x44b;&#x445; &#x438; &#x43d;&#x435; &#x437;&#x430;&#x441;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x43d;&#x43d;&#x44b;&#x445; &#x43f;&#x43e; &#x41e;&#x41c;&#x421; (&#x41d;&#x418;&#x41b;)/BusinessProcessDiagram'),new Array(),new Array(),new Array()),hideReferenceIcon(),showSubdiagramIcon('diagram', '261, 585, 502, 625'),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 585, 242, 625" coords2="2, 585, 242, 625" shape="rect" alt="МПИ Формирование записи в ЕРЗЛ по сведениям о рождении:Process" id="areadiagram_map_PoPySEGGAqAGGejR_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','2, 585, 242, 625',new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_JNqstoGGAqAGgToE.html/&#x41c;&#x41f;&#x418; &#x424;&#x43e;&#x440;&#x43c;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x435; &#x437;&#x430;&#x43f;&#x438;&#x441;&#x438; &#x432; &#x415;&#x420;&#x417;&#x41b; &#x43f;&#x43e; &#x441;&#x432;&#x435;&#x434;&#x435;&#x43d;&#x438;&#x44f;&#x43c; &#x43e; &#x440;&#x43e;&#x436;&#x434;&#x435;&#x43d;&#x438;&#x438;/BusinessProcessDiagram'),new Array(),new Array(),new Array()),hideReferenceIcon(),showSubdiagramIcon('diagram', '2, 585, 242, 625'),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="707, 314, 864, 410" coords2="707, 314, 864, 410" shape="rect" alt="МПИ Предоставление сведений застрахованному лицу в ЕПГУ посредством СМЭВ:Process" id="areadiagram_map_tGxDiEGGAqAGgblB_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','707, 314, 864, 410',new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_RRvkiEGGAqAGgURM.html/&#x41c;&#x41f;&#x418; &#x41f;&#x440;&#x435;&#x434;&#x43e;&#x441;&#x442;&#x430;&#x432;&#x43b;&#x435;&#x43d;&#x438;&#x435; &#x441;&#x432;&#x435;&#x434;&#x435;&#x43d;&#x438;&#x439; &#x437;&#x430;&#x441;&#x442;&#x440;&#x430;&#x445;&#x43e;&#x432;&#x430;&#x43d;&#x43d;&#x43e;&#x43c;&#x443; &#x43b;&#x438;&#x446;&#x443; &#x432; &#x415;&#x41f;&#x413;&#x423; &#x43f;&#x43e;&#x441;&#x440;&#x435;&#x434;&#x441;&#x442;&#x432;&#x43e;&#x43c; &#x421;&#x41c;&#x42d;&#x412;/BusinessProcessDiagram'),new Array(),new Array(),new Array()),hideReferenceIcon(),showSubdiagramIcon('diagram', '707, 314, 864, 410'),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="54, 2, 294, 42" coords2="54, 2, 294, 42" shape="rect" alt="МПИ Первоначальное наполнение Ф_ЕРЗЛ и его эксплуатация:Process" id="areadiagram_map_5YjdiEGGAqAGGaBp_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','54, 2, 294, 42',new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_YByAv4GGAqAGGTOo.html/&#x41c;&#x41f;&#x418; &#x41f;&#x435;&#x440;&#x432;&#x43e;&#x43d;&#x430;&#x447;&#x430;&#x43b;&#x44c;&#x43d;&#x43e;&#x435; &#x43d;&#x430;&#x43f;&#x43e;&#x43b;&#x43d;&#x435;&#x43d;&#x438;&#x435; &#x424;_&#x415;&#x420;&#x417;&#x41b; &#x438; &#x435;&#x433;&#x43e; &#x44d;&#x43a;&#x441;&#x43f;&#x43b;&#x443;&#x430;&#x442;&#x430;&#x446;&#x438;&#x44f;/BusinessProcessDiagram'),new Array(),new Array(),new Array()),hideReferenceIcon(),showSubdiagramIcon('diagram', '54, 2, 294, 42'),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="310, 170, 502, 266" coords2="310, 170, 502, 266" shape="rect" alt="МПИ Предоставление сведений о ЗЛ в СМО в целях регистрации заявлений при обращении ЗЛ:Process" id="areadiagram_map_rth5iEGGAqAGGVue_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="539, 170, 731, 266" coords2="539, 170, 731, 266" shape="rect" alt="МПИ Предоставление сведений о ЗЛ в МО в целях подтверждения действительности полисов ОМС при обращении ЗЛ за получением МП:Process" id="areadiagram_map_Eko5iEGGAqAGGVeq_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','539, 170, 731, 266',new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_09aFiEGGAqAGGVwz.html/&#x41c;&#x41f;&#x418; &#x41f;&#x440;&#x435;&#x434;&#x43e;&#x441;&#x442;&#x430;&#x432;&#x43b;&#x435;&#x43d;&#x438;&#x435; &#x441;&#x432;&#x435;&#x434;&#x435;&#x43d;&#x438;&#x439; &#x43e; &#x417;&#x41b; &#x432; &#x41c;&#x41e; &#x432; &#x446;&#x435;&#x43b;&#x44f;&#x445; &#x43f;&#x43e;&#x434;&#x442;&#x432;&#x435;&#x440;&#x436;&#x434;&#x435;&#x43d;&#x438;&#x44f; &#x434;&#x435;&#x439;&#x441;&#x442;&#x432;&#x438;&#x442;&#x435;&#x43b;&#x44c;&#x43d;&#x43e;&#x441;&#x442;&#x438; &#x43f;&#x43e;&#x43b;&#x438;&#x441;&#x43e;&#x432; &#x41e;&#x41c;&#x421; &#x43f;&#x440;&#x438; &#x43e;&#x431;&#x440;&#x430;&#x449;&#x435;&#x43d;&#x438;&#x438; &#x417;&#x41b; &#x437;&#x430; &#x43f;&#x43e;&#x43b;&#x443;&#x447;&#x435;&#x43d;&#x438;&#x435;&#x43c; &#x41c;&#x41f;/BusinessProcessDiagram'),new Array(),new Array(),new Array()),hideReferenceIcon(),showSubdiagramIcon('diagram', '539, 170, 731, 266'),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1043, 52, 1191, 92" coords2="1043, 52, 1191, 92" shape="rect" alt="МПИ Вспомогательные:Process" id="areadiagram_map_Da90H4GGAqAGgSqN_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="2, 509, 381, 549" coords2="2, 509, 381, 549" shape="rect" alt="МПИ Учёт сведений о пациентах без полисов ОМС:Process" id="areadiagram_map_JHx0H4GGAqAGgSp3_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="1043, 106, 1191, 146" coords2="1043, 106, 1191, 146" shape="rect" alt="МПИ Формирование отчётности:Process" id="areadiagram_map_Ey20H4GGAqAGgSpH_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','1043, 106, 1191, 146',new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_xwuFiEGGAqAGGVxQ.html/&#x41c;&#x41f;&#x418; &#x424;&#x43e;&#x440;&#x43c;&#x438;&#x440;&#x43e;&#x432;&#x430;&#x43d;&#x438;&#x435; &#x43e;&#x442;&#x447;&#x451;&#x442;&#x43d;&#x43e;&#x441;&#x442;&#x438;/BusinessProcessDiagram'),new Array(),new Array(),new Array()),hideReferenceIcon(),showSubdiagramIcon('diagram', '1043, 106, 1191, 146'),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="926, 416, 1116, 456" coords2="926, 416, 1116, 456" shape="rect" alt="МПИ Взаимодействие Ф_ЕРЗЛ и Ф_ПУМП:Process" id="areadiagram_map_VpPUH4GGAqAGgSoJ_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="827, 52, 1016, 92" coords2="827, 52, 1016, 92" shape="rect" alt="МПИ Исправление ошибок в сведениях о ЗЛ:Process" id="areadiagram_map_o.bUH4GGAqAGgSnf_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="54, 106, 294, 146" coords2="54, 106, 294, 146" shape="rect" alt="МПИ Учёт прикреплений к МО и МР:Process" id="areadiagram_map_b3xUH4GGAqAGgSmp_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="54, 52, 294, 92" coords2="54, 52, 294, 92" shape="rect" alt="МПИ Определение СМО:Process" id="areadiagram_map_Yj2UH4GGAqAGgSmM_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="54, 170, 294, 266" coords2="54, 170, 294, 266" shape="rect" alt="МПИ Регистрация заявлений на получение полиса ОМС 
+для осуществления прав на бесплатную МП:Process" id="areadiagram_map_Y6aUH4GGAqAGgSle_default" onmouseover="storeReferenceAndSubdiagramInfos('diagram','54, 170, 294, 266',new Array(),new Array(),new Array(),new Array(),new Array(),new Array('BusinessProcessDiagram_aIVs9YGGAqAGGaFA.html/&#x41c;&#x41f;&#x418; &#x420;&#x435;&#x433;&#x438;&#x441;&#x442;&#x440;&#x430;&#x446;&#x438;&#x44f; &#x437;&#x430;&#x44f;&#x432;&#x43b;&#x435;&#x43d;&#x438;&#x439; &#x432; &#x421;&#x41c;&#x41e;/BusinessProcessDiagram'),new Array(),new Array(),new Array()),hideReferenceIcon(),showSubdiagramIcon('diagram', '54, 170, 294, 266'),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="310, 52, 794, 92" coords2="310, 52, 794, 92" shape="rect" alt="МПИ Получение сведений от внешних систем и формирование / изменение сведений о ЗЛ:Process" id="areadiagram_map_EIBkH4GGAqAGgQhW_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+<area imageId="diagram" coords="310, 106, 799, 146" coords2="310, 106, 799, 146" shape="rect" alt="МПИ Предоставление сведений о ЗЛ:Process" id="areadiagram_map_atukH4GGAqAGgQhG_default" onmouseover="hideReferenceIcon(),hideSubdiagramIcon(),hideTransitorIcon()" onmousedown="clearSpotLight();"/>
+</map>
+				</td>
+			</tr>
+		</table>
+		<p>
+		</p>
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="Category">
+				Model Elements			</td>
+		</tr>
+		<tr>
+			<td style="height: 5px">
+			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td colSpan="4" class="TableHeaderLine">
+			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine1">
+			</td>
+		</tr>
+		<tr class="TableHeader">
+			<td class="TableCellSpaceHolder10Px">
+			</td>
+			<td width="30%">
+<span class="TableHeaderText">Name</span>			</td>
+			<td class="TableCellSpaceHolder20Px">
+			</td>
+			<td>
+<span class="TableHeaderText">Description</span>			</td>
+		</tr>
+		<tr>
+			<td colSpan="4" class="TableHeaderLine2">
+			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_TX8KSEGGAqAGGenP.html" class="ItemLink">МПИ Учёт лиц, неидентифицированных и не застрахованных по ОМС (НИЛ) : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_PoPySEGGAqAGGejS.html" class="ItemLink">МПИ Формирование записи в ЕРЗЛ по сведениям о рождении : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_TGxDiEGGAqAGgblT.html" class="ItemLink">МПИ Предоставление сведений застрахованному лицу в ЕПГУ посредством СМЭВ : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_NYjdiEGGAqAGGaB7.html" class="ItemLink">МПИ Первоначальное наполнение Ф_ЕРЗЛ и его эксплуатация : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_bth5iEGGAqAGGVug.html" class="ItemLink">МПИ Предоставление сведений о ЗЛ в СМО в целях регистрации заявлений при обращении ЗЛ : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_Eko5iEGGAqAGGVer.html" class="ItemLink">МПИ Предоставление сведений о ЗЛ в МО в целях подтверждения действительности полисов ОМС при обращении ЗЛ за получением МП : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_Da90H4GGAqAGgSqO.html" class="ItemLink">МПИ Вспомогательные : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_JHx0H4GGAqAGgSp4.html" class="ItemLink">МПИ Учёт сведений о пациентах без полисов ОМС : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_Ey20H4GGAqAGgSpI.html" class="ItemLink">МПИ Формирование отчётности : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_VpPUH4GGAqAGgSoK.html" class="ItemLink">МПИ Взаимодействие Ф_ЕРЗЛ и Ф_ПУМП : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_o_bUH4GGAqAGgSng.html" class="ItemLink">МПИ Исправление ошибок в сведениях о ЗЛ : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_73xUH4GGAqAGgSmq.html" class="ItemLink">МПИ Учёт прикреплений к МО и МР : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_Yj2UH4GGAqAGgSmN.html" class="ItemLink">МПИ Определение СМО : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_06aUH4GGAqAGgSlw.html" class="ItemLink">МПИ Регистрация заявлений на получение полиса ОМС 
+для осуществления прав на бесплатную МП : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow1">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_EIBkH4GGAqAGgQhX.html" class="ItemLink">МПИ Получение сведений от внешних систем и формирование / изменение сведений о ЗЛ : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+		<tr class="TableRow2">
+			<td>
+			</td>
+			<td>
+				<span class="TableContent">
+					<div style="float: left; width: 18px !important;height: 18px !important;background-image:url(../images/icons/Process.png) !important; background-image:url(''); filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/icons/Process.png'); background-repeat: no-repeat;">
+					</div>
+					&nbsp; <a href="PMProcess_6tukH4GGAqAGgQhH.html" class="ItemLink">МПИ Предоставление сведений о ЗЛ : Process</a>				</span>
+			</td>
+			<td>
+			</td>
+			<td style="padding: 5px 0">
+<span class="TableContent Documentation"></span>			</td>
+		</tr>
+	</table>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="TableCellSpaceHolder1PxTall">
+			</td>
+		</tr>
+		<tr>
+			<td class="TableFooter">
+			</td>
+		</tr>
+	</table>
+	<div style="height: 20px">
+	</div>
+	<table border="0" cellpadding="0" width="100%" cellspacing="0">
+		<tr>
+			<td class="FooterLine">
+			</td>
+		</tr>
+	</table>
+	<div class="HeaderText">
+		ФКМП	</div>
+</body>
+</html>
